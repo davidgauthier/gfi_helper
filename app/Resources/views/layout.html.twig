@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Gfi Helper">
+    <meta name="author" content="L&D">
+    <link rel="icon" href="{{ asset('public/images/favicon.ico') }}">
+
+    <title>{% block title %}gfi_helper{% endblock %}</title>
+    
+    {% block stylesheets %}
+        {# CSS #}
+        <link href="{{ asset('public/bootstrap-4.0.0-dist/css/bootstrap.min.css') }}" rel="stylesheet" />
+        
+        {# custom css #}
+        <link href="{{ asset('public/css/style.css') }}" rel="stylesheet" />
+    {% endblock %}
+</head>
+
+<body>
+    
+    {{ include("include/_navbar.html.twig") }}
+    
+
+    <main role="main" class="container">
+
+        {% block content %}{% endblock %}
+    
+    </main>{# /.container #}
+    
+    
+    {% block javascripts %}
+        <!-- JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+        <script src="{{ asset('public/bootstrap-4.0.0-dist/js/bootstrap.min.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

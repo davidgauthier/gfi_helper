@@ -12,18 +12,26 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
 
         $reservations = array(
             array(
+                'user'      =>  $this->getReference('user-0'),
+                'room'      =>  $this->getReference('room-0'),
                 'dateBegin' => new \DateTime('2018-02-07 15:00'),
                 'dateEnd'   => new \DateTime('2018-02-07 15:30'),
             ),
             array(
+                'user'      =>  $this->getReference('user-0'),
+                'room'      =>  $this->getReference('room-0'),
                 'dateBegin' => new \DateTime('2018-02-08 10:00'),
                 'dateEnd'   => new \DateTime('2018-02-08 10:30'),
             ),
             array(
+                'user'      =>  $this->getReference('user-1'),
+                'room'      =>  $this->getReference('room-1'),
                 'dateBegin' => new \DateTime('2018-02-08 15:00'),
                 'dateEnd'   => new \DateTime('2018-02-08 15:30'),
             ),
             array(
+                'user'      =>  $this->getReference('user-1'),
+                'room'      =>  $this->getReference('room-1'),
                 'dateBegin' => new \DateTime('2018-02-09 12:00'),
                 'dateEnd'   => new \DateTime('2018-02-09 12:30'),
             ),
@@ -32,6 +40,8 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
         foreach ($reservations as $i => $res) {
             $reservation = new Reservation();
 
+            $reservation->setUser($res['user']);
+            $reservation->setRoom($res['room']);
             $reservation->setDateBegin($res['dateBegin']);
             $reservation->setDateEnd($res['dateEnd']);
 
@@ -43,7 +53,7 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
 
     public function getOrder()
     {
-        return 20;
+        return 30;
     }
 
 }

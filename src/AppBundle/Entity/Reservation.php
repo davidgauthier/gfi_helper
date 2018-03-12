@@ -34,6 +34,18 @@ class Reservation
      * @ORM\Column(name="date_end", type="datetime")
      */
     private $dateEnd;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Room")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $room;
 
 
     /**
@@ -92,6 +104,54 @@ class Reservation
     public function getDateEnd()
     {
         return $this->dateEnd;
+    }
+    
+    /**
+     * Set user.
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Child
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+    
+    /**
+     * Set room.
+     *
+     * @param \AppBundle\Entity\Room $room
+     *
+     * @return Reservation
+     */
+    public function setRoom(\AppBundle\Entity\Room $room)
+    {
+        $this->room = $room;
+
+        return $this;
+    }
+
+    /**
+     * Get room.
+     *
+     * @return \AppBundle\Entity\Room
+     */
+    public function getRoom()
+    {
+        return $this->room;
     }
 }
 

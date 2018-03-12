@@ -1,0 +1,27 @@
+
+<div class="table-responsive">
+    <table class="table table-sm table-bordered table-light">
+
+        <tr>
+            <th rowspan="2">Nom ou Trigramme</th>
+            <th rowspan="2">Salle</th>
+            <th rowspan="2">Date</th>
+            <th colspan="2">Heure</th>
+        </tr>
+        <tr>
+            <th>De</th>
+            <th>Jusqu'à</th>
+        </tr>
+        
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.user.username }}</td>
+                <td>{{ reservation.room.name }}</td>
+                <td>{{ reservation.dateBegin|date('d/m/Y') }}</td>
+                <td>{{ reservation.dateBegin|date('G:i') }}</td>
+                <td>{{ reservation.dateEnd|date('G:i') }}</td>
+            </tr>
+        {% endfor %}
+        
+      </table>
+</div>

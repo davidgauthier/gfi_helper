@@ -20,9 +20,13 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+            <h1 class="display-4">Reservations</h1>
+
+{#            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>#}
+            
+            {{ include("include/_table_reservations.html.twig") }}
+            
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Reserver &raquo;</a></p>
         </div>
     </div>
 
@@ -31,69 +35,7 @@
         <div class="row">
             <div class="col-md-12">
                 
-                <h2>Reservations</h2>
-
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-light">
-
-                        <tr>
-                            <th rowspan="2">Nom ou Trigramme</th>
-                            <th rowspan="2">Salle</th>
-                            <th rowspan="2">Date</th>
-                            <th colspan="2">Heure</th>
-                        </tr>
-                        <tr>
-                            <th>De</th>
-                            <th>Jusqu'à</th>
-                        </tr>
-                    
-
-                        <tr>
-                            <td>LLE</td>
-                            <td>Grande salle</td>
-                            <td>09/03/2018</td>
-                            <td>10:00</td>
-                            <td>10:30</td>
-                        </tr>
-                        <tr>
-                            <td>DGA</td>
-                            <td>BoxTel</td>
-                            <td>10/03/2018</td>
-                            <td>14:00</td>
-                            <td>14:15</td>
-                        </tr>
-                        <tr>
-                            <td>VBI</td>
-                            <td>Grande salle</td>
-                            <td>11/03/2018</td>
-                            <td>09:15</td>
-                            <td>10:00</td>
-                        </tr>
-                        <tr>
-                            <td>FVE</td>
-                            <td>BoxTel</td>
-                            <td>10/03/2018</td>
-                            <td>14:00</td>
-                            <td>14:15</td>
-                        </tr>
-                        <tr>
-                            <td>FVE</td>
-                            <td>BoxTel</td>
-                            <td>10/03/2018</td>
-                            <td>14:00</td>
-                            <td>14:15</td>
-                        </tr>
-                        <tr>
-                            <td>FVE</td>
-                            <td>BoxTel</td>
-                            <td>10/03/2018</td>
-                            <td>14:00</td>
-                            <td>14:15</td>
-                        </tr>
-
-                      </table>
-                </div>
-                
+{#                {{ include("include/_table_reservations.html.twig") }}#}
                 
             </div>
             

@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Nouvelle réservation
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+{% endblock %}
+
+
+
+
+{% block content %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col">
+
+                </div>
+                <div class="col">
+
+                    <h2>Nouvelle réservation</h2>
+
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+                    {{ form_row(form.room) }}
+                    {{ form_row(form.dateBegin) }}
+                    {{ form_row(form.dateEnd) }}
+                    {{ form_rest(form) }}
+                    <div class="form-action">
+                        <button type="submit" class="btn btn-primary">Créer</button>
+                    </div>
+                    {{ form_end(form) }}
+
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -31,7 +31,7 @@
             {{ include("include/_table_reservations.html.twig") }}
             
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <p><a class="btn btn-primary btn-lg" href="#" role="button">Reserver &raquo;</a></p>
+                <p><a class="btn btn-primary btn-lg" href="{{ path('app_reservation_new') }}" role="button">Reserver &raquo;</a></p>
             {% endif %}
         </div>
     </div>

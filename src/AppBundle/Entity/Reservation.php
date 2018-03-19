@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reservation
@@ -23,6 +24,9 @@ class Reservation
 
     /**
      * @var \DateTime
+     * 
+     * @Assert\NotBlank()
+     * @Assert\DateTime()
      *
      * @ORM\Column(name="date_begin", type="datetime")
      */
@@ -30,18 +34,24 @@ class Reservation
 
     /**
      * @var \DateTime
+     * 
+     * @Assert\NotBlank()
+     * @Assert\DateTime()
      *
      * @ORM\Column(name="date_end", type="datetime")
      */
     private $dateEnd;
     
     /**
+     * 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
     
     /**
+     * @Assert\NotBlank()
+     * 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Room")
      * @ORM\JoinColumn(nullable=false)
      */

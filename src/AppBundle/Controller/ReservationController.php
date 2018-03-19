@@ -31,6 +31,11 @@ class ReservationController extends Controller
             $entityManager->persist($reservation);
             $entityManager->flush();
             
+            $this->addFlash(
+                'success',
+                'Votre Réservation a été créée !'
+            );
+
             return $this->redirectToRoute('app_homepage');
         }
         

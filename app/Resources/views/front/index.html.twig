@@ -15,11 +15,15 @@
 {% block content %}
     
     
+        
     
     
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <div class="container">
+            
+            {{ include("include/_flashbag.html.twig") }}
+            
             <h1 class="display-4">Planning d'aujourd'hui : <b>{{ "now"|date('d/m/Y') }}</b></h1>
             
             <hr>

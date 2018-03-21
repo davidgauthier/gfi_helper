@@ -6,6 +6,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link href="{{ asset('public/css/style_calendar.css') }}" rel="stylesheet" />
     
 {% endblock %}
 
@@ -89,7 +90,7 @@
           
     </div>
     
-    
+    {{ include("include/_calendar.html.twig") }}
     
 {% endblock %}
 

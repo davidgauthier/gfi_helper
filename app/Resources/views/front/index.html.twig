@@ -15,15 +15,18 @@
 
 {% block content %}
     
-    
+    <br>
+    <div class="container">
+        {{ include("include/_flashbag.html.twig") }}
+    </div>
         
     
     
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+{#    <div class="jumbotron">#}
         <div class="container">
             
-            {{ include("include/_flashbag.html.twig") }}
+            
             
             <h1 class="display-4">Planning d'aujourd'hui : <b>{{ "now"|date('d/m/Y') }}</b></h1>
             
@@ -39,7 +42,7 @@
                 <p><a class="btn btn-primary btn-lg" href="{{ path('app_reservation_new') }}" role="button">Reserver &raquo;</a></p>
             {% endif %}
         </div>
-    </div>
+{#    </div>#}
 
             
             
@@ -70,16 +73,13 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div id="menu0" class="container tab-pane active"><br>
-                <h3>HOME</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <br>
-                {{ include("include/_row_test_bootstrap_1.html.twig") }}
+            <div id="menu0" class="container tab-pane active">
+                <h3>Grande Salle</h3>
+                {{ include("include/_calendar.html.twig") }}
             </div>
-            <div id="menu1" class="container tab-pane"><br>
-                <h3>Menu 1</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><br><br>
-                {{ include("include/_row_test_bootstrap_1.html.twig") }}
+            <div id="menu1" class="container tab-pane">
+                <h3>BoxTel</h3>
+                {{ include("include/_calendar.html.twig") }}
             </div>
             {#<div id="menu2" class="container tab-pane"><br>
                 <h3>Menu 2</h3>
@@ -90,7 +90,45 @@
           
     </div>
     
-    {{ include("include/_calendar.html.twig") }}
+    
+    
+    
+    <div class="container">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  {{ include("include/_row_test_bootstrap_1.html.twig") }}
+                <form>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Recipient:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">Message:</label>
+                    <textarea class="form-control" id="message-text"></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    
     
 {% endblock %}
 
@@ -98,5 +136,15 @@
 
 {% block javascripts %}
     {{ parent() }}
-    
+    <script>
+        $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-body input').val(recipient)
+      })
+    </script>
 {% endblock %}

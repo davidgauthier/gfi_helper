@@ -10,4 +10,30 @@ namespace AppBundle\Repository;
  */
 class ReservationRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    /**
+     * Retourne les réservations d'un mois donné (du mois en cours par défaut)
+     *
+     * @param int $mois
+     *
+     * @return Reservation[]
+     */
+    public function getReservationsOfAYearMonth($date)
+    {
+        $first = $date->format('Y-m-01 00:00:00');
+        $last = $date->format('Y-m-t 23:59:59');
+
+        
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->where('r.dateBegin >= :first')
+            ->setParameter('first', $first)
+            ->andWhere('r.dateBegin <= :last')
+            ->setParameter('last', $last)
+            ->orderBy('r.dateBegin', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

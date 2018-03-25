@@ -6,7 +6,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css" />
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />#}
 {% endblock %}
 
 
@@ -14,6 +15,7 @@
 
 {% block content %}
 
+    
     <div class="jumbotron">
         <div class="container">
             <div class="row align-items-center">
@@ -25,10 +27,44 @@
                     <h2>Nouvelle réservation</h2>
 
                     {{ form_start(form) }}
+                    
                     {{ form_errors(form) }}
                     {{ form_row(form.room) }}
-                    {{ form_row(form.dateBegin) }}
-                    {{ form_row(form.dateEnd) }}
+                    {#{{ form_row(form.dateBegin) }}
+                    {{ form_row(form.dateEnd) }}#}
+                    
+                    
+                    {#<div class="form-group">
+                        <label class="form-control-label required" for="appbundle_reservation_room">jour</label>
+                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+                            <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label required" for="appbundle_reservation_room">de</label>
+                        <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3"/>
+                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label required" for="appbundle_reservation_room">jusqu'à</label>
+                        <div class="input-group date" id="datetimepicker9" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker9"/>
+                            <div class="input-group-append" data-target="#datetimepicker9" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                            </div>
+                        </div>
+                    </div>#}
+                    
+                    
+                    
+                    
                     {{ form_rest(form) }}
                     <div class="form-action">
                         <button type="submit" class="btn btn-primary">Créer</button>
@@ -48,11 +84,139 @@
 
         </div>
     </div>
-
-
+    
+    
+    
+    
+    
+    
+    
+                    
+                    
+                    
+                    {#<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>#}
+    
+    
+    
+    
+    
 {% endblock %}
 
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
+    
+    
+        <script type="text/javascript">
+            $(function () {
+                $('#appbundle_reservation_dateBegin').datetimepicker({
+                    locale: '{{ app.request.locale }}',
+                    stepping: 15,
+                    {#minDate: time,
+                    defaultDate: time,#}
+                    {#inline: true,
+                    sideBySide: true,#}
+                    disabledDates: [
+                        //moment("12/25/2013"),
+                        //new Date(2013, 11 - 1, 21),
+                        //"11/22/2013 00:53"
+                    ]
+                });
+            });
+            
+            $(function () {
+                $('#appbundle_reservation_dateEnd').datetimepicker({
+                    locale: '{{ app.request.locale }}',
+                    stepping: 15,
+                    {#minDate: time,
+                    defaultDate: time,#}
+                    {#inline: true,
+                    sideBySide: true,#}
+                    disabledDates: [
+                        //moment("12/25/2013"),
+                        //new Date(2013, 11 - 1, 21),
+                        //"11/22/2013 00:53"
+                    ],
+                    useCurrent: false,
+                });
+            });
+            
+            $("#appbundle_reservation_dateBegin").on("change.datetimepicker", function (e) {
+                $('#appbundle_reservation_dateEnd').datetimepicker('minDate', e.date);
+            });
+            $("#appbundle_reservation_dateEnd").on("change.datetimepicker", function (e) {
+                $('#appbundle_reservation_dateBegin').datetimepicker('maxDate', e.date);
+            });
+        </script>
+        
+        
+        
+        
+    
+    
+        {#<script type="text/javascript">
+{#            var now = moment([{{ "now"|date('Y') }}, {{ "now"|date('m') }} -1, {{ "now"|date('d') }}]);#}
+{#            var now = moment().format('L LTS');#}
+            {#var now = new Date($.now());
+            alert(now);
+                var dt = new Date();
+                var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+{#                alert(dt);
+            $(function () {
+                $('#datetimepicker4').datetimepicker({
+                    locale: '{{ app.request.locale }}',
+                    format: 'L',
+                    {#minDate: time,
+                    defaultDate: time,
+                    disabledDates: [
+                        //moment("12/25/2013"),
+                        //new Date(2013, 11 - 1, 21),
+                        //"11/22/2013 00:53"
+                    ]
+                });
+            });
+        </script>
+        
+        
+        <script type="text/javascript">
+            {#var now2 = moment().format('hh:mm');
+            alert(now2);
+            $(function () {
+                $('#datetimepicker3').datetimepicker({
+                    locale: '{{ app.request.locale }}',
+                    format: 'HH:mm',
+                    {#minDate: now2,
+                    defaultDate: now2,
+                    stepping: 15
+                });
+            });
+{#            $('#datetimepicker3 ').change();#}
+{#            $('#datetimepicker3 .input-group-append').click();
+        </script>
+        
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker9').datetimepicker({
+                    locale: '{{ app.request.locale }}',
+                    format: 'HH:mm',
+                    stepping: 15
+                });
+            });
+        </script>#}
+        
 {% endblock %}

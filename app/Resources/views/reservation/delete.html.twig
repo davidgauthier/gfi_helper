@@ -1,0 +1,67 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Supprimer réservation
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+
+
+{% block content %}
+
+    
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col">
+
+                </div>
+                <div class="col">
+
+                    <p>
+                        Etes-vous certain de vouloir supprimer la réservation d'id "{{ reservation.id }}" ?
+                    </p>
+                    
+                    {# On met l'id de la reservation dans la route de l'action du formulaire #}
+                    <form action="{{ path('app_reservation_delete', {'id': reservation.id}) }}" method="post">
+                        
+                        <a href="{{ path('app_homepage') }}" class="btn btn-default">
+                            <i class="glyphicon glyphicon-chevron-left"></i>
+                            Retour
+                        </a>
+                            
+                        {# Ici j'ai écrit le bouton de soumission à la main #}
+                        <input type="submit" value="Supprimer" class="btn btn-danger" />
+                        
+                        {# Ceci va générer le champ CSRF #}
+                        {{ form_rest(form) }}
+                    </form>
+
+                    
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+    
+    
+    
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+        
+{% endblock %}

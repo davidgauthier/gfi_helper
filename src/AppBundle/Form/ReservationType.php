@@ -24,13 +24,35 @@ class ReservationType extends AbstractType
                 'choice_label'  => 'name',
             ])
             ->add('dateBegin', DateTimeType::class, [
-                'required' => true,
+                'required'      => true,
+                'html5'         => false,
+                'widget'        => 'single_text',
+                'input'         => 'datetime',
+                'format'        => 'dd/MM/yyyy HH:mm',
+                'with_seconds'  => false,
+                'attr'          => [
+                    'class'         => 'form-control input-inline datetimepicker-input',
+                    'data-toggle'   => 'datetimepicker',
+                    "data-target"   => '#appbundle_reservation_dateBegin',
+                ],
             ])
             ->add('dateEnd', DateTimeType::class, [
-                'required' => true,
+                'required'      => true,
+                'html5'         => false,
+                'widget'        => 'single_text',
+                'input'         => 'datetime',
+                'format'        => 'dd/MM/yyyy HH:mm',
+                'with_seconds'  => false,
+                'attr'          => [
+                    'class'         => 'form-control input-inline datetimepicker-input',
+                    'data-toggle'   => 'datetimepicker',
+                    "data-target"   => '#appbundle_reservation_dateEnd',
+                ],
             ])
         ;
-    }/**
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)

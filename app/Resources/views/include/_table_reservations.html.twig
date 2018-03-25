@@ -7,6 +7,7 @@
             <th rowspan="2">Salle</th>
             <th rowspan="2">Date</th>
             <th colspan="2">Heure</th>
+            <th rowspan="2"></th>
         </tr>
         <tr>
             <th>De</th>
@@ -17,9 +18,16 @@
             <tr>
                 <td>{{ reservation.user.username }}</td>
                 <td>{{ reservation.room.name }}</td>
-                <td>{{ reservation.dateBegin|date('d/m/Y') }}</td>
-                <td>{{ reservation.dateBegin|date('G:i') }}</td>
-                <td>{{ reservation.dateEnd|date('G:i') }}</td>
+                <td>{{ reservation.dateBegin|date('l d/m/Y') }}</td>
+                <td>{{ reservation.dateBegin|date('H:i') }}</td>
+                <td>{{ reservation.dateEnd|date('H:i') }}</td>
+                <td>
+                    {% if reservation.user == app.user %}
+                        <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}">
+                            Supprimer
+                        </a>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         

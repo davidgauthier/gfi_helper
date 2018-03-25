@@ -15,10 +15,9 @@ class AppController extends Controller
      */
     public function indexAction(Request $request)
     {
-        
         $reservations = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
-
         
+        //$reservations = $this->getDoctrine()->getRepository(Reservation::class)->getReservationsOfAYearMonth(new \DateTime());
         
         // replace this example code with whatever you need
         return $this->render('front/index.html.twig', [

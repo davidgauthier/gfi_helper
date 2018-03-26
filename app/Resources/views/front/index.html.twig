@@ -10,53 +10,14 @@
     
 {% endblock %}
 
-
-
-
 {% block content %}
-    
     <br>
     <div class="container">
         {{ include("include/_flashbag.html.twig") }}
     </div>
-        
-    
-    
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-{#    <div class="jumbotron">#}
-        <div class="container">
-            
-            
-            
-            <h1 class="display-4">Planning d'aujourd'hui : <b>{{ "now"|date('d/m/Y') }}</b></h1>
-            
-            <hr>
-            
-            <h1 class="display-4">Réservations</h1>
-
-{#            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>#}
-            
-            {{ include("include/_table_reservations.html.twig") }}
-            
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <p><a class="btn btn-primary btn-lg" href="{{ path('app_reservation_new') }}" role="button">Reserver &raquo;</a></p>
-            {% endif %}
-        </div>
-{#    </div>#}
-
-            
-            
-{#    {{ include("include/_test_bootstrap_1.html.twig") }}#}
-    
-    
-
-{#    {{ include("include/_test_bootstrap_2.html.twig") }}#}
-    
-    
     
     <div class="container">
-        
-        <h2>Planning - Salles de réunion</h2>
+        <h2>Salles de réunion</h2>
         <br>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -66,9 +27,6 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#menu1">BoxTel</a>
             </li>
-            {#<li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
-            </li>#}
         </ul>
 
         <!-- Tab panes -->
@@ -81,17 +39,9 @@
                 <h3>BoxTel</h3>
                 {{ include("include/_calendar.html.twig") }}
             </div>
-            {#<div id="menu2" class="container tab-pane"><br>
-                <h3>Menu 2</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p><br><br><br>
-                {{ include("include/_row_test_bootstrap_1.html.twig") }}
-            </div>#}
         </div>
           
     </div>
-    
-    
-    
     
     <div class="container">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
@@ -128,8 +78,6 @@
           </div>
         </div>
     </div>
-    
-    
 {% endblock %}
 
 

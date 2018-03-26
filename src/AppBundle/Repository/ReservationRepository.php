@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Reservation;
+use AppBundle\Entity\User;
 
 /**
  * ReservationRepository
@@ -35,6 +36,26 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy('r.dateBegin', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+    
+    /**
+     * Retourne les réservations d'un user (du mois en cours par défaut)
+     *
+     * @param User $user
+     *
+     * @return Reservation[]
+     */
+    public function getReservationsByUser($user)
+    {
+        
+        return $this->createQueryBuilder('r')
+        ->select('r')
+        ->leftJoin('r.user', 'u')
+        ->where('u.id = :id_user')
+        ->setParameter('id_user', $user->getId())
+        ->orderBy('r.dateBegin', 'DESC')
+        ->getQuery()
+        ->getResult();
     }
 
 

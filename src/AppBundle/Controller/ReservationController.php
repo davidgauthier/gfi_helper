@@ -42,6 +42,21 @@ class ReservationController extends Controller
     }
     
     
+    /**
+     * @Route("/reservation/my-reservations", name="app_myreservations")
+     */
+    public function myReservationsAction(Request $request)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $entityManager = $this->getDoctrine()->getManager();
+        $myReservations = $entityManager->getRepository(Reservation::class)->getReservationsByUser($user);
+        
+        return $this->render(':front:my_reservations.html.twig', [
+            'myReservations' => $myReservations,
+        ]);
+    }
+    
+    
     
     /**
      * @Route("/reservation/delete/{id}", name="app_reservation_delete")

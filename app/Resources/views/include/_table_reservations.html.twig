@@ -11,10 +11,10 @@
         </tr>
         <tr>
             <th>De</th>
-            <th>Jusqu'à</th>
+            <th>Jusqu'à </th>
         </tr>
         
-        {% for reservation in reservations %}
+        {% for reservation in myReservations %}
             <tr>
                 <td>{{ reservation.user.username }}</td>
                 <td>{{ reservation.room.name }}</td>

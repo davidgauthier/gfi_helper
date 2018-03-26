@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use AppBundle\Entity\Reservation;
 use AppBundle\Form\ReservationType;
@@ -20,7 +21,7 @@ class ReservationController extends Controller
         
         // Nous associons les données soumises à notre form grâce à handleRequest(), 
         // ce qui va mettre à jour également notre objet et le valider.
-        $form->handleRequest($request);//var_dump($form->getData());die;
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             $entityManager = $this->getDoctrine()->getManager();
             

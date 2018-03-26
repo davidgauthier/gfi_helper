@@ -121,7 +121,7 @@ class Reservation
      *
      * @param \AppBundle\Entity\User $user
      *
-     * @return Child
+     * @return Reservation
      */
     public function setUser(\AppBundle\Entity\User $user)
     {

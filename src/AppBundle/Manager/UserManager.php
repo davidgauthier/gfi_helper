@@ -5,7 +5,7 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\User;
 
-class UserManager extends AbstractDoctrineManager
+class UserManager
 {
     /**
      * @return User

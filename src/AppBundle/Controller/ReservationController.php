@@ -48,6 +48,10 @@ class ReservationController extends Controller
     public function myReservationsAction(Request $request)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
+        if ('anon.' === $user) {
+            $this->addFlash('warning', 'Veuillez vous connecter');
+            return $this->redirectToRoute('fos_user_security_login');
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $myReservations = $entityManager->getRepository(Reservation::class)->getReservationsByUser($user);
         

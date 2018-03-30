@@ -9,12 +9,7 @@
     <link href="{{ asset('public/css/style_calendar.css') }}" rel="stylesheet" />
 {% endblock %}
 
-{% block content %}
-    <br>
-    <div class="container">
-        {{ include("include/_flashbag.html.twig") }}
-    </div>
-    
+{% block content %}  
     <div class="container">
         <h1 class="display-4"> Mes réservations</h1><br>
         {{ include("include/_table_reservations.html.twig") }}

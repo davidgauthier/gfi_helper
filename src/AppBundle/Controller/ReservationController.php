@@ -6,14 +6,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use AppBundle\Entity\Reservation;
 use AppBundle\Form\ReservationType;
 
 class ReservationController extends Controller
 {
+    
     /**
      * @Route("/reservation/new", name="app_reservation_new")
+     * 
+     * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
@@ -33,7 +37,7 @@ class ReservationController extends Controller
             $entityManager->flush();
             
             $this->addFlash('success', 'Votre Réservation a été créée !');
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('front_homepage');
         }
         
         return $this->render(':reservation:new.html.twig', [
@@ -43,27 +47,9 @@ class ReservationController extends Controller
     
     
     /**
-     * @Route("/reservation/my-reservations", name="app_myreservations")
-     */
-    public function myReservationsAction(Request $request)
-    {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if ('anon.' === $user) {
-            $this->addFlash('warning', 'Veuillez vous connecter');
-            return $this->redirectToRoute('fos_user_security_login');
-        }
-        $entityManager = $this->getDoctrine()->getManager();
-        $myReservations = $entityManager->getRepository(Reservation::class)->getReservationsByUser($user);
-        
-        return $this->render(':front:my_reservations.html.twig', [
-            'myReservations' => $myReservations,
-        ]);
-    }
-    
-    
-    
-    /**
      * @Route("/reservation/delete/{id}", name="app_reservation_delete")
+     * 
+     * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -76,13 +62,13 @@ class ReservationController extends Controller
         }
         
         // Si l'a personne'utilisateur logguée n'est pas le user de la reservation
-        if ($reservation->getUser() != $this->get('security.token_storage')->getToken()->getUser()) {
+        if ($reservation->getUser() !== $this->getUser()) {
             $this->addFlash('error', 'Vous ne pouvez pas supprimer cette réservation.');
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('front_homepage');
         }
         
         // On crée un formulaire vide, qui ne contiendra que le champ CSRF
-        // Cela permet de protéger la suppression d'annonce contre cette faille
+        // Cela permet de protéger la suppression de reservation contre cette faille
         $form = $this->get('form.factory')->create();
     
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
@@ -90,7 +76,7 @@ class ReservationController extends Controller
             $entityManager->flush();
 
             $this->addFlash('success', 'La réservation a bien été supprimée.');
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('front_homepage');
         }
 
         return $this->render(':reservation:delete.html.twig', array(

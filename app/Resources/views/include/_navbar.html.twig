@@ -7,10 +7,11 @@
     </button>
     
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {% if app.request.get('_route') == 'front_homepage' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('front_homepage') }}">
-                	Planning
+                	<i class="far fa-calendar-alt"></i> Planning
                 	{% if app.request.get('_route') == 'front_homepage' %}
                 		<span class="sr-only">(current)</span>
             		{% endif %}
@@ -19,34 +20,39 @@
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <li class="nav-item {% if app.request.get('_route') == 'front_myreservations' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('front_myreservations') }}">
-                    	Mes réservations
+                    	<i class="fas fa-clipboard-list"></i> Mes réservations
                     	{% if app.request.get('_route') == 'front_myreservations' %}
                     		<span class="sr-only">(current)</span>
                 		{% endif %}
                     </a>
                 </li>
             {% endif %}
-            {#<li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>#}
         </ul>
+        
         {#<form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>#}
-        <span class="navbar-text">
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <b>{{ app.user.username }}</b> | <a href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
-            {% else %}
-                <a href="{{ path('fos_user_security_login') }}">Se connecter</a>
-{#                <a href="{{ path('fos_user_registration_register') }}">Créer un compte</a>#}
-            {% endif %}
-        </span>
+        
+        
+        {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <a class="btn btn-outline-light btn-sm" href="{{ path('fos_user_security_login') }}" role="button"><i class="fas fa-sign-in-alt"></i> Se connecter</a>
+        {% else %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> <b>{{ app.user.username }}</b>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
+                        {#<a class="dropdown-item disabled" href="#">Profil</a>
+                        <div class="dropdown-divider"></div>#}
+                        <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+                    </div>
+                </li>
+            </ul>
+        {% endif %}
+        
+        
     </div>
     
 </nav>

@@ -54,7 +54,6 @@ class FrontController extends Controller
             $compteurJours  = $compteurJours->modify('+1 day');
         }
         
-        // replace this example code with whatever you need
         return $this->render('front/index.html.twig', [
             'rooms'         => $rooms,
             'reservations'  => $reservations,

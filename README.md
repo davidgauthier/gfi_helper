@@ -56,13 +56,24 @@ Load Fixtures
 
 ## Créer la pull request
 
-	TODO
-	Faire attention à bien sélectioner "develop" dans "Target branch"
+- Accédez à [https://github.com/davidgauthier/gfi_helper](https://github.com/davidgauthier/gfi_helper)
+- GitHub vous notifie dans un encadré jaune que vous avez poussé une branche récemment
+- Cliquez sur "Compare & pull request"
+- Sélectionnez la branche cible 'develop' dans la liste déroulante "base:" en haut à gauche
+- Laissez un petit commentaire ;)
+- Validez avec le bouton "Create pull request"
 
+## Continuer sans pull request
+
+	git checkout develop
+	git merge nom_de_ma_branch
 
 ## Une fois la feature finie, revenir sur develop
 
 	git checkout develop
+
+Si pull request validée et merge :
+
 	git pull origin develop
 
 # Ressources

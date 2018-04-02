@@ -1,0 +1,13 @@
+# src/AppBundle/Resources/config/services.yml
+imports:
+    - { resource: 'services/manager.yml'}
+
+
+services:
+    
+    app.datetimes_manager:
+            class: AppBundle\Manager\DateTimesManager
+            arguments:
+#                - "@=service('doctrine').getManager()"
+            public: true
+

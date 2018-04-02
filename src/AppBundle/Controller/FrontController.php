@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+use AppBundle\Entity\Room;
 use AppBundle\Entity\Reservation;
 
 class FrontController extends Controller
@@ -17,13 +18,47 @@ class FrontController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $reservations = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
+//        $result = $this->getDoctrine()->getRepository(Reservation::class)
+//            ->createQueryBuilder('r')
+//            ->select('r.id, r.dateBegin, r.dateEnd, r.user, r.room, MONTH(r.dateBegin) AS rDateBeginMonth, DAY(r.dateBegin) AS rDateBeginDay')
+//            ->where('r.dateBegin IS NOT NULL')
+//            ->groupBy('rDateBeginMonth')
+//            ->addGroupBy('rDateBeginDay')
+//            ->getQuery()
+//            ->getResult();
+//        var_dump($result);die;
+        // ---------------------------------------------------------------------------------------------
         
+        $rooms          = $this->getDoctrine()->getRepository(Room::class)->findAll();
+        $reservations   = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
         //$reservations = $this->getDoctrine()->getRepository(Reservation::class)->getReservationsOfAYearMonth(new \DateTime());
+        
+        
+//        foreach ($rooms as $room){
+//            $reservations   = $this->getDoctrine()->getRepository(Reservation::class)->getFutureReservationsByRoom($room);
+//            var_dump($reservations);die;
+//        }
+        
+        
+        // Nous avons besoin du lundi précédant le mois actuel et du dimanche suivant
+        // le mois actuel. pour ensuite récupérer les jours entre ces deux dates.
+        $firstDayWeekBeforeCurrentMonth = $this->get('app.datetimes_manager')->getFirstDayWeekBeforeCurrentMonth();
+        $lastDayWeekAfterCurrentMonth   = $this->get('app.datetimes_manager')->getLastDayWeekAfterCurrentMonth();
+        
+        // Nous allons créer et remplir notre tableau des jours à afficher
+        $jours = [];
+        $compteurJours = $firstDayWeekBeforeCurrentMonth;
+        while($compteurJours <= $lastDayWeekAfterCurrentMonth){
+            $jours[]              = new \DateTime($compteurJours->format('Y-m-d 00:00:00'));
+            //$jours['nbReservations']    = $this->getDoctrine()->getRepository(Reservation::class)->getNbReservationsByRoomAndDay($room, $now);
+            $compteurJours  = $compteurJours->modify('+1 day');
+        }
         
         // replace this example code with whatever you need
         return $this->render('front/index.html.twig', [
-            'reservations' => $reservations,
+            'rooms'         => $rooms,
+            'reservations'  => $reservations,
+            'jours'         => $jours,
         ]);
     }
     
@@ -35,9 +70,7 @@ class FrontController extends Controller
      */
     public function myReservationsAction(Request $request)
     {
-        $user           = $this->getUser();
-        $entityManager  = $this->getDoctrine()->getManager();
-        $myReservations = $entityManager->getRepository(Reservation::class)->getReservationsByUser($user);
+        $myReservations = $this->get('app.reservation_manager')->getReservationsByUser($this->getUser());
         
         return $this->render(':front:my_reservations.html.twig', [
             'myReservations' => $myReservations,

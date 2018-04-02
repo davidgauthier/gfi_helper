@@ -1,0 +1,23 @@
+services:
+
+    app.reservation_manager:
+        class: AppBundle\Manager\ReservationManager
+        arguments:
+            - "@=service('doctrine').getManager()"
+        public: true
+
+    app.room_manager:
+        class: AppBundle\Manager\RoomManager
+        arguments:
+            - "@=service('doctrine').getManager()"
+        public: true
+
+
+    app.user_manager:
+            class: AppBundle\Manager\UserManager
+            arguments:
+                - "@=service('doctrine').getManager()"
+            public: true
+
+
+    

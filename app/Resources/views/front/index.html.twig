@@ -10,42 +10,40 @@
 {% endblock %}
 
 {% block content %}
+    
     <div class="container">
         <h2>Salles de réunion</h2>
         <br>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
+            {% for room in rooms %}
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#menu0">Grande Salle</a>
+                <a class="nav-link {% if loop.index == 1 %} active {% endif %}" data-toggle="tab" href="#menu{{ loop.index }}"><b>{{ room.name }}</b></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#menu1">BoxTel</a>
-            </li>
+            {% endfor %}
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div id="menu0" class="container tab-pane active">
-                <h3>Grande Salle</h3>
-                {{ include("include/_calendar.html.twig") }}
-            </div>
-            <div id="menu1" class="container tab-pane">
-                <h3>BoxTel</h3>
-                {{ include("include/_calendar.html.twig") }}
-            </div>
+            {% for room in rooms %}
+                <div id="menu{{ loop.index }}" class="container tab-pane {% if loop.index == 1 %} active {% endif %}">
+                    <h3>{{ room.name }}</h3>
+                    {{ include("include/_calendar.html.twig") }}
+                </div>
+            {% endfor %}
         </div>
     </div>
     
     <div class="container">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+        {#<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>#}
 
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -71,6 +69,8 @@
           </div>
         </div>
     </div>
+                  
+                  
 {% endblock %}
 
 {% block javascripts %}
@@ -82,7 +82,7 @@
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
-        modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-title').text('Journée du ' + recipient)
         modal.find('.modal-body input').val(recipient)
       })
     </script>

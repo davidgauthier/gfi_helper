@@ -13,7 +13,7 @@
 }
 
 @media (min-width: 576px) {
-/*    .day {
-        height: 14.2857vw;
-    }*/
+    .day {
+        height: 7vw;
+    }
 }

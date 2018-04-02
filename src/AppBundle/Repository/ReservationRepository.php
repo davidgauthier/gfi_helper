@@ -17,15 +17,18 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
     /**
      * Retourne les réservations d'un mois donné (du mois en cours par défaut)
      *
-     * @param int $mois
+     * @param \DateTime $date
      *
      * @return Reservation[]
      */
-    public function getReservationsOfAYearMonth($date)
+    public function getReservationsOfAYearMonth($date = null)
     {
+        if(null === $date){
+            $date = new \DateTime();
+        }
+        
         $first = $date->format('Y-m-01 00:00:00');
         $last = $date->format('Y-m-t 23:59:59');
-
         
         return $this->createQueryBuilder('r')
             ->select('r')
@@ -39,7 +42,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
     }
     
     /**
-     * Retourne les réservations d'un user (du mois en cours par défaut)
+     * Retourne les réservations d'un user
      *
      * @param User $user
      *
@@ -47,16 +50,130 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getReservationsByUser($user)
     {
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->leftJoin('r.user', 'u')
+            ->where('u.id = :id_user')
+            ->setParameter('id_user', $user->getId())
+            ->orderBy('r.dateBegin', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    
+    
+    /**
+     * Retourne les futures réservations d'un user
+     *
+     * @param User $user
+     *
+     * @return Reservation[]
+     */
+    public function getFutureReservationsByUser($user)
+    {
+        $now = new \DateTime();
+        $day = $now->format('Y-m-d 00:00:00');
         
         return $this->createQueryBuilder('r')
-        ->select('r')
-        ->leftJoin('r.user', 'u')
-        ->where('u.id = :id_user')
-        ->setParameter('id_user', $user->getId())
-        ->orderBy('r.dateBegin', 'DESC')
-        ->getQuery()
-        ->getResult();
+            ->select('r')
+            ->leftJoin('r.user', 'u')
+            ->where('u.id = :id_user')
+            ->setParameter('id_user', $user->getId())
+            ->andWhere('r.dateBegin >= :day')
+            ->setParameter('day', $day)
+            ->orderBy('r.dateBegin', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
-
+    
+    
+    
+    /**
+     * Retourne les futures réservations d'une room
+     *
+     * @param Room $room
+     *
+     * @return Reservation[]
+     */
+    public function getFutureReservationsByRoom($room)
+    {
+        $now = new \DateTime();
+        $day = $now->format('Y-m-d 00:00:00');
+        
+        return $this->createQueryBuilder('re')
+            ->select('re')
+            ->leftJoin('re.room', 'ro')
+            ->where('ro.id = :id_room')
+            ->setParameter('id_room', $room->getId())
+            ->andWhere('re.dateBegin >= :day')
+            ->setParameter('day', $day)
+            ->orderBy('re.dateBegin', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    
+    
+    
+    /**
+     * Retourne le nombre de réservations d'une room pour sur un jour donné
+     *
+     * @param Room $room
+     * @param \DateTime $day
+     *
+     * @return int
+     */
+    public function getNbReservationsByRoomAndDay($room, $day)
+    {
+        if(null === $day){
+            $day = new \DateTime();
+        }
+        
+        $first = $day->format('Y-m-d 00:00:00');
+        $last = $day->format('Y-m-d 23:59:59');
+        
+        return $this->createQueryBuilder('re')
+            ->select('COUNT(re)')
+            ->leftJoin('re.room', 'ro')
+            ->where('ro.id = :id_room')
+            ->setParameter('id_room', $room->getId())
+            ->andWhere('re.dateBegin >= :first')
+            ->setParameter('first', $first)
+            ->andWhere('re.dateBegin <= :last')
+            ->setParameter('last', $last)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    
+    
+    /**
+     * Retourne les réservations d'une room pour sur un jour donné
+     *
+     * @param Room $room
+     * @param \DateTime $day
+     *
+     * @return Reservation[]
+     */
+    public function getReservationsByRoomAndDay($room, $day)
+    {
+        if(null === $day){
+            $day = new \DateTime();
+        }
+        
+        $first = $day->format('Y-m-d 00:00:00');
+        $last = $day->format('Y-m-d 23:59:59');
+        
+        return $this->createQueryBuilder('re')
+            ->select('COUNT(re)')
+            ->leftJoin('re.room', 'ro')
+            ->where('ro.id = :id_room')
+            ->setParameter('id_room', $room->getId())
+            ->andWhere('re.dateBegin >= :first')
+            ->setParameter('first', $first)
+            ->andWhere('re.dateBegin <= :last')
+            ->setParameter('last', $last)
+            ->getQuery()
+            ->getResult();
+    }
+    
+    
 
 }

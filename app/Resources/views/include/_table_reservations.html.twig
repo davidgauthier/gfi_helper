@@ -18,9 +18,9 @@
             <tr>
                 <td>{{ reservation.user.username }}</td>
                 <td>{{ reservation.room.name }}</td>
-                <td>{{ reservation.dateBegin|date('l d/m/Y') }}</td>
-                <td>{{ reservation.dateBegin|date('H:i') }}</td>
-                <td>{{ reservation.dateEnd|date('H:i') }}</td>
+                <td>{{ reservation.date|date('l d/m/Y') }}</td>
+                <td>{{ reservation.timeBegin|date('H:i') }}</td>
+                <td>{{ reservation.timeEnd|date('H:i') }}</td>
                 <td>
                     {% if reservation.user == app.user %}
                         <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}">

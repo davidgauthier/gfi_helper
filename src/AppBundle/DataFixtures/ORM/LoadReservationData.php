@@ -14,26 +14,30 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
             array(
                 'user'      =>  $this->getReference('user-0'),
                 'room'      =>  $this->getReference('room-0'),
-                'dateBegin' => new \DateTime('2018-02-07 15:00'),
-                'dateEnd'   => new \DateTime('2018-02-07 15:30'),
+                'date'      => new \DateTime('2018-02-07'),
+                'timeBegin' => new \DateTime('15:00:00'),
+                'timeEnd'   => new \DateTime('15:30:00'),
             ),
             array(
                 'user'      =>  $this->getReference('user-0'),
                 'room'      =>  $this->getReference('room-0'),
-                'dateBegin' => new \DateTime('2018-02-08 10:00'),
-                'dateEnd'   => new \DateTime('2018-02-08 10:30'),
+                'date'      => new \DateTime('2018-02-08'),
+                'timeBegin' => new \DateTime('10:00:00'),
+                'timeEnd'   => new \DateTime('10:30:00'),
             ),
             array(
                 'user'      =>  $this->getReference('user-1'),
                 'room'      =>  $this->getReference('room-1'),
-                'dateBegin' => new \DateTime('2018-02-08 15:00'),
-                'dateEnd'   => new \DateTime('2018-02-08 15:30'),
+                'date'      => new \DateTime('2018-02-08'),
+                'timeBegin' => new \DateTime('15:00:00'),
+                'timeEnd'   => new \DateTime('15:30:00'),
             ),
             array(
                 'user'      =>  $this->getReference('user-1'),
                 'room'      =>  $this->getReference('room-1'),
-                'dateBegin' => new \DateTime('2018-02-09 12:00'),
-                'dateEnd'   => new \DateTime('2018-02-09 12:30'),
+                'date'      => new \DateTime('2018-02-09'),
+                'timeBegin' => new \DateTime('12:00:00'),
+                'timeEnd'   => new \DateTime('12:30:00'),
             ),
         );
 
@@ -42,8 +46,9 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
 
             $reservation->setUser($res['user']);
             $reservation->setRoom($res['room']);
-            $reservation->setDateBegin($res['dateBegin']);
-            $reservation->setDateEnd($res['dateEnd']);
+            $reservation->setDate($res['date']);
+            $reservation->setTimeBegin($res['timeBegin']);
+            $reservation->setTimeEnd($res['timeEnd']);
 
             $manager->persist($reservation);
             $this->addReference('reservation-'.$i, $reservation);

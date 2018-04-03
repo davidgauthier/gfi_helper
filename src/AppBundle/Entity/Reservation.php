@@ -28,19 +28,29 @@ class Reservation
      * @Assert\NotBlank()
      * @Assert\DateTime()
      *
-     * @ORM\Column(name="date_begin", type="datetime")
+     * @ORM\Column(name="date", type="datetime")
      */
-    private $dateBegin;
-
+    private $date;
+    
     /**
      * @var \DateTime
-     * 
-     * @Assert\NotBlank()
-     * @Assert\DateTime()
      *
-     * @ORM\Column(name="date_end", type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\Time()
+     *
+     * @ORM\Column(name="time_begin", type="time")
      */
-    private $dateEnd;
+    private $timeBegin;
+    
+    /**
+     * @var \DateTime
+     *
+     * @Assert\NotBlank()
+     * @Assert\Time()
+     *
+     * @ORM\Column(name="time_end", type="time")
+     */
+    private $timeEnd;
     
     /**
      * 
@@ -69,51 +79,75 @@ class Reservation
     }
 
     /**
-     * Set dateBegin
+     * Set date
      *
-     * @param \DateTime $dateBegin
+     * @param \DateTime $date
      *
      * @return Reservation
      */
-    public function setDateBegin($dateBegin)
+    public function setDate(\DateTime $date)
     {
-        $this->dateBegin = $dateBegin;
+        $this->date = $date;
 
         return $this;
     }
 
     /**
-     * Get dateBegin
+     * Get date
      *
      * @return \DateTime
      */
-    public function getDateBegin()
+    public function getDate()
     {
-        return $this->dateBegin;
+        return $this->date;
     }
 
     /**
-     * Set dateEnd
+     * Set timeBegin
      *
-     * @param \DateTime $dateEnd
+     * @param \DateTime $timeBegin
      *
      * @return Reservation
      */
-    public function setDateEnd($dateEnd)
+    public function setTimeBegin(\DateTime $timeBegin)
     {
-        $this->dateEnd = $dateEnd;
+        $this->timeBegin = $timeBegin;
+        
+        return $this;
+    }
+    
+    /**
+     * Get timeBegin
+     *
+     * @return \DateTime
+     */
+    public function getTimeBegin()
+    {
+        return $this->timeBegin;
+    }
+    
+    /**
+     * Set timeEnd
+     *
+     * @param \DateTime $timeEnd
+     *
+     * @return Reservation
+     */
+    public function setTimeEnd(\DateTime $timeEnd)
+    {
+        $this->timeEnd = $timeEnd;
 
         return $this;
     }
 
     /**
-     * Get dateEnd
+     * Get timeEnd
      *
      * @return \DateTime
      */
-    public function getDateEnd()
+    public function getTimeEnd()
     {
-        return $this->dateEnd;
+        return $this->timeEnd;
     }
     
     /**

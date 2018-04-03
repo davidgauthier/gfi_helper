@@ -33,11 +33,11 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
         
         return $this->createQueryBuilder('r')
             ->select('r')
-            ->where('r.dateBegin >= :first')
+            ->where('r.date >= :first')
             ->setParameter('first', $first)
-            ->andWhere('r.dateBegin <= :last')
+            ->andWhere('r.date <= :last')
             ->setParameter('last', $last)
-            ->orderBy('r.dateBegin', 'ASC')
+            ->orderBy('r.date', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -56,7 +56,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('r.user', 'u')
             ->where('u.id = :id_user')
             ->setParameter('id_user', $user->getId())
-            ->orderBy('r.dateBegin', 'DESC')
+            ->orderBy('r.date', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -79,9 +79,9 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('r.user', 'u')
             ->where('u.id = :id_user')
             ->setParameter('id_user', $user->getId())
-            ->andWhere('r.dateBegin >= :day')
+            ->andWhere('r.date >= :day')
             ->setParameter('day', $day)
-            ->orderBy('r.dateBegin', 'DESC')
+            ->orderBy('r.date', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -105,9 +105,9 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('re.room', 'ro')
             ->where('ro.id = :id_room')
             ->setParameter('id_room', $room->getId())
-            ->andWhere('re.dateBegin >= :day')
+            ->andWhere('re.date >= :day')
             ->setParameter('day', $day)
-            ->orderBy('re.dateBegin', 'ASC')
+            ->orderBy('re.date', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -136,9 +136,9 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('re.room', 'ro')
             ->where('ro.id = :id_room')
             ->setParameter('id_room', $room->getId())
-            ->andWhere('re.dateBegin >= :first')
+            ->andWhere('re.date >= :first')
             ->setParameter('first', $first)
-            ->andWhere('re.dateBegin <= :last')
+            ->andWhere('re.date <= :last')
             ->setParameter('last', $last)
             ->getQuery()
             ->getSingleScalarResult();
@@ -167,9 +167,9 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('re.room', 'ro')
             ->where('ro.id = :id_room')
             ->setParameter('id_room', $room->getId())
-            ->andWhere('re.dateBegin >= :first')
+            ->andWhere('re.date >= :first')
             ->setParameter('first', $first)
-            ->andWhere('re.dateBegin <= :last')
+            ->andWhere('re.date <= :last')
             ->setParameter('last', $last)
             ->getQuery()
             ->getResult();

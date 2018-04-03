@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Reservation;
+use AppBundle\Entity\Room;
 use AppBundle\Entity\User;
 
 /**

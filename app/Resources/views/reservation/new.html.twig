@@ -30,8 +30,8 @@
                     
                     {{ form_errors(form) }}
                     {{ form_row(form.room) }}
-                    {#{{ form_row(form.dateBegin) }}
-                    {{ form_row(form.dateEnd) }}#}
+{#                     {{ form_row(form.dateBegin) }}#}
+{#                     {{ form_row(form.dateEnd) }}#}
                     
                     
                     {#<div class="form-group">
@@ -124,43 +124,26 @@
     
         <script type="text/javascript">
             $(function () {
-                $('#appbundle_reservation_dateBegin').datetimepicker({
+                $('#appbundle_reservation_date').datetimepicker({
                     locale: '{{ app.request.locale }}',
-                    stepping: 15,
-                    {#minDate: time,
-                    defaultDate: time,#}
-                    {#inline: true,
-                    sideBySide: true,#}
-                    disabledDates: [
-                        //moment("12/25/2013"),
-                        //new Date(2013, 11 - 1, 21),
-                        //"11/22/2013 00:53"
-                    ]
+                    format: 'L'
+                });
+            });
+            $(function () {
+                $('#appbundle_reservation_timeBegin').datetimepicker({
+                    locale: '{{ app.request.locale }}',
+                    stepping: 30,
+                    format: 'LT'
                 });
             });
             
             $(function () {
-                $('#appbundle_reservation_dateEnd').datetimepicker({
+                $('#appbundle_reservation_timeEnd').datetimepicker({
                     locale: '{{ app.request.locale }}',
-                    stepping: 15,
-                    {#minDate: time,
-                    defaultDate: time,#}
-                    {#inline: true,
-                    sideBySide: true,#}
-                    disabledDates: [
-                        //moment("12/25/2013"),
-                        //new Date(2013, 11 - 1, 21),
-                        //"11/22/2013 00:53"
-                    ],
-                    useCurrent: false,
+                    stepping: 30,
+                    format: 'LT',
+                    useCurrent: false
                 });
-            });
-            
-            $("#appbundle_reservation_dateBegin").on("change.datetimepicker", function (e) {
-                $('#appbundle_reservation_dateEnd').datetimepicker('minDate', e.date);
-            });
-            $("#appbundle_reservation_dateEnd").on("change.datetimepicker", function (e) {
-                $('#appbundle_reservation_dateBegin').datetimepicker('maxDate', e.date);
             });
         </script>
         

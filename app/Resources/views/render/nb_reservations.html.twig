@@ -1,0 +1,4 @@
+{% if nbReservations > 0 %}
+	<a href="#" class="badge badge-light" title="{{ nbReservations }} réservations"
+	data-toggle="modal" data-target="#exampleModal" data-day="{{ day|date('d-m-Y') }}">{{ nbReservations }} réservations</a>
+{% endif %}

@@ -144,6 +144,32 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->getSingleScalarResult();
     }
     
+    /**
+     * Retourne les réservations pour un jour donné
+     *
+     * @param \DateTime $day
+     *
+     * @return int
+     */
+    public function getReservationsByDay($day)
+    {
+        if(null === $day){
+            $day = new \DateTime();
+        }
+        
+        $first = $day->format('Y-m-d 00:00:00');
+        $last = $day->format('Y-m-d 23:59:59');
+        
+        return $this->createQueryBuilder('re')
+            ->select('re')
+            ->andWhere('re.date >= :first')
+            ->setParameter('first', $first)
+            ->andWhere('re.date <= :last')
+            ->setParameter('last', $last)
+            ->getQuery()
+            ->getResult();
+    }
+    
     
     /**
      * Retourne les réservations d'une room pour sur un jour donné
@@ -163,7 +189,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
         $last = $day->format('Y-m-d 23:59:59');
         
         return $this->createQueryBuilder('re')
-            ->select('COUNT(re)')
+            ->select('re')
             ->leftJoin('re.room', 'ro')
             ->where('ro.id = :id_room')
             ->setParameter('id_room', $room->getId())

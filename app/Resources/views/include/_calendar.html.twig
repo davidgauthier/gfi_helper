@@ -1,117 +1,78 @@
-{#<div class="table-responsive">
-    <table class="table">
-      <tr>
-        <th style="width:12.99%">Semaine n°</th>
-        <th style="width:11%">Lundi</th>
-        <th style="width:11%">Mardi</th>
-        <th style="width:11%">Mercredi</th>
-        <th style="width:11%">Jeudi</th>
-        <th style="width:11%">Vendredi</th>
-        <th style="width:11%">Samedi</th>
-        <th style="width:11%">Dimanche</th>
-      </tr>
-      <tr>
-        <td>12</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>1</td>
-        <td>2</td>
-      </tr>
-      <tr>
-        <td>13</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
-      </tr>
-      <tr>
-        <td>14</td>
-        <td>10</td>
-        <td>11</td>
-        <td>12</td>
-        <td>13</td>
-        <td>14</td>
-        <td>15</td>
-        <td>16</td>
-      </tr>
-      <tr>
-        <td>15</td>
-        <td>17</td>
-        <td>18</td>
-        <td>19</td>
-        <td>20</td>
-        <td>21</td>
-        <td>22</td>
-        <td>23</td>
-      </tr>
-      <tr>
-        <td>16</td>
-        <td>24</td>
-        <td>25</td>
-        <td>26</td>
-        <td>27</td>
-        <td>28</td>
-        <td>29</td>
-        <td>30</td>
-      </tr>
-      <tr>
-        <td>17</td>
-        <td>31</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-</div>#}
-
-
 <header>
-    <p class="display-4 text-center">
-        {{ "now"|date('D j/m/Y') }} - Semaine {{ "now"|date('W') }}
-        <br>
-        {{ "now"|date('Y-m-01') }} -> {{ "now"|date('Y-m-t') }}
+    <p class="display-5 text-center">
+        Aujourd'hui - {{ "now"|date('l j/m/Y') }} - Semaine {{ "now"|date('W') }}
     </p>
-    <div class="row d-none d-sm-flex p-1 bg-dark text-white">
-        <h5 class="col-sm p-1 text-center">Lundi</h5>
-        <h5 class="col-sm p-1 text-center">Mardi</h5>
-        <h5 class="col-sm p-1 text-center">Mercredi</h5>
-        <h5 class="col-sm p-1 text-center">Jeudi</h5>
-        <h5 class="col-sm p-1 text-center">Vendredi</h5>
-        <h5 class="col-sm p-1 text-center">Samedi</h5>
-        <h5 class="col-sm p-1 text-center">Dimanche</h5>
+    <div class="row d-none d-sm-flex p-2 bg-dark text-white">
+        <h5 class="col-sm p-2 text-center">Lundi</h5>
+        <h5 class="col-sm p-2 text-center">Mardi</h5>
+        <h5 class="col-sm p-2 text-center">Mercredi</h5>
+        <h5 class="col-sm p-2 text-center">Jeudi</h5>
+        <h5 class="col-sm p-2 text-center">Vendredi</h5>
+        <h5 class="col-sm p-2 text-center">Samedi</h5>
+        <h5 class="col-sm p-2 text-center">Dimanche</h5>
     </div>
 </header>
+
 <div class="row border border-right-0 border-bottom-0">
-    
-    {% for day in jours %}
-        <div class="day col-sm p-2 border border-left-0 border-top-0 text-truncate {% if day|date('m')!="now"|date('m') %} d-none d-sm-inline-block bg-light text-muted {% endif %}">
+    {% for day in days %}
+        <div class="day col-sm p-2 border border-left-0 border-top-0 text-truncate 
+        {% if day|date('m')!="now"|date('m') %} d-none d-sm-inline-block bg-light text-muted {% endif %}">
             <h5 class="row align-items-center">
                 <span class="date col-1">{{ day|date('d') }}</span>
                 <small class="col d-sm-none text-center text-muted">{{ day|date('D') }}</small>
                 <span class="col-1"></span>
             </h5>
             <p class="d-sm-none">No events</p>
-            {#<p class="small">10 réunions prévues</p>#}
             {% if day|date('m')=="now"|date('m') and (day|date('w')!=0 and day|date('w')!=6) and "now"|date('Y-m-d')<=day|date('Y-m-d') %}
-                <a href="#" class="badge badge-light" title="5 réservations"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="{{ day|date('d-m-Y') }}">2 réservations</a>
-                {#<button type="button" class="btn btn-outline-secondary btn-sm d-block small" title="Test Event 2"
-                   data-toggle="modal" data-target="#exampleModal" data-whatever="{{ day|date('d-m-Y') }}">Test Event 2</button>#}
+                {{ render(controller("AppBundle:Reservation:displayNbReservationsByDay", { 'room': room, 'day': day })) }}
             {% endif %}
         </div>
         {% if loop.index  % 7 == 0 %}
             <div class="w-100"></div>
         {% endif %}
+        
+        <!-- Permet l'affichage de la modal du jour sélectionné -->
+    <div class="container">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  {{ include("include/_calendar_day.html.twig") }}
+{#                 <div class="container">#}
+{#                     <div class="table-responsive">#}
+{#                         <table class="table table-sm table-bordered table-hover table-light">#}
+{#                             {% for hour in 8..17 %}#}
+{#                                 {{ render(controller("AppBundle:Reservation:displayReservationsByDay", { 'room': room, 'day': day, 'hour': hour })) }}#}
+{#                             {% endfor %}#}
+{#                 		</table>#}
+{#                     </div>#}
+{#                 </div>#}
+                <form>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Date réservation :</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">Commentaire :</label>
+                    <textarea class="form-control" id="message-text"></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Créer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div> 
     {% endfor %}
-    
-    
 </div>
+
+    

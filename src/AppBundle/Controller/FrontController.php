@@ -18,29 +18,11 @@ class FrontController extends Controller
      */
     public function indexAction(Request $request)
     {
-//        $result = $this->getDoctrine()->getRepository(Reservation::class)
-//            ->createQueryBuilder('r')
-//            ->select('r.id, r.dateBegin, r.dateEnd, r.user, r.room, MONTH(r.dateBegin) AS rDateBeginMonth, DAY(r.dateBegin) AS rDateBeginDay')
-//            ->where('r.dateBegin IS NOT NULL')
-//            ->groupBy('rDateBeginMonth')
-//            ->addGroupBy('rDateBeginDay')
-//            ->getQuery()
-//            ->getResult();
-//        var_dump($result);die;
-        // ---------------------------------------------------------------------------------------------
         
         $rooms          = $this->getDoctrine()->getRepository(Room::class)->findAll();
         $reservations   = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
-        //$reservations = $this->getDoctrine()->getRepository(Reservation::class)->getReservationsOfAYearMonth(new \DateTime());
-        
-        
-//        foreach ($rooms as $room){
-//            $reservations   = $this->getDoctrine()->getRepository(Reservation::class)->getFutureReservationsByRoom($room);
-//            var_dump($reservations);die;
-//        }
-        
-        
-        // Nous avons besoin du lundi précédant le mois actuel et du dimanche suivant
+
+        // Nous avons besoin du lundi précédent le mois actuel et du dimanche suivant
         // le mois actuel. pour ensuite récupérer les jours entre ces deux dates.
         $firstDayWeekBeforeCurrentMonth = $this->get('app.datetimes_manager')->getFirstDayWeekBeforeCurrentMonth();
         $lastDayWeekAfterCurrentMonth   = $this->get('app.datetimes_manager')->getLastDayWeekAfterCurrentMonth();
@@ -49,15 +31,14 @@ class FrontController extends Controller
         $jours = [];
         $compteurJours = $firstDayWeekBeforeCurrentMonth;
         while($compteurJours <= $lastDayWeekAfterCurrentMonth){
-            $jours[]              = new \DateTime($compteurJours->format('Y-m-d 00:00:00'));
-            //$jours['nbReservations']    = $this->getDoctrine()->getRepository(Reservation::class)->getNbReservationsByRoomAndDay($room, $now);
+            $jours[]        = new \DateTime($compteurJours->format('Y-m-d'));
             $compteurJours  = $compteurJours->modify('+1 day');
         }
         
         return $this->render('front/index.html.twig', [
             'rooms'         => $rooms,
             'reservations'  => $reservations,
-            'jours'         => $jours,
+            'days'          => $jours,
         ]);
     }
     

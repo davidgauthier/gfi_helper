@@ -19,7 +19,7 @@ class DateTimesManager
      */
     public function getFirstDayWeekBeforeCurrentMonth()
     {
-        $firstDayWeekBeforeCurrentMonth = new \DateTime($this->getFirstDayOfCurrentMonth()->format('Y-m-d h:i:s'));
+        $firstDayWeekBeforeCurrentMonth = new \DateTime($this->getFirstDayOfCurrentMonth()->format('Y-m-d 00:00:00'));
         
         switch ($firstDayWeekBeforeCurrentMonth->format('w')){
             case 0: // Dimanche
@@ -54,7 +54,7 @@ class DateTimesManager
      */
     public function getLastDayWeekAfterCurrentMonth()
     {
-        $lastDayWeekAfterCurrentMonth = new \DateTime($this->getLastDayOfCurrentMonth()->format('Y-m-d h:i:s'));
+        $lastDayWeekAfterCurrentMonth = new \DateTime($this->getLastDayOfCurrentMonth()->format('Y-m-d 00:00:00'));
         
         switch ($lastDayWeekAfterCurrentMonth->format('w')){
             case 0: // Dimanche
@@ -84,7 +84,7 @@ class DateTimesManager
     public function getCurrentHour()
     {
         $now = new \DateTime();
-        return new \DateTime($now->format('Y-m-t h:00:00'));
+        return new \DateTime($now->format('Y-m-d h:00:00'));
     }
     
     

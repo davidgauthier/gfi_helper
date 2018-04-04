@@ -1,6 +1,6 @@
 <header>
     <p class="display-5 text-center">
-        Aujourd'hui - {{ "now"|date('l j/m/Y') }} - Semaine {{ "now"|date('W') }}
+        Aujourd'hui - {{ "now"|date('l d/m/Y') }} - Semaine {{ "now"|date('W') }}
     </p>
     <div class="row d-none d-sm-flex p-2 bg-dark text-white">
         <h5 class="col-sm p-2 text-center">Lundi</h5>
@@ -16,63 +16,39 @@
 <div class="row border border-right-0 border-bottom-0">
     {% for day in days %}
         <div class="day col-sm p-2 border border-left-0 border-top-0 text-truncate 
-        {% if day|date('m')!="now"|date('m') %} d-none d-sm-inline-block bg-light text-muted {% endif %}">
+        {% if (day.date|date('m')!="now"|date('m')) or ("now"|date('Y-m-d')>day.date|date('Y-m-d')) %} d-none d-sm-inline-block bg-light text-muted {% endif %}">
             <h5 class="row align-items-center">
-                <span class="date col-1">{{ day|date('d') }}</span>
-                <small class="col d-sm-none text-center text-muted">{{ day|date('D') }}</small>
+                <span class="date col-1">{{ day.date|date('d') }}</span>
+                <small class="col d-sm-none text-center text-muted">{{ day.date|date('D') }}</small>
                 <span class="col-1"></span>
             </h5>
             <p class="d-sm-none">No events</p>
-            {% if day|date('m')=="now"|date('m') and (day|date('w')!=0 and day|date('w')!=6) and "now"|date('Y-m-d')<=day|date('Y-m-d') %}
-                {{ render(controller("AppBundle:Reservation:displayNbReservationsByDay", { 'room': room, 'day': day })) }}
+            
+            {# mois de la date du jour == mois actuel #}
+            {% set c1 = (day.date|date('m') == "now"|date('m')) %}
+            {# date du jour != dimanche #}
+            {% set c2 = (day.date|date('w') != 0) %}
+            {# date du jour != samedi #}
+            {% set c3 = (day.date|date('w') != 6) %}
+            {# date du jour > à la date actuelle #}
+            {% set c4 = (day.date|date('Y-m-d') > "now"|date('Y-m-d')) %}
+            {% if c1 and c2 and c3 and c4 %}
+                {% if day.reservations|length > 0 %}
+                    <a href="#" class="badge badge-light" title="{{ day.reservations|length }} réservations"
+                       data-toggle="modal" data-target="#dayModal"
+                       data-day="{{ day.date|date('d-m-Y') }}" data-room="{{ room.name }}">
+                        {{ day.reservations|length }} réservation(s)
+                    </a>
+                {% endif %}
             {% endif %}
         </div>
-        {% if loop.index  % 7 == 0 %}
+        {% if loop.index % 7 == 0 %}
             <div class="w-100"></div>
         {% endif %}
         
-        <!-- Permet l'affichage de la modal du jour sélectionné -->
-    <div class="container">
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                  {{ include("include/_calendar_day.html.twig") }}
-{#                 <div class="container">#}
-{#                     <div class="table-responsive">#}
-{#                         <table class="table table-sm table-bordered table-hover table-light">#}
-{#                             {% for hour in 8..17 %}#}
-{#                                 {{ render(controller("AppBundle:Reservation:displayReservationsByDay", { 'room': room, 'day': day, 'hour': hour })) }}#}
-{#                             {% endfor %}#}
-{#                 		</table>#}
-{#                     </div>#}
-{#                 </div>#}
-                <form>
-                  <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Date réservation :</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                  <div class="form-group">
-                    <label for="message-text" class="col-form-label">Commentaire :</label>
-                    <textarea class="form-control" id="message-text"></textarea>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary">Créer</button>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div> 
     {% endfor %}
+    
+    
 </div>
 
     

@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Room;
 use AppBundle\Entity\Reservation;
 
+use AppBundle\Utils\Day;
+
 class FrontController extends Controller
 {
     
@@ -18,27 +20,33 @@ class FrontController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $dateTimesManager   = $this->get('app.datetimes_manager');
+        $reservationManager = $this->get('app.reservation_manager');
         
         $rooms          = $this->getDoctrine()->getRepository(Room::class)->findAll();
         $reservations   = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
 
         // Nous avons besoin du lundi précédent le mois actuel et du dimanche suivant
         // le mois actuel. pour ensuite récupérer les jours entre ces deux dates.
-        $firstDayWeekBeforeCurrentMonth = $this->get('app.datetimes_manager')->getFirstDayWeekBeforeCurrentMonth();
-        $lastDayWeekAfterCurrentMonth   = $this->get('app.datetimes_manager')->getLastDayWeekAfterCurrentMonth();
+        $firstDayWeekBeforeCurrentMonth = $dateTimesManager->getFirstDayWeekBeforeCurrentMonth();
+        $lastDayWeekAfterCurrentMonth   = $dateTimesManager->getLastDayWeekAfterCurrentMonth();
+        
+        $interval = \DateInterval::createFromDateString('1 day');
+        $period = new \DatePeriod($firstDayWeekBeforeCurrentMonth,
+                $interval,
+                $lastDayWeekAfterCurrentMonth->modify('+1 day')); // ->modify('+1 day') : Pour inclure le dernier jour de l'interval
         
         // Nous allons créer et remplir notre tableau des jours à afficher
-        $jours = [];
-        $compteurJours = $firstDayWeekBeforeCurrentMonth;
-        while($compteurJours <= $lastDayWeekAfterCurrentMonth){
-            $jours[]        = new \DateTime($compteurJours->format('Y-m-d'));
-            $compteurJours  = $compteurJours->modify('+1 day');
+        $days = [];
+        foreach ($period as $dt) {
+            $reservationsDuJour = $reservationManager->getReservationsByDay($dt);
+            $days[]        = new Day($dt, $reservationsDuJour);
         }
         
         return $this->render('front/index.html.twig', [
             'rooms'         => $rooms,
             'reservations'  => $reservations,
-            'days'          => $jours,
+            'days'          => $days,
         ]);
     }
     

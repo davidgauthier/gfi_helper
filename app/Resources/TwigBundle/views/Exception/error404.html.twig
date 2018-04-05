@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Error 404
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ status_code }} {{ status_text }}</h1>
+        <h2>Il n'y à rien içi ...</h2>
+        <p><a href="{{ path('front_homepage') }}">Retour au planning</a></p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

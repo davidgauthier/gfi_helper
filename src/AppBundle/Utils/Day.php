@@ -19,13 +19,17 @@ class Day
     /**
      * @var Reservation[]
      */
-    private $reservations;
+    private $reservations = [];
     
     
-    public function __construct()
+    
+    public function __construct($date, $reservations)
     {
-        $this->date         = new \Datetime();
-        $this->reservations = $this->get('app.reservation_manager')->getReservationsByDay($this->date);
+//        if(null === $date){
+//            $date = new \Datetime();
+//        }
+        $this->date         = $date;
+        $this->reservations = $reservations;
     }
     
     

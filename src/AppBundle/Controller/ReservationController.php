@@ -87,42 +87,9 @@ class ReservationController extends Controller
     
     }
     
-    /**
-     * Affiche le nombre de réservations d'une room sur un jour donné
-     *
-     * @param Room $room
-     * @param \DateTime $day
-     *
-     * @return int
-     */
-    public function displayNbReservationsByDayAction($room, $day)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $nbReservations = $entityManager->getRepository(Reservation::class)->getNbReservationsByRoomAndDay($room, $day);
-        
-        return $this->render(':render:nb_reservations.html.twig', array(
-            'day'   => $day,
-            'nbReservations'   => $nbReservations
-        ));
-    }
     
-    /**
-     * Affiche les réservations d'une room sur un jour donné
-     *
-     * @param Room $room
-     * @param \DateTime $day
-     * @param \DateTime $hour
-     *
-     */
-    public function displayReservationByRoomByDayByHourAction($room, $day, $hour)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $reservation = $entityManager->getRepository(Reservation::class)->getReservationByRoomByDayByHour($room, $day, $hour);
-        
-        return $this->render(':render:reservations_per_hour.html.twig', array(
-            'hour'   => $hour,
-            'reservation'   => $reservation
-        ));
-    }
+    
+    
+    
     
 }

@@ -21,33 +21,37 @@
             </li>
             {% endfor %}
         </ul>
-
-        <!-- Permet l'affichage du planning de chaque salle -->
+        
+        {# Permet l'affichage du planning de chaque salle #}
         <div class="tab-content">
             {% for room in rooms %}
                 <div id="menu{{ loop.index }}" class="container tab-pane {% if loop.index == 1 %} active {% endif %}">
-                    <br><h4>{{ room.name }}</h4>
+                    <br>
+                    <h4>{{ room.name }}</h4>
                     {{ include("include/_calendar.html.twig") }}
                 </div>
             {% endfor %}
         </div>
-    </div>              
+    </div>
+    
+    {{ include("include/_modal_day.html.twig") }}
+    
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $('#exampleModal').on('show.bs.modal', function (event) {
+        $('#dayModal').on('show.bs.modal', function (event) {
             // On récupère le bouton qui a déclenché la modal
-            var button = $(event.relatedTarget)
-            // Extrait des informations de l'attribut data-day
-            var day = button.data('day')
+            var button = $(event.relatedTarget);
+            // Extrait des informations de l'attribut data-day et data-room
+            var day     = button.data('day');
+            var room    = button.data('room');
             // Si nécessaire, on peut lancer une requête AJAX ici (puis effectuer la mise à jour dans un callback).
-			// On met à jour le contenu de la modal avec JQuery 
-			// Mais on peut utiliser une bibliothèque de liaison de données ou d'autres méthodes à la place.
-            var modal = $(this)
-            modal.find('.modal-title').text('Journée du ' + day)
-            modal.find('.modal-body input').val(day)
-          })
+            // On met à jour le contenu de la modal avec JQuery 
+            // Mais on peut utiliser une bibliothèque de liaison de données ou d'autres méthodes à la place.
+            var modal = $(this);
+            modal.find('.modal-title').text('Journée du ' + day + ' - ' + room);
+        });
     </script>
 {% endblock %}

@@ -149,7 +149,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
      *
      * @param \DateTime $day
      *
-     * @return int
+     * @return Reservation[]
      */
     public function getReservationsByDay($day)
     {

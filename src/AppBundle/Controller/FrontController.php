@@ -65,5 +65,4 @@ class FrontController extends Controller
         ]);
     }
     
-    
 }

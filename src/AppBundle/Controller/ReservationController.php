@@ -9,7 +9,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use AppBundle\Entity\Reservation;
-use AppBundle\Entity\Room;
 use AppBundle\Form\ReservationType;
 
 class ReservationController extends Controller
@@ -86,10 +85,5 @@ class ReservationController extends Controller
         ));
     
     }
-    
-    
-    
-    
-    
-    
+
 }

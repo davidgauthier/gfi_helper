@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Détails des réservations
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    	<br>
+        <h3>{{ room.name ~ ' - ' ~ day|date('l d/m/Y')}}</h3>
+
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered table-hover table-light">
+                {% for hour in 8..17 %}
+        			{% for reservation in reservations %}
+        		        {% if reservation.timeBegin|date('H:i') == "%02d"|format(hour)~':00' %}
+                			<tr class="table-secondary">
+                    			<td>{{ "%02d"|format(hour) }}:00 - {{ "%02d"|format(hour) }}:30</td>
+            		    		<td>    
+            		                {{ reservation.user.username }}
+        		            	</td>
+    		            	</tr>
+    		    	    {% else %}
+    		    	    	<tr class="table-primary">
+            					<td>{{ "%02d"|format(hour) }}:00 - {{ "%02d"|format(hour) }}:30</td>
+    		    	    		<td></td>
+		    	    		</tr>
+        		        {% endif %}
+        		        {% if reservation.timeBegin|date('H:i') == "%02d"|format(hour)~':30' %}
+                			<tr class="table-secondary">
+                    			<td>{{ "%02d"|format(hour) }}:30 - {{ "%02d"|format(hour+1) }}:00</td>
+            		    		<td>    
+            		                {{ reservation.user.username }}
+        		            	</td>
+    		            	</tr>
+    		    	    {% else %}
+    		    	    	<tr class="table-primary">
+            					<td>{{ "%02d"|format(hour) }}:30 - {{ "%02d"|format(hour+1) }}:00</td>
+    		    	    		<td></td>
+		    	    		</tr>
+        		        {% endif %}
+        		    {% endfor %}
+
+                {% endfor %}
+    		</table>
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -64,7 +64,7 @@ class ReservationController extends Controller
         // Si l'a personne'utilisateur logguée n'est pas le user de la reservation
         if ($reservation->getUser() !== $this->getUser()) {
             $this->addFlash('error', 'Vous ne pouvez pas supprimer cette réservation.');
-            return $this->redirectToRoute('front_homepage');
+            return $this->redirectToRoute('front_myreservations');
         }
         
         // On crée un formulaire vide, qui ne contiendra que le champ CSRF
@@ -76,7 +76,7 @@ class ReservationController extends Controller
             $entityManager->flush();
 
             $this->addFlash('success', 'La réservation a bien été supprimée.');
-            return $this->redirectToRoute('front_homepage');
+            return $this->redirectToRoute('front_myreservations');
         }
 
         return $this->render(':reservation:delete.html.twig', array(

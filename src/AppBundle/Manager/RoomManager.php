@@ -15,6 +15,14 @@ class RoomManager extends AbstractDoctrineManager
         return $this->entityManager->getRepository(Room::class)->findOneById($id);
     }
     
+    /**
+     * @return Room
+     */
+    public function getRoomBySlug($slug)
+    {
+        return $this->entityManager->getRepository(Room::class)->findOneBySlug($slug);
+    }
+    
     
     /**
      * @return Room

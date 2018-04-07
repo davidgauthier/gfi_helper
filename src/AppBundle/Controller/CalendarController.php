@@ -16,7 +16,7 @@ class CalendarController extends Controller
      *
      * @Security("has_role('ROLE_USER')")
      */
-    public function reservationCalendarDayAction(Request $request, Int $roomId, \DateTime $day)
+    public function reservationCalendarDayAction(Request $request, $roomId, \DateTime $day)
     {
         $reservations = $this->get('app.reservation_manager')->getReservationsByRoomAndDay($roomId, $day);
         $entityManager = $this->getDoctrine()->getManager();

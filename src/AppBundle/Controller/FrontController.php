@@ -76,7 +76,7 @@ class FrontController extends Controller
         $room           = $this->get('app.room_manager')->getRoomBySlug($roomSlug);
         $reservations   = $this->get('app.reservation_manager')->getReservationsByRoomAndDay($room, $date);
         
-        return $this->render(':front:reservations_room_day.html.twig', [
+        return $this->render(':front:reservations_room_date.html.twig', [
             'room'          => $room,
             'reservations'  => $reservations,
             'date'          => $date

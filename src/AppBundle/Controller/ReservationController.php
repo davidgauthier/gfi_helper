@@ -9,13 +9,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use AppBundle\Entity\Reservation;
+use AppBundle\Entity\Room;
 use AppBundle\Form\ReservationType;
 
 class ReservationController extends Controller
 {
     
     /**
-     * @Route("/reservation/new", name="app_reservation_new")
+     * @Route("/reservation/new-blank", name="app_reservation_new_blank")
      * 
      * @Security("has_role('ROLE_USER')")
      */
@@ -40,7 +41,46 @@ class ReservationController extends Controller
             return $this->redirectToRoute('front_homepage');
         }
         
-        return $this->render(':reservation:new.html.twig', [
+        return $this->render(':reservation:new_blank.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    
+    
+    /**
+     * @Route("/reservation/new/{roomSlug}/{date}/{timeBegin}/{timeEnd}", name="app_reservation_new_prefilled")
+     * 
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function newFromRoomAndDateAction(Request $request, $roomSlug, \Datetime $date, \DateTime $timeBegin, \DateTime $timeEnd)
+    {
+        $room = $this->get('app.room_manager')->getRoomBySlug($roomSlug);
+        $reservation = new Reservation();
+        $reservation->setRoom($room);
+        $reservation->setDate($date);
+        $reservation->setTimeBegin($timeBegin);
+        $reservation->setTimeEnd($timeEnd);
+        
+        $form = $this->createForm(ReservationType::class, $reservation);
+        
+        // Nous associons les données soumises à notre form grâce à handleRequest(), 
+        // ce qui va mettre à jour également notre objet et le valider.
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $reservation = $form->getData();
+            
+            $reservation->setUser($this->getUser());
+            
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+            
+            $this->addFlash('success', 'Votre Réservation a été créée !');
+            return $this->redirectToRoute('front_homepage');
+        }
+        
+        return $this->render(':reservation:new_prefilled.html.twig', [
             'form' => $form->createView(),
         ]);
     }

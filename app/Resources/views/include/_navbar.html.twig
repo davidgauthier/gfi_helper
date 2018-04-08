@@ -19,9 +19,9 @@
             </li>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <li class="nav-item {% if app.request.get('_route') == 'app_reservation_new' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('app_reservation_new') }}">
+                    <a class="nav-link" href="{{ path('app_reservation_new_blank') }}">
                     	<i class="far fa-calendar-plus"></i> Réserver
-                    	{% if app.request.get('_route') == 'app_reservation_new' %}
+                    	{% if app.request.get('_route') == 'app_reservation_new_blank' %}
                             <span class="sr-only">(current)</span>
                         {% endif %}
                     </a>

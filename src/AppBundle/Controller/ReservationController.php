@@ -52,7 +52,7 @@ class ReservationController extends Controller
      * 
      * @Security("has_role('ROLE_USER')")
      */
-    public function newFromRoomAndDateAction(Request $request, $roomSlug, \Datetime $date, \DateTime $timeBegin, \DateTime $timeEnd)
+    public function newFromRoomAndDateAction(Request $request, $roomSlug, \DateTime $date, \DateTime $timeBegin, \DateTime $timeEnd)
     {
         $room = $this->get('app.room_manager')->getRoomBySlug($roomSlug);
         $reservation = new Reservation();

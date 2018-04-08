@@ -14,40 +14,40 @@
     <div class="container">
         
         <h2> Mes réservations</h2>
-        <br>
         
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-light table-hover">
-
-                <tr>
-                    <th rowspan="2">Nom ou Trigramme</th>
-                    <th rowspan="2">Salle</th>
-                    <th rowspan="2">Date</th>
-                    <th colspan="2">Heure</th>
-                    <th rowspan="2"  style="width: 11%"></th>
-                </tr>
-                <tr>
-                    <th>De</th>
-                    <th>Jusqu'à </th>
-                </tr>
-
-                {% for reservation in myReservations %}
+                <thead>
                     <tr>
-                        <td>{{ reservation.user.username }}</td>
-                        <td>{{ reservation.room.name }}</td>
-                        <td>{{ reservation.date|date('l d/m/Y') }}</td>
-                        <td>{{ reservation.timeBegin|date('H:i') }}</td>
-                        <td>{{ reservation.timeEnd|date('H:i') }}</td>
-                        <td>
-                            <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
-                                class="showOnHover badge badge-danger">
-                                <i class="far fa-calendar-times"></i> Supprimer
-                            </a>
-                        </td>
+                        <th rowspan="2">Nom ou Trigramme</th>
+                        <th rowspan="2">Salle</th>
+                        <th rowspan="2">Date</th>
+                        <th colspan="2">Heure</th>
+                        <th rowspan="2"  style="width: 11%"></th>
                     </tr>
-                {% endfor %}
-
-              </table>
+                    <tr>
+                        <th>De</th>
+                        <th>Jusqu'à </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in myReservations %}
+                        <tr>
+                            <td>{{ reservation.user.username }}</td>
+                            <td>{{ reservation.room.name }}</td>
+                            <td>{{ reservation.date|date('l d/m/Y') }}</td>
+                            <td>{{ reservation.timeBegin|date('H:i') }}</td>
+                            <td>{{ reservation.timeEnd|date('H:i') }}</td>
+                            <td>
+                                <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
+                                    class="showOnHover badge badge-danger">
+                                    <i class="far fa-calendar-times"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                <tbody>
+            </table>
         </div>
                 
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

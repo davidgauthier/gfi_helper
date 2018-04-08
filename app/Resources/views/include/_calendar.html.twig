@@ -33,12 +33,20 @@
             {# date du jour > à la date actuelle #}
             {% set c4 = (day.date|date('Y-m-d') >= "now"|date('Y-m-d')) %}
             {% if c1 and c2 and c3 and c4 %}
-{#                 {% if day.reservations|length > 0 %}#}
-                    <a href="{{ path('front_reservations_room_day', {'roomSlug': room.slug, 'day': day.date|date('Y-m-d')})}}" class="badge badge-light"
-                        title="{{ day.reservations|length }} réservations">
-                        {{ day.reservations|length }} réservation(s)
+                   {% set nbResas = day.reservations|length %}
+                    <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')})}}"
+                        class="badge {% if nbResas > 10 %}
+                                        badge-danger
+                                    {% elseif nbResas > 5 %}
+                                        badge-warning
+                                    {% elseif nbResas > 2 %}
+                                        badge-info
+                                    {% else %}
+                                        badge-light
+                                    {% endif %}"
+                        title="{{ nbResas }} réservations">
+                        {{ nbResas }} réservation(s)
                     </a>
-{#                 {% endif %}#}
             {% endif %}
         </div>
         {% if loop.index % 7 == 0 %}

@@ -1,47 +1,134 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - {{room.name}} : Réservations du {{ day|date('d/m/Y')}}
+    {{ parent() }} - {{room.name}} : Réservations du {{ date|date('d/m/Y')}}
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
+    <link href="{{ asset('public/css/style_table_links_hover.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}
     <div class="container">
     	
-        <h3>{{room.name}} : Réservations du {{ day|date('d/m/Y')}}</h3>
-
+        <h2>{{room.name}} : Réservations du {{ date|date('d/m/Y')}}</h2>
+        
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-hover table-light">
-                {% for hour in 8..17 %}
+                
+                <tr>
+                    <th>Créneau</th>
+                    <th style="width: 45%">Utilisateur</th>
+                </tr>
+
+                {# compteur de reservation pour permetre l'alternance des couleurs #}
+                {% set compteur = 0 %}
+                {# variable pour comparaison resas => l'alternance des couleurs #}
+                {% set tempResa = false %}
+                {% set creneaux = ["08:00 - 08:30", "08:30 - 09:00",
+                                    "09:00 - 09:30", "09:30 - 10:00",
+                                    "10:00 - 10:30", "10:30 - 11:00",
+                                    "11:00 - 11:30", "11:30 - 12:00",
+                                    "12:00 - 12:30", "12:30 - 13:00",
+                                    "13:00 - 13:30", "13:30 - 14:00",
+                                    "14:00 - 14:30", "14:30 - 15:00",
+                                    "15:00 - 15:30", "15:30 - 16:00",
+                                    "16:00 - 16:30", "16:30 - 17:00",
+                                    "17:00 - 17:30", "17:30 - 18:00",
+                                    "18:00 - 18:30", "18:30 - 19:00",] %}
+                
+                
+                {% for creneau in creneaux %}
+                    
+                    {% set resa     = false %}
+                    {% set break    = false %}
+                    
+                    {# {{ '12345'|slice(1, 2) }} : outputs '23'#}
+                    {% set creneauBegin = creneau|slice(0, 5) %}
+                    {% set creneauEnd   = creneau|slice(8, 5) %}
+                    
+                    {% for reservation in reservations if not break %}
+                        
+                        {% set c01 = creneauBegin   == reservation.timeBegin|date('H:i') %}
+                        {% set c02 = creneauEnd     == reservation.timeBegin|date('H:i') %}
+                        {% set c03 = creneauBegin   == reservation.timeEnd|date('H:i') %}
+                        {% set c04 = creneauEnd     == reservation.timeEnd|date('H:i') %}
+                        
+                        {% set c05 = creneauBegin   < reservation.timeBegin|date('H:i') %}
+                        {% set c06 = creneauEnd     < reservation.timeBegin|date('H:i') %}
+                        {% set c07 = creneauBegin   < reservation.timeEnd|date('H:i') %}
+                        {% set c08 = creneauEnd     < reservation.timeEnd|date('H:i') %}
+                        
+                        {% set c09 = creneauBegin   > reservation.timeBegin|date('H:i') %}
+                        {% set c10 = creneauEnd     > reservation.timeBegin|date('H:i') %}
+                        {% set c11 = creneauBegin   > reservation.timeEnd|date('H:i') %}
+                        {% set c12 = creneauEnd     > reservation.timeEnd|date('H:i') %}
+                        
+                        {% if (c09 and c07 and c10 and c04) or (c01 and c07 and c10 and c08)
+                            or (c01 and c07 and c10 and c04) or (c09 and c07 and c10 and c08) %}
+                            
+                            {% set resa     = reservation %}
+                            {% set break    = true %}
+                            
+                        {% endif %}
+                        
+                    {% endfor %}
+                    
+                    {# S'il y à une reservation dans ce 'créneau' #}
+                    {% if resa %}
+                        
+                        {% if tempResa != resa %}
+                            {% set compteur = compteur + 1 %}
+                            {% set tempResa = resa %}
+                        {% endif %}
+                        
+                        <tr class="{% if compteur is odd %}table-info{% else %}table-secondary{% endif %}">
+                            <td>{{ creneau }}</td>
+                            <td>{{ resa.user.username }}</td>
+                        </tr>
+                    
+                    {# Sinon, ce 'créneau' est "réservable" #}
+                    {% else %}
+                        <tr>
+                            <td>{{ creneau }}</td>
+                            <td>
+                                <a href="{{ path('app_reservation_new') }}" class="showOnHover badge badge-primary">
+                                    Réserver
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                        
+                {% endfor %}
+                
+                {#{% for hour in 8..17 %}
                     
                     {% for reservation in reservations %}
                         
                         {% if reservation.timeBegin|date('H:i') == "%02d"|format(hour)~':00' %}
-                            <tr>
+                            <tr class="table-primary">
                                 <td>{{ "%02d"|format(hour) }}:00 - {{ "%02d"|format(hour) }}:30</td>
                                 <td>    
                                     {{ reservation.user.username }}
                                 </td>
                             </tr>
                         {% else %}
-                            <tr class="table-primary">
+                            <tr>
                                 <td>{{ "%02d"|format(hour) }}:00 - {{ "%02d"|format(hour) }}:30</td>
                                 <td></td>
                             </tr>
                         {% endif %}
         		
                         {% if reservation.timeBegin|date('H:i') == "%02d"|format(hour)~':30' %}
-                            <tr>
+                            <tr class="table-primary">
                                 <td>{{ "%02d"|format(hour) }}:30 - {{ "%02d"|format(hour+1) }}:00</td>
                                 <td>    
                                     {{ reservation.user.username }}
                                 </td>
                             </tr>
                         {% else %}
-                            <tr class="table-primary">
+                            <tr>
                                 <td>{{ "%02d"|format(hour) }}:30 - {{ "%02d"|format(hour+1) }}:00</td>
     		    	    	<td></td>
 		    	    </tr>
@@ -49,7 +136,7 @@
                         
                     {% endfor %}
 
-                {% endfor %}
+                {% endfor %}#}
             </table>
         </div>
     </div>

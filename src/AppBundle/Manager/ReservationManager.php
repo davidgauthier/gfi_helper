@@ -60,6 +60,16 @@ class ReservationManager extends AbstractDoctrineManager
         return $this->entityManager->getRepository(Reservation::class)->getReservationsByUser($user);
     }
     
+    /**
+     * @param User $user
+     * 
+     * @return Reservation[]
+     */
+    public function getFutureReservationsByUser($user)
+    {
+        return $this->entityManager->getRepository(Reservation::class)->getFutureReservationsByUser($user);
+    }
+    
 
 
     /**

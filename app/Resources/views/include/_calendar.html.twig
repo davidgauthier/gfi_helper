@@ -1,7 +1,4 @@
 <header>
-    <p class="display-5 text-center">
-        Aujourd'hui - {{ "now"|date('l d/m/Y') }} - Semaine {{ "now"|date('W') }}
-    </p>
     <div class="row d-none d-sm-flex p-2 bg-dark text-white">
         <h5 class="col-sm p-2 text-center">Lundi</h5>
         <h5 class="col-sm p-2 text-center">Mardi</h5>
@@ -14,7 +11,7 @@
 </header>
 
 <div class="row border border-right-0 border-bottom-0">
-    {% for day in days %}
+    {% for day in room.days %}
         <div class="day col-sm p-2 border border-left-0 border-top-0 text-truncate 
         {% if (day.date|date('m')!="now"|date('m')) or ("now"|date('Y-m-d')>day.date|date('Y-m-d')) %} d-none d-sm-inline-block bg-light text-muted {% endif %}">
             <h5 class="row align-items-center">

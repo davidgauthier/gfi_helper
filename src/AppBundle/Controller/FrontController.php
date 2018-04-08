@@ -24,7 +24,7 @@ class FrontController extends Controller
         $reservationManager = $this->get('app.reservation_manager');
         
         $rooms          = $this->getDoctrine()->getRepository(Room::class)->findAll();
-        $reservations   = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
+//        $reservations   = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
 
         // Nous avons besoin du lundi précédent le mois actuel et du dimanche suivant
         // le mois actuel. pour ensuite récupérer les jours entre ces deux dates.
@@ -36,18 +36,25 @@ class FrontController extends Controller
                 $interval,
                 $lastDayWeekAfterCurrentMonth->modify('+1 day')); // ->modify('+1 day') : Pour inclure le dernier jour de l'interval
         
-        // Nous allons créer et remplir notre tableau des jours à afficher
-        $days = [];
-        foreach ($period as $dt) {
-            $reservationsDuJour = $reservationManager->getReservationsByDay($dt);
-            $days[]        = new Day($dt, $reservationsDuJour);
+        
+        foreach ($rooms as $room){
+        
+            // Nous allons créer et remplir notre tableau des jours à afficher
+            $days = [];
+            foreach ($period as $dt){
+                $reservationsDuJour = $reservationManager->getReservationsByRoomAndDay($room, $dt);
+                $days[] = new Day($dt, $reservationsDuJour);
+            }
+            
+            $room->setDays($days);
         }
         
         return $this->render('front/index.html.twig', [
             'rooms'         => $rooms,
-            'reservations'  => $reservations,
-            'days'          => $days,
+//            'reservations'  => $reservations,
+//            'days'          => $days,
         ]);
+        
     }
     
     
@@ -58,7 +65,7 @@ class FrontController extends Controller
      */
     public function myReservationsAction(Request $request)
     {
-        $myReservations = $this->get('app.reservation_manager')->getReservationsByUser($this->getUser());
+        $myReservations = $this->get('app.reservation_manager')->getFutureReservationsByUser($this->getUser());
         
         return $this->render(':front:my_reservations.html.twig', [
             'myReservations' => $myReservations,
@@ -68,8 +75,6 @@ class FrontController extends Controller
     
     /**
      * @Route("/room/{roomSlug}/{date}", name="front_reservations_room_date")
-     *
-     * @Security("has_role('ROLE_USER')")
      */
     public function reservationsByRoomAndDateAction(Request $request, $roomSlug, \DateTime $date)
     {

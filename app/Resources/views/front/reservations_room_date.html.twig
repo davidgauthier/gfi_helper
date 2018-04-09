@@ -93,7 +93,8 @@
                         <tr>
                             <td>{{ creneau }}</td>
                             <td>
-                                <a href="{{ path('app_reservation_new') }}" class="showOnHover badge badge-primary">
+                                <a href="{{ path('app_reservation_new_prefilled', {'roomSlug': room.slug, 'date': date|date('Y-m-d'), 'timeBegin': creneauBegin, 'timeEnd': creneauEnd }) }}"
+                                    class="showOnHover badge badge-primary">
                                     Réserver
                                 </a>
                             </td>

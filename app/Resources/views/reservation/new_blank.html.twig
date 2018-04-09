@@ -7,7 +7,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css" />
-{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />#}
 {% endblock %}
 
 
@@ -30,8 +29,9 @@
 
                 {{ form_errors(form) }}
                 {{ form_row(form.room) }}
-{#                     {{ form_row(form.dateBegin) }}#}
-{#                     {{ form_row(form.dateEnd) }}#}
+                {{ form_row(form.date) }}
+                {{ form_row(form.timeBegin) }}
+                {{ form_row(form.timeEnd) }}
 
 
                 {#<div class="form-group">
@@ -125,7 +125,8 @@
             $(function () {
                 $('#appbundle_reservation_date').datetimepicker({
                     locale: '{{ app.request.locale }}',
-                    format: 'L'
+                    format: 'L',
+                    daysOfWeekDisabled: [0, 6]
                 });
             });
             $(function () {
@@ -146,6 +147,19 @@
             });
         </script>
         
+        
+        
+        
+        
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var auj     = moment().format('DD/MM/YYYY');
+                var heure   = moment().format('HH:00');
+                $('#appbundle_reservation_date').val(auj);
+                $('#appbundle_reservation_timeBegin').val(heure);
+                $('#appbundle_reservation_timeEnd').val(heure);
+            });
+        </script>
         
         
         

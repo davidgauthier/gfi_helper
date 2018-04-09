@@ -39,7 +39,8 @@
                         <td>{{ reservation.timeBegin|date('H:i') }}</td>
                         <td>{{ reservation.timeEnd|date('H:i') }}</td>
                         <td>
-                            <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}" class="showOnHover badge badge-danger">
+                            <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
+                                class="showOnHover badge badge-danger">
                                 <i class="far fa-calendar-times"></i> Supprimer
                             </a>
                         </td>

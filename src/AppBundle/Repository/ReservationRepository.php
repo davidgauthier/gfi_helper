@@ -82,7 +82,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('id_user', $user->getId())
             ->andWhere('r.date >= :day')
             ->setParameter('day', $day)
-            ->orderBy('r.date', 'DESC')
+            ->orderBy('r.date', 'ASC')
             ->getQuery()
             ->getResult();
     }

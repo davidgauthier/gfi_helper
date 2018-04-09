@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use AppBundle\Utils\Day;
+
+
 /**
  * Room
  *
@@ -42,6 +45,8 @@ class Room
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+    
+    private $days;
 
 
     /**
@@ -124,6 +129,28 @@ class Room
     public function getDescription()
     {
         return $this->description;
+    }
+    
+    /**
+     * Set days
+     *
+     * @return Room
+     */
+    public function setDays($days)
+    {
+        $this->days = $days;
+        
+        return $this;
+    }
+    
+    /**
+     * Get days
+     *
+     * @return Day[]
+     */
+    public function getDays()
+    {
+        return $this->days;
     }
 }
 

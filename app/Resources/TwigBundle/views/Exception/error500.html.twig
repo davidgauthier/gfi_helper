@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Error 500
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ status_code }} {{ status_text }}</h1>
+        <h2>Oula ! C'est grave.. <a href="mailto:logan.leroy@gfi.fr">Contacter l'adminitstrateur par mail</a></h2>
+        <p>
+            Il est important que vous nous donniez les circonstances dans lesquelles vous
+            étiez vis-à-vis de l'application pour que nous puissions déceler l'origine du dysfonctionnement.
+            D'avance, merci.
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

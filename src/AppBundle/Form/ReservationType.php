@@ -23,30 +23,43 @@ class ReservationType extends AbstractType
                 'class'         => 'AppBundle\Entity\Room',
                 'choice_label'  => 'name',
             ])
-            ->add('dateBegin', DateTimeType::class, [
+            ->add('date', DateTimeType::class, [
                 'required'      => true,
                 'html5'         => false,
                 'widget'        => 'single_text',
                 'input'         => 'datetime',
-                'format'        => 'dd/MM/yyyy HH:mm',
+                'format'        => 'dd/MM/yyyy',
                 'with_seconds'  => false,
                 'attr'          => [
                     'class'         => 'form-control input-inline datetimepicker-input',
                     'data-toggle'   => 'datetimepicker',
-                    "data-target"   => '#appbundle_reservation_dateBegin',
+                    "data-target"   => '#appbundle_reservation_date',
                 ],
             ])
-            ->add('dateEnd', DateTimeType::class, [
+            ->add('timeBegin', DateTimeType::class, [
                 'required'      => true,
                 'html5'         => false,
                 'widget'        => 'single_text',
                 'input'         => 'datetime',
-                'format'        => 'dd/MM/yyyy HH:mm',
+                'format'        => 'HH:mm',
                 'with_seconds'  => false,
                 'attr'          => [
                     'class'         => 'form-control input-inline datetimepicker-input',
                     'data-toggle'   => 'datetimepicker',
-                    "data-target"   => '#appbundle_reservation_dateEnd',
+                    "data-target"   => '#appbundle_reservation_timeBegin',
+                ],
+            ])
+            ->add('timeEnd', DateTimeType::class, [
+                'required'      => true,
+                'html5'         => false,
+                'widget'        => 'single_text',
+                'input'         => 'datetime',
+                'format'        => 'HH:mm',
+                'with_seconds'  => false,
+                'attr'          => [
+                    'class'         => 'form-control input-inline datetimepicker-input',
+                    'data-toggle'   => 'datetimepicker',
+                    "data-target"   => '#appbundle_reservation_timeEnd',
                 ],
             ])
         ;

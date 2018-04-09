@@ -29,14 +29,24 @@ class ReservationManager extends AbstractDoctrineManager
     }
     
     /**
-     * @param Room $room
+     * @param Int $roomId
      * @param \DateTime $day
      * 
      * @return Reservation[]
      */
-    public function getReservationsByRoomAndDay($room, $day)
+    public function getReservationsByRoomAndDay($roomId, $day)
     {
-        return $this->entityManager->getRepository(Reservation::class)->getReservationsByRoomAndDay($room, $day);
+        return $this->entityManager->getRepository(Reservation::class)->getReservationsByRoomAndDay($roomId, $day);
+    }
+    
+    /**
+     * @param \DateTime $day
+     * 
+     * @return Reservation[]
+     */
+    public function getReservationsByDay($day)
+    {
+        return $this->entityManager->getRepository(Reservation::class)->getReservationsByDay($day);
     }
     
     

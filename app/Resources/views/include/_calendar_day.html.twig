@@ -1,0 +1,11 @@
+    <div class="container">
+    
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered table-hover table-light">
+                {% for hour in 8..17 %}
+                    {{ render(controller("AppBundle:Reservation:displayReservationByRoomByDayByHour", { 'room': room, 'day': day, 'hour': hour })) }}
+                {% endfor %}
+    		</table>
+        </div>
+    
+    </div>

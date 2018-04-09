@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Gedmo\Mapping\Annotation as Gedmo;
+
 /**
  * Room
  *
@@ -27,6 +29,12 @@ class Room
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
+    
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
 
     /**
      * @var string
@@ -69,7 +77,31 @@ class Room
     {
         return $this->name;
     }
+    
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Room
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
 
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+    
     /**
      * Set description
      *

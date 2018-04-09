@@ -65,4 +65,23 @@ class FrontController extends Controller
         ]);
     }
     
+    
+    /**
+     * @Route("/room/{roomSlug}/{date}", name="front_reservations_room_date")
+     *
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function reservationsByRoomAndDateAction(Request $request, $roomSlug, \DateTime $date)
+    {
+        $room           = $this->get('app.room_manager')->getRoomBySlug($roomSlug);
+        $reservations   = $this->get('app.reservation_manager')->getReservationsByRoomAndDay($room, $date);
+        
+        return $this->render(':front:reservations_room_day.html.twig', [
+            'room'          => $room,
+            'reservations'  => $reservations,
+            'date'          => $date
+        ]);
+    }
+    
+    
 }

@@ -5,50 +5,61 @@
         <h5 class="col-sm p-2 text-center">Mercredi</h5>
         <h5 class="col-sm p-2 text-center">Jeudi</h5>
         <h5 class="col-sm p-2 text-center">Vendredi</h5>
-        <h5 class="col-sm p-2 text-center">Samedi</h5>
-        <h5 class="col-sm p-2 text-center">Dimanche</h5>
+        <h5 class="col-sm p-2 text-center weekend">Samedi</h5>
+        <h5 class="col-sm p-2 text-center weekend">Dimanche</h5>
     </div>
 </header>
 
-<div class="row border border-right-0 border-bottom-0">
+<div id="div_calendar" class="row border border-right-0 border-bottom-0">
     {% for day in room.days %}
-        <div class="day col-sm p-2 border border-left-0 border-top-0 text-truncate 
-        {% if (day.date|date('m')!="now"|date('m')) or ("now"|date('Y-m-d')>day.date|date('Y-m-d')) %} d-none d-sm-inline-block bg-light text-muted {% endif %}">
+        
+        {% set nbResas = day.reservations|length %}
+        
+        {# mois de la date du jour == mois actuel #}
+        {% set c1 = (day.date|date('m') == "now"|date('m')) %}
+        {# date du jour != dimanche #}
+        {% set c2 = (day.date|date('w') != 0) %}
+        {# date du jour != samedi #}
+        {% set c3 = (day.date|date('w') != 6) %}
+        {# date du jour > à la date actuelle #}
+        {% set c4 = (day.date|date('Y-m-d') >= "now"|date('Y-m-d')) %}
+
+        <div class="day col-sm p-2 border border-left-0 border-top-0 text-truncate {% if (day.date|date('w') == 0) or (day.date|date('w') == 6) %} weekend {% endif %}
+            {% if (day.date|date('m')!="now"|date('m')) or ("now"|date('Y-m-d')>day.date|date('Y-m-d')) %}
+                d-none d-sm-inline-block bg-light text-muted
+            {% endif %}">
             <h5 class="row align-items-center">
                 <span class="date col-1">{{ day.date|date('d') }}</span>
                 <small class="col d-sm-none text-center text-muted">{{ day.date|date('D') }}</small>
                 <span class="col-1"></span>
-            </h5>
-            <p class="d-sm-none">No events</p>
-            
-            {# mois de la date du jour == mois actuel #}
-            {% set c1 = (day.date|date('m') == "now"|date('m')) %}
-            {# date du jour != dimanche #}
-            {% set c2 = (day.date|date('w') != 0) %}
-            {# date du jour != samedi #}
-            {% set c3 = (day.date|date('w') != 6) %}
-            {# date du jour > à la date actuelle #}
-            {% set c4 = (day.date|date('Y-m-d') >= "now"|date('Y-m-d')) %}
-            {% if c1 and c2 and c3 and c4 %}
-                   {% set nbResas = day.reservations|length %}
+                {% if c1 and c2 and c3 and c4 %}
                     <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')})}}"
-                        class="badge {% if nbResas >= 10 %}
-                                        badge-danger
-                                    {% elseif nbResas >= 5 %}
-                                        badge-warning
-                                    {% elseif nbResas >= 2 %}
-                                        badge-info
-                                    {% else %}
-                                        badge-light
-                                    {% endif %}"
+                        class="badge link_reservations_room_date_icon
+                        {% if nbResas >= 10 %} badge-danger
+                        {% elseif nbResas >= 5 %} badge-warning
+                        {% elseif nbResas >= 2 %} badge-info
+                        {% else %} badge-light {% endif %}"
                         title="{{ nbResas }} réservations">
-                        {{ nbResas }} réservation(s)
+                        <span class="span_link_icon float-right">{{ nbResas }} <i class="fas fa-clipboard-list"></i></span>
                     </a>
+                {% endif %}
+            </h5>
+            <p class="d-sm-none">{{ nbResas }} réservation(s)</p>
+            
+            {% if c1 and c2 and c3 and c4 %}
+                <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')})}}"
+                    class="badge link_reservations_room_date
+                    {% if nbResas >= 10 %} badge-danger
+                    {% elseif nbResas >= 5 %} badge-warning
+                    {% elseif nbResas >= 2 %} badge-info
+                    {% else %} badge-light {% endif %}"
+                    title="{{ nbResas }} réservations">
+                    <span>{{ nbResas }} réservation(s)</span>
+                </a>
             {% endif %}
         </div>
-        {% if loop.index % 7 == 0 %}
-            <div class="w-100"></div>
-        {% endif %}
+        
+        <div class="break_after_day"{#class="w-100"#}></div>
         
     {% endfor %}
     

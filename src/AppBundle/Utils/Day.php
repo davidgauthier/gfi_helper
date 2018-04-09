@@ -26,7 +26,7 @@ class Day
     public function __construct($date, $reservations)
     {
 //        if(null === $date){
-//            $date = new \Datetime();
+//            $date = new \DateTime();
 //        }
         $this->date         = $date;
         $this->reservations = $reservations;

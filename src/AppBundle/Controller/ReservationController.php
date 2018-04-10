@@ -20,7 +20,7 @@ class ReservationController extends Controller
      * 
      * @Security("has_role('ROLE_USER')")
      */
-    public function newAction(Request $request)
+    public function newBlankAction(Request $request)
     {
         $form = $this->createForm(ReservationType::class, new Reservation());
         
@@ -52,7 +52,7 @@ class ReservationController extends Controller
      * 
      * @Security("has_role('ROLE_USER')")
      */
-    public function newFromRoomAndDateAction(Request $request, $roomSlug, \DateTime $date, \DateTime $timeBegin, \DateTime $timeEnd)
+    public function newPrefilledAction(Request $request, $roomSlug, \DateTime $date, \DateTime $timeBegin, \DateTime $timeEnd)
     {
         $room = $this->get('app.room_manager')->getRoomBySlug($roomSlug);
         $reservation = new Reservation();

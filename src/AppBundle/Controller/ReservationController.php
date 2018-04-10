@@ -9,17 +9,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use AppBundle\Entity\Reservation;
+use AppBundle\Entity\Room;
 use AppBundle\Form\ReservationType;
 
 class ReservationController extends Controller
 {
     
     /**
-     * @Route("/reservation/new", name="app_reservation_new")
+     * @Route("/reservation/new-blank", name="app_reservation_new_blank")
      * 
      * @Security("has_role('ROLE_USER')")
      */
-    public function newAction(Request $request)
+    public function newBlankAction(Request $request)
     {
         $form = $this->createForm(ReservationType::class, new Reservation());
         
@@ -40,10 +41,52 @@ class ReservationController extends Controller
             return $this->redirectToRoute('front_homepage');
         }
         
-        return $this->render(':reservation:new.html.twig', [
+        return $this->render(':reservation:new_blank.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+    
+    
+    /**
+     * @Route("/reservation/new/{roomSlug}/{date}/{timeBegin}/{timeEnd}", name="app_reservation_new_prefilled")
+     * 
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function newPrefilledAction(Request $request, $roomSlug, \DateTime $date, \DateTime $timeBegin, \DateTime $timeEnd)
+    {
+        $room = $this->get('app.room_manager')->getRoomBySlug($roomSlug);
+        $reservation = new Reservation();
+        $reservation->setRoom($room);
+        $reservation->setDate($date);
+        $reservation->setTimeBegin($timeBegin);
+        $reservation->setTimeEnd($timeEnd);
+        
+        $form = $this->createForm(ReservationType::class, $reservation);
+        
+        // Nous associons les données soumises à notre form grâce à handleRequest(), 
+        // ce qui va mettre à jour également notre objet et le valider.
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $reservation = $form->getData();
+            
+            $reservation->setUser($this->getUser());
+            
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+            
+            $this->addFlash('success', 'Votre Réservation a été créée !');
+            return $this->redirectToRoute('front_homepage');
+        }
+        
+        return $this->render(':reservation:new_prefilled.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    
+    
+    
     
     
     /**
@@ -64,7 +107,7 @@ class ReservationController extends Controller
         // Si l'a personne'utilisateur logguée n'est pas le user de la reservation
         if ($reservation->getUser() !== $this->getUser()) {
             $this->addFlash('error', 'Vous ne pouvez pas supprimer cette réservation.');
-            return $this->redirectToRoute('front_homepage');
+            return $this->redirectToRoute('front_myreservations');
         }
         
         // On crée un formulaire vide, qui ne contiendra que le champ CSRF
@@ -76,7 +119,7 @@ class ReservationController extends Controller
             $entityManager->flush();
 
             $this->addFlash('success', 'La réservation a bien été supprimée.');
-            return $this->redirectToRoute('front_homepage');
+            return $this->redirectToRoute('front_myreservations');
         }
 
         return $this->render(':reservation:delete.html.twig', array(

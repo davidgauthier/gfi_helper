@@ -7,15 +7,53 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('public/css/style_calendar.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/css/style_table_links_hover.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}  
     <div class="container">
-        <h1 class="display-4"> Mes réservations</h1><br>
-        {{ include("include/_table_reservations.html.twig") }}
+        
+        <h2> Mes réservations</h2>
+        
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered table-light table-hover">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Nom ou Trigramme</th>
+                        <th rowspan="2">Salle</th>
+                        <th rowspan="2">Date</th>
+                        <th colspan="2">Heure</th>
+                        <th rowspan="2"  style="width: 11%"></th>
+                    </tr>
+                    <tr>
+                        <th>De</th>
+                        <th>Jusqu'à </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in myReservations %}
+                        <tr>
+                            <td>{{ reservation.user.username }}</td>
+                            <td>{{ reservation.room.name }}</td>
+                            <td>{{ reservation.date|date('l d/m/Y') }}</td>
+                            <td>{{ reservation.timeBegin|date('H:i') }}</td>
+                            <td>{{ reservation.timeEnd|date('H:i') }}</td>
+                            <td>
+                                <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
+                                    class="showOnHover badge badge-danger">
+                                    <i class="far fa-calendar-times"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                <tbody>
+            </table>
+        </div>
+                
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <p><a class="btn btn-primary btn-lg" href="{{ path('app_reservation_new') }}" role="button">Reserver &raquo;</a></p>
+            <p><a class="btn btn-primary btn-lg" href="{{ path('app_reservation_new_blank') }}" role="button">Reserver &raquo;</a></p>
         {% endif %}
+        
     </div>
 {% endblock %}
             

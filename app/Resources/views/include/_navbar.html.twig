@@ -11,22 +11,31 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {% if app.request.get('_route') == 'front_homepage' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('front_homepage') }}">
-                	<i class="far fa-calendar-alt"></i> Planning
-                	{% if app.request.get('_route') == 'front_homepage' %}
-                		<span class="sr-only">(current)</span>
-            		{% endif %}
+                    <i class="far fa-calendar-alt"></i> Planning
+                    {% if app.request.get('_route') == 'front_homepage' %}
+                            <span class="sr-only">(current)</span>
+                    {% endif %}
                 </a>
             </li>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+{#            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}#}
+                <li class="nav-item {% if app.request.get('_route') == 'app_reservation_new_blank' or
+                                        app.request.get('_route') == 'app_reservation_new_prefilled' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('app_reservation_new_blank') }}">
+                    	<i class="far fa-calendar-plus"></i> Réserver
+                    	{% if app.request.get('_route') == 'app_reservation_new_blank' %}
+                            <span class="sr-only">(current)</span>
+                        {% endif %}
+                    </a>
+                </li>
                 <li class="nav-item {% if app.request.get('_route') == 'front_myreservations' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('front_myreservations') }}">
                     	<i class="fas fa-clipboard-list"></i> Mes réservations
                     	{% if app.request.get('_route') == 'front_myreservations' %}
-                    		<span class="sr-only">(current)</span>
-                		{% endif %}
+                            <span class="sr-only">(current)</span>
+                        {% endif %}
                     </a>
                 </li>
-            {% endif %}
+{#            {% endif %}#}
         </ul>
         
         {#<form class="form-inline my-2 my-lg-0">

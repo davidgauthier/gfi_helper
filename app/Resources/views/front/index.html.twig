@@ -11,9 +11,11 @@
 
 {% block content %}
     <div class="container">
-        <h2>Salles de réunion</h2>
-        <br>
-        <!-- Permet l'affichage des différentes salles -->
+        <h3 class="text-center">
+            <i class="far fa-clock"></i> <span id="span_date"></span> - S{{ "now"|date('W') }}
+        </h3>
+        
+        {# Permet l'affichage des différentes salles #}
         <ul class="nav nav-tabs" role="tablist">
             {% for room in rooms %}
             <li class="nav-item">
@@ -27,7 +29,6 @@
             {% for room in rooms %}
                 <div id="menu{{ loop.index }}" class="container tab-pane {% if loop.index == 1 %} active {% endif %}">
                     <br>
-                    <h4>{{ room.name }}</h4>
                     {{ include("include/_calendar.html.twig") }}
                 </div>
             {% endfor %}
@@ -37,4 +38,17 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            setInterval(function() {
+                $('#span_date').html(
+                    moment().format('DD/MM/YYYY - HH:mm:ss')
+                );
+            }, 100);
+
+        });
+    </script>
 {% endblock %}

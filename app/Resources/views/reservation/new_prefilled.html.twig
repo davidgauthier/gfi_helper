@@ -57,41 +57,52 @@
     
     <script type="text/javascript">
         $(function () {
-            $('#appbundle_reservation_date').datetimepicker({
+            var dateformat      = 'DD/MM/YYYY';
+            var timeformat      = 'HH:mm';
+            var datePicker      = $('#appbundle_reservation_date');
+            var timeBeginPicker = $('#appbundle_reservation_timeBegin');
+            var timeEndPicker 	= $('#appbundle_reservation_timeEnd');
+            var date            = moment(datePicker.val(), dateformat).toDate();
+            var timeBegin       = moment(timeBeginPicker.val(), timeformat).toDate();
+            var timeEnd         = moment(timeEndPicker.val(), timeformat).toDate();
+            
+            datePicker.datetimepicker({
                 locale: '{{ app.request.locale }}',
-                format: 'L',
-                daysOfWeekDisabled: [0, 6]
+                format: dateformat,
+                daysOfWeekDisabled: [0, 6],
+                date: null
             });
-        });
-        $(function () {
-            $('#appbundle_reservation_timeBegin').datetimepicker({
+            datePicker.datetimepicker('date', date);
+            
+            timeBeginPicker.datetimepicker({
                 locale: '{{ app.request.locale }}',
                 stepping: 30,
-                format: 'LT'
+                format: timeformat,
+                date: null
             });
-        });
-
-        $(function () {
-            $('#appbundle_reservation_timeEnd').datetimepicker({
+            timeBeginPicker.datetimepicker('date', timeBegin);
+            
+            timeEndPicker.datetimepicker({
                 locale: '{{ app.request.locale }}',
                 stepping: 30,
-                format: 'LT',
-                useCurrent: false
+                format: timeformat,
+                date: null
             });
+            timeEndPicker.datetimepicker('date', timeEnd);
         });
     </script>
     
     
     
     <script type="text/javascript">
-        $(document).ready(function () {
+        {#$(document).ready(function () {
             var date        = $('#appbundle_reservation_date').attr('value');
             var timeBegin   = $('#appbundle_reservation_timeBegin').attr('value');
             var timeEnd     = $('#appbundle_reservation_timeEnd').attr('value');
             $('#appbundle_reservation_date').val(date);
             $('#appbundle_reservation_timeBegin').val(timeBegin);
             $('#appbundle_reservation_timeEnd').val(timeEnd);
-        });
+        });#}
     </script>
     
     

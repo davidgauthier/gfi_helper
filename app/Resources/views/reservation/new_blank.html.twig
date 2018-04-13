@@ -121,25 +121,28 @@
     
         <script type="text/javascript">
             $(function () {
-                $('#appbundle_reservation_date').datetimepicker({
+                var dateformat          = 'DD/MM/YYYY';
+                var timeformat          = 'HH:mm';
+                var datePicker          = $('#appbundle_reservation_date');
+                var timeBeginPicker     = $('#appbundle_reservation_timeBegin');
+                var timeEndPicker 	= $('#appbundle_reservation_timeEnd');
+            
+                datePicker.datetimepicker({
                     locale: '{{ app.request.locale }}',
-                    format: 'L',
+                    format: dateformat,
                     daysOfWeekDisabled: [0, 6]
                 });
-            });
-            $(function () {
-                $('#appbundle_reservation_timeBegin').datetimepicker({
+                
+                timeBeginPicker.datetimepicker({
                     locale: '{{ app.request.locale }}',
                     stepping: 30,
-                    format: 'LT'
+                    format: timeformat
                 });
-            });
-            
-            $(function () {
-                $('#appbundle_reservation_timeEnd').datetimepicker({
+                
+                timeEndPicker.datetimepicker({
                     locale: '{{ app.request.locale }}',
                     stepping: 30,
-                    format: 'LT',
+                    format: timeformat,
                     useCurrent: false
                 });
             });

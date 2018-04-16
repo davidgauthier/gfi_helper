@@ -207,8 +207,35 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
     
     
     /**
+     * Retourne le nombre de réservations selon une période de temps
+     *
+     * @param \DateTime $date
+     * @param \DateTime $timeBegin
+     * @param \DateTime $timeEnd
+     *
+     * @return int
+     */
+    public function getNbReservationsBySlotHours($date, $timeBegin, $timeEnd)
+    {
+        $d  = $date->format('Y-m-d');
+        $tb = $timeBegin->format('H:i:s');
+        $te = $timeEnd->format('H:i:s');
+//        var_dump($date, $tb, $te, $timeEnd);die;
+        
+        return $this->createQueryBuilder('re')
+            ->select('COUNT(re)')
+            ->where('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') >= :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') <= :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') <= :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') >= :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') > :timeBegin AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') < :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') > :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') < :timeEnd')
+            ->setParameter('date', $d)
+            ->setParameter('timeBegin', $tb)
+            ->setParameter('timeEnd', $te)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    /**
      * Retourne les réservations selon une période de temps
-     * (les variables contiennent le jour)
      *
      * @param \DateTime $date
      * @param \DateTime $timeBegin
@@ -218,21 +245,24 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getReservationsBySlotHours($date, $timeBegin, $timeEnd)
     {
-        $d      = $date->format('Y-m-d');
-        $tb     = $timeBegin->format('Y-m-d h:i:00');
-        $te     = $timeEnd->format('Y-m-d h:i:00');
-        //var_dump($d, $tb, $te);die;
+        $d  = $date->format('Y-m-d');
+        $tb = $timeBegin->format('H:i:s');
+        $te = $timeEnd->format('H:i:s');
+//        var_dump($date, $tb, $te, $timeEnd);die;
+        
         return $this->createQueryBuilder('re')
             ->select('re')
-            ->where('re.date = :date')
+            ->where('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') >= :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') <= :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') <= :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') >= :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') > :timeBegin AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') < :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') > :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') < :timeEnd')
             ->setParameter('date', $d)
-            ->andWhere('re.timeBegin >= :te')
-            ->setParameter('te', $te)
-//            ->andWhere('re.timeEnd <= :tb')
-//            ->setParameter('tb', $tb)
+            ->setParameter('timeBegin', $tb)
+            ->setParameter('timeEnd', $te)
             ->getQuery()
             ->getResult();
     }
+    
     
     
 

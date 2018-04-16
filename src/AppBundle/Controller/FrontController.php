@@ -20,6 +20,12 @@ class FrontController extends Controller
      */
     public function indexAction(Request $request)
     {
+//        $day    = new \DateTime('2018-04-26');
+//        $tb     = new \DateTime('10:00');
+//        $te     = new \DateTime('10:30');
+//        $resa   = $this->getDoctrine()->getRepository(Reservation::class)->getReservationsTest($day, $tb, $te);
+//        var_dump($resa);die;
+        
         $dateTimesManager   = $this->get('app.datetimes_manager');
         $reservationManager = $this->get('app.reservation_manager');
         

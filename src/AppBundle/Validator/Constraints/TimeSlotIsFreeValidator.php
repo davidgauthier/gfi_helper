@@ -30,16 +30,19 @@ class TimeSlotIsFreeValidator extends ConstraintValidator
 //        var_dump($this->em);die;
 //        var_dump($this->reservationManager);die;
         
-        $reservations = $this->em->getRepository(Reservation::class)
-                                ->getReservationsBySlotHours($reservation->getDate(),
+        $nbReservations = $this->em->getRepository(Reservation::class)
+                                ->getNbReservationsBySlotHours($reservation->getDate(),
                                                             $reservation->getTimeBegin(),
                                                             $reservation->getTimeEnd());
-        var_dump("les reservations:", $reservations);die;
+        //var_dump("les reservations:", $reservations);die;
         
-        if ($protocol->getFoo() != $protocol->getBar()) {
+        // S'il y à au moins 1 reservation, error
+        if ($nbReservations > 0) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ timeBegin }}', $value1)
-                ->setParameter('{{ timeEnd }}', $value2)
+                ->setParameter('{{nbReservations}}', $nbReservations)
+                ->setParameter('{{date}}', $reservation->getDate()->format('d/m/Y'))
+                ->setParameter('{{timeBegin}}', $reservation->getTimeBegin()->format('H:i:s'))
+                ->setParameter('{{timeEnd}}', $reservation->getTimeEnd()->format('H:i:s'))
                 //->atPath('foo')
                 ->addViolation();
         }

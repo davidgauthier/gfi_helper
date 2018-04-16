@@ -5,8 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use AppBundle\Validator\Constraints as CustomAssert;
+
 /**
  * Reservation
+ * 
+ * @CustomAssert\TimeSlotIsFree
  *
  * @ORM\Table(name="reservation")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ReservationRepository")

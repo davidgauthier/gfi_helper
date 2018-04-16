@@ -1,0 +1,12 @@
+services:
+    # this makes public all the services defined in this file
+    _defaults: { public: true }
+    
+    app.reservation_validator.time_slot_is_free:
+        class: AppBundle\Validator\Constraints\TimeSlotIsFreeValidator
+        arguments:
+            - "@=service('doctrine').getManager()"
+#            - "@=service('app.reservation_manager')"
+        tags:
+            - { name: validator.constraint_validator, alias: app.reservation_validator.time_slot_is_free }
+

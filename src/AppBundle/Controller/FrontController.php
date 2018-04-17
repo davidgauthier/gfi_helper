@@ -44,11 +44,18 @@ class FrontController extends Controller
         
         
         foreach ($rooms as $room){
-        
+            // On récupère toutes les futures réservations pour cette room
+            $reservations = $this->getDoctrine()->getRepository(Reservation::class)->getFutureReservationsByRoom($room);
             // Nous allons créer et remplir notre tableau des jours à afficher
             $days = [];
             foreach ($period as $dt){
-                $reservationsDuJour = $reservationManager->getReservationsByRoomAndDay($room, $dt);
+                $reservationsDuJour = [];
+                foreach ($reservations as $reservation){
+                    // Si la date de la réservation en cours égale le jour bouclé
+                    if($reservation->getDate() == $dt){
+                        $reservationsDuJour[] = $reservation;
+                    }
+                }
                 $days[] = new Day($dt, $reservationsDuJour);
             }
             

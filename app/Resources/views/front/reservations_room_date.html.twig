@@ -25,7 +25,7 @@
                 <tbody>
                 
                     {# compteur de reservation pour permetre l'alternance des couleurs #}
-                    {% set compteur = 0 %}
+                    {% set comptResa = 0 %}
                     {# variable pour comparaison resas => l'alternance des couleurs #}
                     {% set tempResa = false %}
                     {% set creneaux = ["08:00 - 08:30", "08:30 - 09:00",
@@ -43,8 +43,8 @@
 
                     {% for creneau in creneaux %}
 
-                        {% set resa     = false %}
-                        {% set break    = false %}
+                        {% set resa             = false %}
+                        {% set break            = false %}
 
                         {# {{ '12345'|slice(1, 2) }} : outputs '23'#}
                         {% set creneauBegin = creneau|slice(0, 5) %}
@@ -70,26 +70,36 @@
                             {% if (c09 and c07 and c10 and c04) or (c01 and c07 and c10 and c08)
                                 or (c01 and c07 and c10 and c04) or (c09 and c07 and c10 and c08) %}
 
-                                {% set resa     = reservation %}
-                                {% set break    = true %}
+                                {% set resa             = reservation %}
+                                {% set break            = true %}
 
                             {% endif %}
 
                         {% endfor %}
-
+                        
+                        
+                        
                         {# S'il y à une reservation dans ce 'créneau' #}
                         {% if resa %}
-
-                            {% if tempResa != resa %}
-                                {% set compteur = compteur + 1 %}
-                                {% set tempResa = resa %}
-                            {% endif %}
-
-                            <tr class="{% if compteur is odd %}table-info{% else %}table-secondary{% endif %}">
+                            
+                            
+                            <tr class="{% if comptResa is odd %}table-primary{% else %}table-secondary{% endif %}">
                                 <td>{{ creneau }}</td>
-                                <td>{{ resa.user.username }}</td>
+                                {% if tempResa != resa %}
+                                    <td {% if resa.nbCreneaux > 1 %}rowspan="{{ resa.nbCreneaux }}"{% endif %}>
+                                        {{ resa.user.username }}
+                                    </td>
+                                    
+                                    {% set comptResa    = comptResa + 1 %}
+                                    {% set tempResa     = resa %}
+                                {% endif %}
                             </tr>
 
+                            
+                            
+                            
+
+                            
                         {# Sinon, ce 'créneau' est "réservable" #}
                         {% else %}
                             <tr>
@@ -102,6 +112,7 @@
                                 </td>
                             </tr>
                         {% endif %}
+                        
 
                     {% endfor %}
                         

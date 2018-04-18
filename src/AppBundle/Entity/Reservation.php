@@ -14,6 +14,7 @@ use AppBundle\Validator\Constraints as CustomAssert;
  *
  * @ORM\Table(name="reservation")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ReservationRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Reservation
 {
@@ -70,8 +71,13 @@ class Reservation
      * @ORM\JoinColumn(nullable=false)
      */
     private $room;
-
-
+    
+    /**
+     * nbCreneaux
+     */
+    private $nbCreneaux;
+    
+    
     /**
      * Get id
      *
@@ -200,6 +206,62 @@ class Reservation
     public function getRoom()
     {
         return $this->room;
+    }
+    
+    
+    
+    
+    
+    /**
+     * Set nb creneaux.
+     *
+     * @param int $nbCreneaux
+     *
+     * @return Reservation
+     */
+    public function setNbCreneaux($nbCreneaux)
+    {
+        $this->nbCreneaux = $nbCreneaux;
+
+        return $this;
+    }
+    /**
+     * @return int
+     */
+    public function getNbCreneaux()
+    {
+        return $this->nbCreneaux;
+    }
+    
+    /**
+     * Get nombre de "créneaux" (ici, 30minutes le créneau).
+     * (A voir comment passer le 30min en param de l'appli modifiable à 15min, etc.)
+     * 
+     * @ORM\PostLoad
+     */
+    public function doStuffOnPostLoad()
+    {
+        $nbMinutesCreneau = 30;
+        
+        $this->nbCreneaux = 0;
+        
+        // Construisoin deux DateTime pour pouvoir les comparer (DateInterval, DatePeriod)
+        $stringDebut    = $this->date->format('Y-m-d')." ".$this->timeBegin->format("H:i:s");
+        $stringFin      = $this->date->format('Y-m-d')." ".$this->timeEnd->format("H:i:s");
+        $datetimeDebut  = new \DateTime($stringDebut);
+        $datetimeFin    = new \DateTime($stringFin);
+        
+        //var_dump($stringDebut, $stringFin, $datetimeDebut, $datetimeFin);die;
+        
+        $interval = \DateInterval::createFromDateString($nbMinutesCreneau.' minutes');
+        $period = new \DatePeriod($datetimeDebut,
+                $interval,
+                $datetimeFin);
+        
+        foreach ($period as $dt){
+            // rien a faire avec $dt.. :)
+            $this->nbCreneaux++;
+        }
     }
 }
 

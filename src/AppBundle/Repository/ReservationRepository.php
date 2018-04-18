@@ -61,8 +61,6 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
-    
-    
     /**
      * Retourne les futures réservations d'un user
      *
@@ -116,7 +114,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
     
     
     /**
-     * Retourne le nombre de réservations d'une room pour sur un jour donné
+     * Retourne le nombre de réservations d'une room sur un jour donné
      *
      * @param Room $room
      * @param \DateTime $day
@@ -128,7 +126,6 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
         if(null === $day){
             $day = new \DateTime();
         }
-        
         $first = $day->format('Y-m-d 00:00:00');
         $last = $day->format('Y-m-d 23:59:59');
         
@@ -144,6 +141,37 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+    /**
+     * Retourne les réservations d'une room sur un jour donné
+     *
+     * @param Room $room
+     * @param \DateTime $day
+     *
+     * @return Reservation[]
+     */
+    public function getReservationsByRoomAndDay($room, $day)
+    {
+        if(null === $day){
+            $day = new \DateTime();
+        }
+        $first = $day->format('Y-m-d 00:00:00');
+        $last = $day->format('Y-m-d 23:59:59');
+        
+        return $this->createQueryBuilder('re')
+            ->select('re')
+            ->leftJoin('re.room', 'ro')
+            ->where('ro.id = :room_id')
+            ->setParameter('room_id', $room->getId())
+            ->andWhere('re.date >= :first')
+            ->setParameter('first', $first)
+            ->andWhere('re.date <= :last')
+            ->setParameter('last', $last)
+            ->getQuery()
+            ->getResult();
+    }
+    
+    
+    
     
     /**
      * Retourne les réservations pour un jour donné
@@ -172,69 +200,70 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
     }
     
     
+    
+    
+    
+    
+    
+    
     /**
-     * Retourne les réservations d'une room pour sur un jour donné
+     * Retourne le nombre de réservations selon une période de temps
      *
-     * @param Room $room
-     * @param \DateTime $day
+     * @param \DateTime $date
+     * @param \DateTime $timeBegin
+     * @param \DateTime $timeEnd
+     *
+     * @return int
+     */
+    public function getNbReservationsBySlotHours($date, $timeBegin, $timeEnd)
+    {
+        $d  = $date->format('Y-m-d');
+        $tb = $timeBegin->format('H:i:s');
+        $te = $timeEnd->format('H:i:s');
+//        var_dump($date, $tb, $te, $timeEnd);die;
+        
+        return $this->createQueryBuilder('re')
+            ->select('COUNT(re)')
+            ->where('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') >= :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') <= :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') <= :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') >= :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') > :timeBegin AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') < :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') > :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') < :timeEnd')
+            ->setParameter('date', $d)
+            ->setParameter('timeBegin', $tb)
+            ->setParameter('timeEnd', $te)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    /**
+     * Retourne les réservations selon une période de temps
+     *
+     * @param \DateTime $date
+     * @param \DateTime $timeBegin
+     * @param \DateTime $timeEnd
      *
      * @return Reservation[]
      */
-    public function getReservationsByRoomAndDay($room, $day)
+    public function getReservationsBySlotHours($date, $timeBegin, $timeEnd)
     {
-        if(null === $day){
-            $day = new \DateTime();
-        }
-        
-        $first = $day->format('Y-m-d 00:00:00');
-        $last = $day->format('Y-m-d 23:59:59');
+        $d  = $date->format('Y-m-d');
+        $tb = $timeBegin->format('H:i:s');
+        $te = $timeEnd->format('H:i:s');
+//        var_dump($date, $tb, $te, $timeEnd);die;
         
         return $this->createQueryBuilder('re')
             ->select('re')
-            ->leftJoin('re.room', 'ro')
-            ->where('ro.id = :room_id')
-            ->setParameter('room_id', $room->getId())
-            ->andWhere('re.date >= :first')
-            ->setParameter('first', $first)
-            ->andWhere('re.date <= :last')
-            ->setParameter('last', $last)
+            ->where('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') >= :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') <= :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') <= :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') >= :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') > :timeBegin AND DATE_FORMAT(re.timeBegin, \'%H:%i:%s\') < :timeEnd')
+            ->orWhere('re.date = :date AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') > :timeBegin AND DATE_FORMAT(re.timeEnd, \'%H:%i:%s\') < :timeEnd')
+            ->setParameter('date', $d)
+            ->setParameter('timeBegin', $tb)
+            ->setParameter('timeEnd', $te)
             ->getQuery()
             ->getResult();
     }
     
-    /**
-     * Retourne les réservations d'une room pour sur un jour donné
-     *
-     * @param Room $room
-     * @param \DateTime $day
-     * @param \DateTime $hour
-     *
-     * @return Reservation[]
-     */
-    public function getReservationByRoomByDayByHour($room, $day, $hour)
-    {
-        if(null === $day){
-            $day = new \DateTime();
-        }
-        
-        $date = $day->format('Y-m-d');
-        $timeBegin = $hour . ':00:00';
-        $timeEnd = $hour . ':30:00';
-        
-        return $this->createQueryBuilder('re')
-        ->select('re')
-        ->leftJoin('re.room', 'ro')
-        ->where('ro.id = :id_room')
-        ->setParameter('id_room', $room->getId())
-        ->andWhere('re.date = :first')
-        ->setParameter('first', $date)
-        ->andWhere('re.timeBegin <= :timeBegin')
-        ->setParameter('timeBegin', $timeBegin)
-        ->andWhere('re.timeEnd <= :timeEnd')
-        ->setParameter('timeEnd', $timeEnd)
-        ->getQuery()
-        ->getResult();
-    }
+    
     
 
 }

@@ -70,6 +70,33 @@ class ReservationManager extends AbstractDoctrineManager
         return $this->entityManager->getRepository(Reservation::class)->getFutureReservationsByUser($user);
     }
     
+    
+    /**
+     * @param \DateTime $date
+     * @param \DateTime $timeBegin
+     * @param \DateTime $timeEnd
+     * 
+     * @return int
+     */
+    public function getNbReservationsBySlotHours($date, $timeBegin, $timeEnd)
+    {
+        return $this->entityManager->getRepository(Reservation::class)->getNbReservationsBySlotHours($date, $timeBegin, $timeEnd);
+    }
+    
+    /**
+     * @param \DateTime $date
+     * @param \DateTime $timeBegin
+     * @param \DateTime $timeEnd
+     * 
+     * @return Reservation[]
+     */
+    public function getReservationsBySlotHours($date, $timeBegin, $timeEnd)
+    {
+        return $this->entityManager->getRepository(Reservation::class)->getReservationsBySlotHour($date, $timeBegin, $timeEnd);
+    }
+    
+    
+    
 
 
     /**
@@ -95,5 +122,5 @@ class ReservationManager extends AbstractDoctrineManager
     {
         return $this->entityManager->getRepository(Reservation::class);
     }
-
+    
 }

@@ -5,18 +5,21 @@ services:
     app.reservation_manager:
         class: AppBundle\Manager\ReservationManager
         arguments:
-            - "@=service('doctrine').getManager()"
+#            - "@=service('doctrine').getManager()"
+            - "@doctrine.orm.entity_manager"
 
     app.room_manager:
         class: AppBundle\Manager\RoomManager
         arguments:
-            - "@=service('doctrine').getManager()"
+#            - "@=service('doctrine').getManager()"
+            - "@doctrine.orm.entity_manager"
 
 
     app.user_manager:
             class: AppBundle\Manager\UserManager
             arguments:
-                - "@=service('doctrine').getManager()"
+#                - "@=service('doctrine').getManager()"
+                - "@doctrine.orm.entity_manager"
 
 
-    
+

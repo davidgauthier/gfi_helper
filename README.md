@@ -13,6 +13,10 @@ Any ideas are welcome!
 
 ### Configure
 
+increase memory limit in php.ini
+
+    memory_limit = 2G
+
 Install vendors
 
     php composer.phar install

@@ -1,7 +1,7 @@
 # src/AppBundle/Resources/config/services.yml
 imports:
     - { resource: 'services/manager.yml'}
-
+    - { resource: 'services/validator.yml'}
 
 services:
     
@@ -10,4 +10,3 @@ services:
             arguments:
 #                - "@=service('doctrine').getManager()"
             public: true
-

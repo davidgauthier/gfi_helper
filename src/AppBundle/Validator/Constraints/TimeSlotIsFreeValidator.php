@@ -13,16 +13,17 @@ use AppBundle\Entity\Reservation;
 class TimeSlotIsFreeValidator extends ConstraintValidator
 {
     /**
-     * @var EntityManager
+     * var EntityManager
+     * @var ReservationManager
      */
-    protected $em;
-//    protected $reservationManager;
+//    protected $em;
+    protected $reservationManager;
     
-    public function __construct(EntityManagerInterface $entityManager)
-//    public function __construct(ReservationManager $reservationManager)
+//    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(ReservationManager $reservationManager)
     {
-        $this->em = $entityManager;
-//        $this->reservationManager = $reservationManager;
+//        $this->em = $entityManager;
+        $this->reservationManager = $reservationManager;
     }
    
     public function validate($reservation, Constraint $constraint)
@@ -30,7 +31,8 @@ class TimeSlotIsFreeValidator extends ConstraintValidator
 //        var_dump($this->em);die;
 //        var_dump($this->reservationManager);die;
         
-        $nbReservations = $this->em->getRepository(Reservation::class)
+        $nbReservations = $this->reservationManager
+//        $nbReservations = $this->em->getRepository(Reservation::class)
                                 ->getNbReservationsBySlotHours($reservation->getDate(),
                                                             $reservation->getTimeBegin(),
                                                             $reservation->getTimeEnd());

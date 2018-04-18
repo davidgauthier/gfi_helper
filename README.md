@@ -17,6 +17,24 @@ increase memory limit in php.ini
 
     memory_limit = 2G
 
+Enable OPCACHE in php.ini
+
+    [opcache]
+    opcache.enable=1
+    opcache.enable_cli=0
+    opcache.memory_consumption=256
+    opcache.interned_strings_buffer=16
+    opcache.max_accelerated_files=4000
+    opcache.revalidate_freq=120
+    opcache.fast_shutdown=1
+    
+    ;adapt the path to your config
+    zend_extension="C:\MyWamp\php\5.6.26\ext\php_opcache.dll"
+
+Activating output buffering (to prevent 'zend_mm_heap corrupted' error)
+
+    output_buffering = 8192
+
 Install vendors
 
     php composer.phar install

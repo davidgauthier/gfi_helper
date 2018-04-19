@@ -38,7 +38,11 @@ class ReservationController extends Controller
             $entityManager->flush();
             
             $this->addFlash('success', 'Votre Réservation a été créée !');
-            return $this->redirectToRoute('front_homepage');
+//            return $this->redirectToRoute('front_homepage');
+            return $this->redirectToRoute('front_reservations_room_date', array(
+                                                            'roomSlug'  => $reservation->getRoom()->getSlug(),
+                                                            'date'      => $reservation->getDate()->format('Y-m-d')
+                ));
         }
         
         return $this->render(':reservation:new_blank.html.twig', [
@@ -77,7 +81,11 @@ class ReservationController extends Controller
             $entityManager->flush();
             
             $this->addFlash('success', 'Votre Réservation a été créée !');
-            return $this->redirectToRoute('front_homepage');
+//            return $this->redirectToRoute('front_homepage');
+            return $this->redirectToRoute('front_reservations_room_date', array(
+                                                            'roomSlug'  => $reservation->getRoom()->getSlug(),
+                                                            'date'      => $reservation->getDate()->format('Y-m-d')
+                ));
         }
         
         return $this->render(':reservation:new_prefilled.html.twig', [

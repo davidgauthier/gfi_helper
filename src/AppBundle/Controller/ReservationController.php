@@ -95,6 +95,48 @@ class ReservationController extends Controller
     
     
     
+    /**
+     * @Route("/reservation/edit/{id}", name="app_reservation_edit")
+     * 
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function editAction(Request $request, $id)
+    {
+
+        $reservation = $this->get('app.reservation_manager')->getReservationById($id);
+
+        if(null === $reservation)
+        {
+            throw new NotFoundHttpException("La réservation d'id ".$id." n'existe pas.");
+        }
+        
+        // Si l'a personne'utilisateur logguée n'est pas le user de la reservation
+        if ($reservation->getUser() !== $this->getUser()) {
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer cette réservation.');
+            return $this->redirectToRoute('front_myreservations');
+        }
+        
+
+        $form = $this->createForm(ReservationType::class, $reservation);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $reservation = $form->getData();
+
+            $this->container->get('app.reservation_manager')->save($reservation);
+
+            $this->addFlash('success', 'La réservation a bien été modifiée.');
+            return $this->redirectToRoute('front_myreservations');
+        }
+
+        return $this->render(':reservation:edit.html.twig', [
+            'form'          => $form->createView(),
+            'reservation'   => $reservation,
+        ]);
+    }
+    
+    
+    
     
     
     /**

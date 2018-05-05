@@ -1,0 +1,104 @@
+{%  extends "::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Edition de reservation
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css" />
+{% endblock %}
+
+
+
+{% block content %}
+
+
+    <div class="container">
+        <h2 class="text-center">Edition de réservation</h2>
+        <br>
+        <div class="row align-items-center">
+            <div class="col">
+
+            </div>
+            <div class="col-6">
+
+                {{ form_start(form) }}
+
+                {{ form_errors(form) }}
+                {{ form_row(form.room) }}
+                {{ form_row(form.date) }}
+                {{ form_row(form.timeBegin) }}
+                {{ form_row(form.timeEnd) }}
+
+
+                {{ form_rest(form) }}
+                <div class="form-action">
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+                {{ form_end(form) }}
+                
+                
+                <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
+                    class="showOnHover badge badge-danger">
+                    <i class="far fa-calendar-times"></i> Supprimer
+                </a>
+                                    
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
+    
+    <script type="text/javascript">
+        $(function () {
+            var dateformat      = 'DD/MM/YYYY';
+            var timeformat      = 'HH:mm';
+            var datePicker      = $('#appbundle_reservation_date');
+            var timeBeginPicker = $('#appbundle_reservation_timeBegin');
+            var timeEndPicker 	= $('#appbundle_reservation_timeEnd');
+            var date            = moment(datePicker.val(), dateformat).toDate();
+            var timeBegin       = moment(timeBeginPicker.val(), timeformat).toDate();
+            var timeEnd         = moment(timeEndPicker.val(), timeformat).toDate();
+            
+            datePicker.datetimepicker({
+                locale: '{{ app.request.locale }}',
+                format: dateformat,
+                daysOfWeekDisabled: [0, 6],
+                date: null
+            });
+            datePicker.datetimepicker('date', date);
+            
+            timeBeginPicker.datetimepicker({
+                locale: '{{ app.request.locale }}',
+                stepping: 30,
+                format: timeformat,
+                date: null
+            });
+            timeBeginPicker.datetimepicker('date', timeBegin);
+            
+            timeEndPicker.datetimepicker({
+                locale: '{{ app.request.locale }}',
+                stepping: 30,
+                format: timeformat,
+                date: null
+            });
+            timeEndPicker.datetimepicker('date', timeEnd);
+        });
+    </script>
+
+{% endblock %}
+
+

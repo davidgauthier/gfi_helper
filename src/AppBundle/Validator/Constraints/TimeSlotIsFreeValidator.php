@@ -33,15 +33,36 @@ class TimeSlotIsFreeValidator extends ConstraintValidator
         
         $nbReservations = $this->reservationManager
 //        $nbReservations = $this->em->getRepository(Reservation::class)
-                                ->getNbReservationsBySlotHours($reservation->getDate(),
+                                ->getNbReservationsByRoomAndSlotHours($reservation->getRoom(),
+                                                            $reservation->getDate(),
                                                             $reservation->getTimeBegin(),
                                                             $reservation->getTimeEnd());
-        //var_dump("les reservations:", $reservations);die;
-        
-        // S'il y à au moins 1 reservation, error
-        if ($nbReservations > 0) {
+        // S'il y à une et une seule réservation, nous
+        // allons vérifier le cas d'une édition ..
+        if ($nbReservations == 1) {
+            $laReservation = $this->reservationManager
+                                ->getReservationsByRoomAndSlotHours($reservation->getRoom(),
+                                                            $reservation->getDate(),
+                                                            $reservation->getTimeBegin(),
+                                                            $reservation->getTimeEnd());
+            // $laReservation est un array, nous accèdons donc à l'objet Reservation avec '[0]'
+            // Si résas différentes, donc pas edition, error
+            if($laReservation[0]->getId() !== $reservation->getId()){
+                $this->context->buildViolation($constraint->message)
+                    ->setParameter('{{nbReservations}}', $nbReservations)
+                    ->setParameter('{{room}}', $reservation->getRoom()->getName())
+                    ->setParameter('{{date}}', $reservation->getDate()->format('d/m/Y'))
+                    ->setParameter('{{timeBegin}}', $reservation->getTimeBegin()->format('H:i:s'))
+                    ->setParameter('{{timeEnd}}', $reservation->getTimeEnd()->format('H:i:s'))
+                    //->atPath('foo')
+                    ->addViolation();
+            }
+        }
+        // Sinon s'il y à au moins 2 reservations, error
+        else if ($nbReservations >= 2) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{nbReservations}}', $nbReservations)
+                ->setParameter('{{room}}', $reservation->getRoom()->getName())
                 ->setParameter('{{date}}', $reservation->getDate()->format('d/m/Y'))
                 ->setParameter('{{timeBegin}}', $reservation->getTimeBegin()->format('H:i:s'))
                 ->setParameter('{{timeEnd}}', $reservation->getTimeEnd()->format('H:i:s'))

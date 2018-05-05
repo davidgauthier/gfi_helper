@@ -91,13 +91,18 @@ class FrontController extends Controller
      */
     public function reservationsByRoomAndDateAction(Request $request, $roomSlug, \DateTime $date)
     {
-        $room           = $this->get('app.room_manager')->getRoomBySlug($roomSlug);
+        $roomManager = $this->get('app.room_manager');
+        
+        $room           = $roomManager->getRoomBySlug($roomSlug);
         $reservations   = $this->get('app.reservation_manager')->getReservationsByRoomAndDay($room, $date);
+        
+        $allRooms       = $roomManager->getAll();
         
         return $this->render(':front:reservations_room_date.html.twig', [
             'room'          => $room,
             'reservations'  => $reservations,
-            'date'          => $date
+            'date'          => $date,
+            'allRooms'      => $allRooms,
         ]);
     }
     

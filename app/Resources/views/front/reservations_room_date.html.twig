@@ -12,6 +12,10 @@
 {% block content %}
     <div class="container">
     	
+        {{ include("include/_current_time.html.twig") }}
+        
+        {{ include("room/_tabs.html.twig") }}
+        
         <h2>{{room.name}} : Réservations du {{ date|date('d/m/Y')}}</h2>
         
         <div class="table-responsive">
@@ -125,4 +129,17 @@
 
 {% block javascripts %}
     {{ parent() }}
+    
+    <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            setInterval(function() {
+                $('#span_date').html(
+                    moment().format('DD/MM/YYYY - HH:mm:ss')
+                );
+            }, 100);
+
+        });
+    </script>
+    
 {% endblock %}

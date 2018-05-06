@@ -126,7 +126,10 @@ class ReservationController extends Controller
             $this->container->get('app.reservation_manager')->save($reservation);
 
             $this->addFlash('success', 'La réservation a bien été modifiée.');
-            return $this->redirectToRoute('front_myreservations');
+            return $this->redirectToRoute('front_reservations_room_date', array(
+                                                    'roomSlug'  => $reservation->getRoom()->getSlug(),
+                                                    'date'      => $reservation->getDate()->format('Y-m-d')
+            ));
         }
 
         return $this->render(':reservation:edit.html.twig', [

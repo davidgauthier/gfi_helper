@@ -95,6 +95,12 @@
 
                                     <td {% if resa.nbCreneaux > 1 %}rowspan="{{ resa.nbCreneaux }}"{% endif %}>
                                         <b>{{ resa.user.username }}</b>{% if resa.comment %} | {{ resa.comment }}{% endif %}
+                                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == resa.user.id %}
+                                            <a href="{{ path('app_reservation_edit', {'id': resa.id}) }}"
+                                                class="showOnHover badge badge-warning float-right">
+                                                <i class="far fa-edit"></i> Editer
+                                            </a>
+                                        {% endif %}
                                     </td>
                                     
                                     {% set comptResa    = comptResa + 1 %}
@@ -110,7 +116,6 @@
                             
                             
                             
-
                             
                         {# Sinon, ce 'créneau' est "réservable" #}
                         {% else %}
@@ -119,7 +124,7 @@
                                 <td>
                                     <a href="{{ path('app_reservation_new_prefilled', {'roomSlug': room.slug, 'date': date|date('Y-m-d'), 'timeBegin': creneauBegin, 'timeEnd': creneauEnd }) }}"
                                         class="showOnHover badge badge-primary float-right">
-                                        Réserver
+                                        <i class="far fa-plus-square"></i> Réserver
                                     </a>
                                 </td>
                             </tr>

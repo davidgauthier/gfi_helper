@@ -62,6 +62,7 @@ class ReservationType extends AbstractType
                     "data-target"   => '#appbundle_reservation_timeEnd',
                 ],
             ])
+            ->add('comment')
         ;
     }
     

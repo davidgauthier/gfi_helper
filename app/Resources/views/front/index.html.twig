@@ -11,9 +11,13 @@
 
 {% block content %}
     <div class="container">
-        <h3 class="text-center">
-            <i class="far fa-clock"></i> <span id="span_date"></span> - S{{ "now"|date('W') }}
-        </h3>
+        
+        {{ include("include/_current_time.html.twig") }}
+        
+        
+        {# Plus tard, ici il faudrait utiliser un include en mode comme 
+            dans reservations_room_date.html.twig, cela nous évitera de charger
+            les infos pour toutes les salles ... ;) #}
         
         {# Permet l'affichage des différentes salles #}
         <ul class="nav nav-tabs" role="tablist">

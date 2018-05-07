@@ -8,6 +8,15 @@ use AppBundle\Entity\Room;
 class RoomManager extends AbstractDoctrineManager
 {
     /**
+     * @return Room[]
+     */
+    public function getAll()
+    {
+        return $this->entityManager->getRepository(Room::class)->findAll();
+    }
+    
+    
+    /**
      * @return Room
      */
     public function getRoomById($id)

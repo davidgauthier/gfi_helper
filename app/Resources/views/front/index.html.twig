@@ -19,7 +19,7 @@
         <ul class="nav nav-tabs" role="tablist">
             {% for room in rooms %}
             <li class="nav-item">
-                <a class="nav-link {% if loop.index == 1 %} active {% endif %}" data-toggle="tab" href="#menu{{ loop.index }}"><b>{{ room.name }}</b></a>
+                <a class="nav-link {% if loop.index == 1 %} active {% endif %}" data-toggle="tab" href="#room{{ loop.index }}"><b>{{ room.name }}</b></a>
             </li>
             {% endfor %}
         </ul>
@@ -27,7 +27,7 @@
         {# Permet l'affichage du planning de chaque salle #}
         <div class="tab-content">
             {% for room in rooms %}
-                <div id="menu{{ loop.index }}" class="container tab-pane {% if loop.index == 1 %} active {% endif %}">
+                <div id="room{{ loop.index }}" class="container tab-pane {% if loop.index == 1 %} active {% endif %}">
                     <br>
                     {{ include("include/_calendar.html.twig") }}
                 </div>

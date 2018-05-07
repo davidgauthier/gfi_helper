@@ -16,7 +16,10 @@
         
         {{ include("room/_tabs.html.twig") }}
         
-        <h2><b>{{room.name}}</b> : Réservations du {{ date|date('d/m/Y')}}</h2>
+        {{ include("include/_prev_day_next_day.html.twig") }}
+        
+        
+        <h2><b>{{room.name}}</b> : Réservations du {{ date|date('D d/m/Y') }}</h2>
         
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-hover table-light">

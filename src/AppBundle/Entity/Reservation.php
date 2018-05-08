@@ -295,5 +295,23 @@ class Reservation
             $this->nbCreneaux++;
         }
     }
+    
+    
+    /**
+     * Methode toString
+     * 
+     * @return String
+     */
+    public function __toString(){
+        if(!$this->user || !$this->room){
+            $s = '';
+        } else {
+            $s = $this->user->getusername() . '_' . $this->room->getName() . '_' . $this->date->format('d/m/Y')
+                . '(' . $this->timeBegin->format('H:i') . '->' . $this->timeEnd->format('H:i') . ')';
+        }
+        
+        return $s;
+    }
+    
 }
 

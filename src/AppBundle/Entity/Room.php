@@ -152,5 +152,14 @@ class Room
     {
         return $this->days;
     }
+    
+    /**
+     * Methode toString
+     * 
+     * @return String
+     */
+    public function __toString(){
+        return $this->name;
+    }
 }
 

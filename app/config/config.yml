@@ -103,3 +103,14 @@ stof_doctrine_extensions:
 
 
 
+sonata_block:
+    blocks:
+        # enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts: [admin]
+
+sonata_admin:
+    title: 'helper Admin'
+    title_logo: public/images/ico_gfi_carre_petit.png
+
+

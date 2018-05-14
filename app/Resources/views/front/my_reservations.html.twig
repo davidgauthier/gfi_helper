@@ -24,6 +24,7 @@
                             <th rowspan="2">Salle</th>
                             <th rowspan="2">Date</th>
                             <th colspan="2">Heure</th>
+                            <th rowspan="2">Commentaire</th>
                             <th rowspan="2"  style="width: 10%"></th>
                         </tr>
                         <tr>
@@ -39,6 +40,13 @@
                                 <td>{{ reservation.date|date('l d/m/Y') }}</td>
                                 <td>{{ reservation.timeBegin|date('H:i') }}</td>
                                 <td>{{ reservation.timeEnd|date('H:i') }}</td>
+                                <td>
+                                    {% if reservation.comment|length < 8 %}
+                                        {{ reservation.comment }}
+                                    {% else %}
+                                        {{ reservation.comment|slice(0, 7) ~ '..' }}
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}"
                                         class="showOnHover badge badge-warning">

@@ -73,6 +73,14 @@ class Reservation
     private $room;
     
     /**
+     * @var text
+     *
+     * @ORM\Column(name="comment", type="text", nullable=true)
+     */
+    private $comment;
+    
+    
+    /**
      * nbCreneaux
      */
     private $nbCreneaux;
@@ -206,6 +214,30 @@ class Reservation
     public function getRoom()
     {
         return $this->room;
+    }
+    
+    /**
+     * Set ccomment
+     *
+     * @param string $comment
+     *
+     * @return Reservation
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
     }
     
     

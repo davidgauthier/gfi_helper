@@ -12,8 +12,6 @@
 {% block content %}
     <div class="container">
         
-        {{ include("include/_current_time.html.twig") }}
-        
         
         {# Plus tard, ici il faudrait utiliser un include en mode comme 
             dans reservations_room_date.html.twig, cela nous évitera de charger
@@ -27,6 +25,9 @@
             </li>
             {% endfor %}
         </ul>
+        
+        {{ include("include/_current_time.html.twig") }}
+        
         
         {# Permet l'affichage du planning de chaque salle #}
         <div class="tab-content">

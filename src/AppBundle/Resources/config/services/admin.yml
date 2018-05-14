@@ -1,0 +1,20 @@
+# src/AppBundle/Resources/config/admin_services.yml
+services:
+
+    admin.room:
+        class: AppBundle\Admin\RoomAdmin
+        arguments: [~, AppBundle\Entity\Room, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Room }
+
+    admin.reservation:
+        class: AppBundle\Admin\ReservationAdmin
+        arguments: [~, AppBundle\Entity\Reservation, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Reservation }
+
+    admin.user:
+        class: AppBundle\Admin\UserAdmin
+        arguments: [~, AppBundle\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: User }

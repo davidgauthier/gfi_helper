@@ -18,10 +18,36 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    private $newPass;
 
     public function __construct()
     {
         parent::__construct();
         // your own logic
+    }
+    
+    
+    /**
+     * Set newPass
+     *
+     * @param string $newPass
+     *
+     * @return User
+     */
+    public function setNewPass($newPass)
+    {
+        $this->newPass = $newPass;
+
+        return $this;
+    }
+    /**
+     * Get newPass
+     *
+     * @return string
+     */
+    public function getNewPass()
+    {
+        return $this->newPass;
     }
 }

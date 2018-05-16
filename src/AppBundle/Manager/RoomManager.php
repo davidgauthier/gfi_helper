@@ -34,6 +34,15 @@ class RoomManager extends AbstractDoctrineManager
     
     
     /**
+     * @return Room[]
+     */
+    public function getRandomRoom()
+    {
+        return $this->entityManager->getRepository(Room::class)->getRandomRoom();
+    }
+    
+    
+    /**
      * @return Room
      */
     public function create()

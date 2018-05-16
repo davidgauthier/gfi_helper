@@ -10,4 +10,19 @@ namespace AppBundle\Repository;
  */
 class RoomRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    /**
+     * @return Room[]
+     */
+    public function getRandomRoom(){
+
+        $qb = $this->createQueryBuilder('r')
+            ->select('r')
+            //->
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getResult();
+    }
+    
+    
 }

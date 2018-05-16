@@ -99,6 +99,30 @@ class ReservationManager extends AbstractDoctrineManager
     
     
     
+    /**
+     * @param Room $room
+     * @param \DateTime $month
+     * 
+     * @return int
+     */
+    public function getNbFutureReservationsByRoomAndMonth($room, $month)
+    {
+        return $this->entityManager->getRepository(Reservation::class)->getNbFutureReservationsByRoomAndMonth($room, $month);
+    }
+    
+    /**
+     * @param Room $room
+     * @param \DateTime $month
+     * 
+     * @return Reservation[]
+     */
+    public function getFutureReservationsByRoomAndMonth($room, $month)
+    {
+        return $this->entityManager->getRepository(Reservation::class)->getFutureReservationsByRoomAndMonth($room, $month);
+    }
+    
+    
+    
 
 
     /**

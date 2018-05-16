@@ -52,8 +52,8 @@ class TimeSlotIsFreeValidator extends ConstraintValidator
                     ->setParameter('{{nbReservations}}', $nbReservations)
                     ->setParameter('{{room}}', $reservation->getRoom()->getName())
                     ->setParameter('{{date}}', $reservation->getDate()->format('d/m/Y'))
-                    ->setParameter('{{timeBegin}}', $reservation->getTimeBegin()->format('H:i:s'))
-                    ->setParameter('{{timeEnd}}', $reservation->getTimeEnd()->format('H:i:s'))
+                    ->setParameter('{{timeBegin}}', $reservation->getTimeBegin()->format('H:i'))
+                    ->setParameter('{{timeEnd}}', $reservation->getTimeEnd()->format('H:i'))
                     //->atPath('foo')
                     ->addViolation();
             }
@@ -64,8 +64,8 @@ class TimeSlotIsFreeValidator extends ConstraintValidator
                 ->setParameter('{{nbReservations}}', $nbReservations)
                 ->setParameter('{{room}}', $reservation->getRoom()->getName())
                 ->setParameter('{{date}}', $reservation->getDate()->format('d/m/Y'))
-                ->setParameter('{{timeBegin}}', $reservation->getTimeBegin()->format('H:i:s'))
-                ->setParameter('{{timeEnd}}', $reservation->getTimeEnd()->format('H:i:s'))
+                ->setParameter('{{timeBegin}}', $reservation->getTimeBegin()->format('H:i'))
+                ->setParameter('{{timeEnd}}', $reservation->getTimeEnd()->format('H:i'))
                 //->atPath('foo')
                 ->addViolation();
         }

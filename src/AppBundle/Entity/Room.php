@@ -159,7 +159,12 @@ class Room
      * @return String
      */
     public function __toString(){
-        return $this->name;
+		if (isset($this->name)) {
+			$name = $this->name;
+		} else {
+			$name = '';
+		}
+        return $name;
     }
 }
 

@@ -114,7 +114,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
     
     
     /**
-     * Retourne le nombre de réservations d'une room sur un jour donné
+     * Retourne le nombre de réservations d'une room pour un jour donné
      *
      * @param Room $room
      * @param \DateTime $day
@@ -142,7 +142,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->getSingleScalarResult();
     }
     /**
-     * Retourne les réservations d'une room sur un jour donné
+     * Retourne les réservations d'une room pour un jour donné
      *
      * @param Room $room
      * @param \DateTime $day
@@ -191,6 +191,68 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
         
         return $this->createQueryBuilder('re')
             ->select('re')
+            ->andWhere('re.date >= :first')
+            ->setParameter('first', $first)
+            ->andWhere('re.date <= :last')
+            ->setParameter('last', $last)
+            ->getQuery()
+            ->getResult();
+    }
+    
+    
+    
+    
+    
+    
+    /**
+     * Retourne le nombre de futures réservations d'une room pour un mois donné
+     *
+     * @param Room $room
+     * @param \DateTime $month
+     *
+     * @return int
+     */
+    public function getNbFutureReservationsByRoomAndMonth($room, $month)
+    {
+        if(null === $month){
+            $month = new \DateTime();
+        }
+        $first = $month->modify('first day of this month')->format('Y-m-d');
+        $last = $month->modify('last day of this month')->format('Y-m-d');
+        
+        return $this->createQueryBuilder('re')
+            ->select('COUNT(re)')
+            ->leftJoin('re.room', 'ro')
+            ->where('ro.id = :id_room')
+            ->setParameter('id_room', $room->getId())
+            ->andWhere('re.date >= :first')
+            ->setParameter('first', $first)
+            ->andWhere('re.date <= :last')
+            ->setParameter('last', $last)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    /**
+     * Retourne les futures réservations d'une room pour un mois donné
+     *
+     * @param Room $room
+     * @param \DateTime $month
+     *
+     * @return Reservation[]
+     */
+    public function getFutureReservationsByRoomAndMonth($room, $month)
+    {
+        if(null === $month){
+            $month = new \DateTime();
+        }
+        $first = $month->modify('first day of this month')->format('Y-m-d');
+        $last = $month->modify('last day of this month')->format('Y-m-d');
+        
+        return $this->createQueryBuilder('re')
+            ->select('re')
+            ->leftJoin('re.room', 'ro')
+            ->where('ro.id = :room_id')
+            ->setParameter('room_id', $room->getId())
             ->andWhere('re.date >= :first')
             ->setParameter('first', $first)
             ->andWhere('re.date <= :last')

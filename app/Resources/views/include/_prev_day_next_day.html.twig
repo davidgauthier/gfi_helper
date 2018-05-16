@@ -2,29 +2,35 @@
 {% set c1 = (date|date('w') == 1) %}
 {# date du jour == vendredi #}
 {% set c2 = (date|date('w') == 5) %}
+{# jour demandé == jour de la date actuelle #}
+{% set c3 = (date|date('Y-m-d') == "now"|date('Y-m-d')) %}
 
 <span>
     
     {% if c1 %}
-        <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("-3 day")|date('Y-m-d')})}}">
+        <a class="btn btn-outline-primary btn-sm {% if c3 %} disabled {% endif %}"
+           {% if c3 %} aria-disabled="true" {% endif %}
+           {% if c3 %}href="#"{% else %}href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("-3 day")|date('Y-m-d')})}}"{% endif %}>
             <i class="fas fa-caret-square-left"></i>
             {{ date|date_modify("-3 day")|date('D d/m/Y') }}
         </a>
     {% else %}
-        <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("-1 day")|date('Y-m-d')})}}">
+        <a class="btn btn-outline-primary btn-sm {% if c3 %} disabled {% endif %}"
+           {% if c3 %} aria-disabled="true" {% endif %}
+           {% if c3 %}href="#"{% else %}href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("-1 day")|date('Y-m-d')})}}"{% endif %}>
             <i class="fas fa-caret-square-left"></i>
             {{ date|date_modify("-1 day")|date('D d/m/Y') }}
         </a>
     {% endif %}
     
     {% if c2 %}
-        <a class="float-right"
+        <a class="btn btn-outline-primary btn-sm float-right"
             href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("+3 day")|date('Y-m-d')})}}">
              {{ date|date_modify("+3 day")|date('D d/m/Y') }}
              <i class="fas fa-caret-square-right"></i>
          </a>
     {% else %}
-        <a class="float-right"
+        <a class="btn btn-outline-primary btn-sm float-right"
             href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("+1 day")|date('Y-m-d')})}}">
              {{ date|date_modify("+1 day")|date('D d/m/Y') }}
              <i class="fas fa-caret-square-right"></i>

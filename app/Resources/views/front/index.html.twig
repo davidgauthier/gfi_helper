@@ -6,38 +6,107 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('public/css/style_calendar.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}
     <div class="container">
         
-        
-        {# Plus tard, ici il faudrait utiliser un include en mode comme 
-            dans reservations_room_date.html.twig, cela nous évitera de charger
-            les infos pour toutes les salles ... ;) #}
-        
-        {# Permet l'affichage des différentes salles #}
-        <ul class="nav nav-tabs" role="tablist">
-            {% for room in rooms %}
-            <li class="nav-item">
-                <a class="nav-link {% if loop.index == 1 %} active {% endif %}" data-toggle="tab" href="#room{{ loop.index }}"><b>{{ room.name }}</b></a>
-            </li>
-            {% endfor %}
-        </ul>
+        <h2>Welcome in gfi_helper <small>(réservation de salles de réunion ^^)</small></h2>
         
         {{ include("include/_current_time.html.twig") }}
         
-        
-        {# Permet l'affichage du planning de chaque salle #}
-        <div class="tab-content">
-            {% for room in rooms %}
-                <div id="room{{ loop.index }}" class="container tab-pane {% if loop.index == 1 %} active {% endif %}">
-                    <br>
-                    {{ include("include/_calendar.html.twig") }}
+        <div class="row">
+            
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4>Planning</h4>
+                        <p class="card-text">Pour avoir une vue d'ensemble des réservations par mois et jours, rendez-vous dans le menu 'Planning'. Vous pourrez alors réserver si vous êtes loggué.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="button" class="btn btn-sm btn-outline-primary">Voir le planning</button>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
                 </div>
-            {% endfor %}
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4>Réserver</h4>
+                        <p class="card-text">Pour réserver, rendez-vous dans le menu 'Réserver' et complétez le formulaire...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="button" class="btn btn-sm btn-outline-primary">Réserver</button>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4>Mes réservations</h4>
+                        <p class="card-text">Vous avez la possibilité de lister vos futures réservations, et de les modifier ou supprimer. Rendez-vous dans le menu 'Mes réservations' en étant loggué.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="button" class="btn btn-sm btn-outline-primary">Mes réservations</button>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4>XXXXXXXXXXXXX</h4>
+                        <p class="card-text">blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla ..</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4>XXXXXXXXXXXXX</h4>
+                        <p class="card-text">blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla ..</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4>XXXXXXXXXXXXX</h4>
+                        <p class="card-text">blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla ..</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
+        
     </div>
 {% endblock %}
 

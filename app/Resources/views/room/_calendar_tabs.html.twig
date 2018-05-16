@@ -1,0 +1,13 @@
+
+<ul class="nav nav-tabs" role="tablist">
+    {% for r in allRooms %}
+    <li class="nav-item">
+        <a class="nav-link {% if (app.request.get('_route') == 'front_planning' or
+                                app.request.get('_route') == 'front_planning_room_month') and room.id == r.id %}
+                                active
+                            {% endif %}"  href="{{ path('front_planning_room_month', {'roomSlug': r.slug, 'month': month|date('Y-m-d')})}}">
+            <b>{{ r.name }}</b>
+        </a>
+    </li>
+    {% endfor %}
+</ul>

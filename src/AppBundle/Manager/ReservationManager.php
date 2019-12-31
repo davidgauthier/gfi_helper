@@ -72,27 +72,53 @@ class ReservationManager extends AbstractDoctrineManager
     
     
     /**
+     * @param Room $room
      * @param \DateTime $date
      * @param \DateTime $timeBegin
      * @param \DateTime $timeEnd
      * 
      * @return int
      */
-    public function getNbReservationsBySlotHours($date, $timeBegin, $timeEnd)
+    public function getNbReservationsByRoomAndSlotHours($room, $date, $timeBegin, $timeEnd)
     {
-        return $this->entityManager->getRepository(Reservation::class)->getNbReservationsBySlotHours($date, $timeBegin, $timeEnd);
+        return $this->entityManager->getRepository(Reservation::class)->getNbReservationsByRoomAndSlotHours($room, $date, $timeBegin, $timeEnd);
     }
     
     /**
+     * @param Room $room
      * @param \DateTime $date
      * @param \DateTime $timeBegin
      * @param \DateTime $timeEnd
      * 
      * @return Reservation[]
      */
-    public function getReservationsBySlotHours($date, $timeBegin, $timeEnd)
+    public function getReservationsByRoomAndSlotHours($room, $date, $timeBegin, $timeEnd)
     {
-        return $this->entityManager->getRepository(Reservation::class)->getReservationsBySlotHour($date, $timeBegin, $timeEnd);
+        return $this->entityManager->getRepository(Reservation::class)->getReservationsByRoomAndSlotHours($room, $date, $timeBegin, $timeEnd);
+    }
+    
+    
+    
+    /**
+     * @param Room $room
+     * @param \DateTime $month
+     * 
+     * @return int
+     */
+    public function getNbFutureReservationsByRoomAndMonth($room, $month)
+    {
+        return $this->entityManager->getRepository(Reservation::class)->getNbFutureReservationsByRoomAndMonth($room, $month);
+    }
+    
+    /**
+     * @param Room $room
+     * @param \DateTime $month
+     * 
+     * @return Reservation[]
+     */
+    public function getFutureReservationsByRoomAndMonth($room, $month)
+    {
+        return $this->entityManager->getRepository(Reservation::class)->getFutureReservationsByRoomAndMonth($room, $month);
     }
     
     

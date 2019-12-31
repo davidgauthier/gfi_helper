@@ -19,26 +19,47 @@ class DateTimesManager
      */
     public function getFirstDayWeekBeforeCurrentMonth()
     {
-        $firstDayWeekBeforeCurrentMonth = new \DateTime($this->getFirstDayOfCurrentMonth()->format('Y-m-d 00:00:00'));
-        
-        switch ($firstDayWeekBeforeCurrentMonth->format('w')){
-            case 0: // Dimanche
-                $firstDayWeekBeforeCurrentMonth->modify('-6 day');break;
-            case 1: // Lundi
-                $firstDayWeekBeforeCurrentMonth->modify('+0 day');break;
-            case 2: // Mardi
-                $firstDayWeekBeforeCurrentMonth->modify('-1 day');break;
-            case 3: // Mercredi
-                $firstDayWeekBeforeCurrentMonth->modify('-2 day');break;
-            case 4: // Jeudi
-                $firstDayWeekBeforeCurrentMonth->modify('-3 day');break;
-            case 5: // Vendredi
-                $firstDayWeekBeforeCurrentMonth->modify('-4 day');break;
-            case 6: // Samedi
-                $firstDayWeekBeforeCurrentMonth->modify('-5 day');break;
-        }
-        return $firstDayWeekBeforeCurrentMonth;
+        $now = new \DateTime();
+        return $this->getFirstDayWeekBeforeMonth($now);
     }
+    
+    /**
+     * @param \DateTime $month
+     * 
+     * @return \DateTime
+     */
+    public function getFirstDayOfMonth($month)
+    {
+        return new \DateTime($month->format('Y-m-01 00:00:00'));
+    }
+    /**
+     * @param \DateTime $month
+     * 
+     * @return \DateTime
+     */
+    public function getFirstDayWeekBeforeMonth($month)
+    {
+        $firstDayWeekBeforeMonth = new \DateTime($this->getFirstDayOfMonth($month)->format('Y-m-d 00:00:00'));
+        
+        switch ($firstDayWeekBeforeMonth->format('w')){
+            case 0: // Dimanche
+                $firstDayWeekBeforeMonth->modify('-6 day');break;
+            case 1: // Lundi
+                $firstDayWeekBeforeMonth->modify('+0 day');break;
+            case 2: // Mardi
+                $firstDayWeekBeforeMonth->modify('-1 day');break;
+            case 3: // Mercredi
+                $firstDayWeekBeforeMonth->modify('-2 day');break;
+            case 4: // Jeudi
+                $firstDayWeekBeforeMonth->modify('-3 day');break;
+            case 5: // Vendredi
+                $firstDayWeekBeforeMonth->modify('-4 day');break;
+            case 6: // Samedi
+                $firstDayWeekBeforeMonth->modify('-5 day');break;
+        }
+        return $firstDayWeekBeforeMonth;
+    }
+    
     
     
     /**
@@ -54,27 +75,46 @@ class DateTimesManager
      */
     public function getLastDayWeekAfterCurrentMonth()
     {
-        $lastDayWeekAfterCurrentMonth = new \DateTime($this->getLastDayOfCurrentMonth()->format('Y-m-d 00:00:00'));
-        
-        switch ($lastDayWeekAfterCurrentMonth->format('w')){
-            case 0: // Dimanche
-                $lastDayWeekAfterCurrentMonth->modify('+0 day');break;
-            case 1: // Lundi
-                $lastDayWeekAfterCurrentMonth->modify('+6 day');break;
-            case 2: // Mardi
-                $lastDayWeekAfterCurrentMonth->modify('+5 day');break;
-            case 3: // Mercredi
-                $lastDayWeekAfterCurrentMonth->modify('+4 day');break;
-            case 4: // Jeudi
-                $lastDayWeekAfterCurrentMonth->modify('+3 day');break;
-            case 5: // Vendredi
-                $lastDayWeekAfterCurrentMonth->modify('+2 day');break;
-            case 6: // Samedi
-                $lastDayWeekAfterCurrentMonth->modify('+1 day');break;
-        }
-        return $lastDayWeekAfterCurrentMonth;
+        $now = new \DateTime();
+        return $this->getLastDayWeekAfterMonth($now);
     }
     
+    /**
+     * @param \DateTime $month
+     * 
+     * @return \DateTime
+     */
+    public function getLastDayOfMonth($month)
+    {
+        return new \DateTime($month->format('Y-m-t 00:00:00'));
+    }
+    /**
+     * @param \DateTime $month
+     * 
+     * @return \DateTime
+     */
+    public function getLastDayWeekAfterMonth($month)
+    {
+        $lastDayWeekAfterMonth = new \DateTime($this->getLastDayOfMonth($month)->format('Y-m-d 00:00:00'));
+        
+        switch ($lastDayWeekAfterMonth->format('w')){
+            case 0: // Dimanche
+                $lastDayWeekAfterMonth->modify('+0 day');break;
+            case 1: // Lundi
+                $lastDayWeekAfterMonth->modify('+6 day');break;
+            case 2: // Mardi
+                $lastDayWeekAfterMonth->modify('+5 day');break;
+            case 3: // Mercredi
+                $lastDayWeekAfterMonth->modify('+4 day');break;
+            case 4: // Jeudi
+                $lastDayWeekAfterMonth->modify('+3 day');break;
+            case 5: // Vendredi
+                $lastDayWeekAfterMonth->modify('+2 day');break;
+            case 6: // Samedi
+                $lastDayWeekAfterMonth->modify('+1 day');break;
+        }
+        return $lastDayWeekAfterMonth;
+    }
     
     
     
@@ -86,6 +126,39 @@ class DateTimesManager
         $now = new \DateTime();
         return new \DateTime($now->format('Y-m-d h:00:00'));
     }
+    
+    
+    
+    
+    /**
+     * @param \DateTime $month
+     * 
+     * @return \DateTime
+     */
+    public function getPrevMonth($month)
+    {
+        $prevMonth = new \DateTime($month->format('Y-m-d'));
+        $prevMonth->modify('-1 day');
+        $prevMonth->modify('first day of this month');
+        
+        return $prevMonth;
+    }
+    /**
+     * @param \DateTime $month
+     * 
+     * @return \DateTime
+     */
+    public function getNextMonth($month)
+    {
+        $nextMonth = new \DateTime($month->format('Y-m-d'));
+        $nextMonth->modify('last day of this month');
+        $nextMonth->modify('+1 day');
+        
+        return $nextMonth;
+    }
+    
+    
+    
     
     
     

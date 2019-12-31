@@ -12,22 +12,30 @@
 {% block content %}
     <div class="container">
     	
-        <h2>{{room.name}} : Réservations du {{ date|date('d/m/Y')}}</h2>
+{#        {{ include("include/_current_time.html.twig") }}#}
+        
+        {{ include("room/_tabs.html.twig") }}
+        
+        {{ include("include/_prev_day_next_day.html.twig") }}
+        
+        
+        <h2><b>{{room.name}}</b> : Réservations du {{ date|date('D d/m/Y') }}</h2>
         
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-hover table-light">
                 <thead>
                     <tr>
                         <th>Créneau</th>
-                        <th style="width: 45%">Utilisateur</th>
+                        <th style="width: 66%">Utilisateur | Commentaire</th>
                     </tr>
                 </thead>
                 <tbody>
                 
                     {# compteur de reservation pour permetre l'alternance des couleurs #}
-                    {% set compteur = 0 %}
+                    {% set comptResa = 0 %}
                     {# variable pour comparaison resas => l'alternance des couleurs #}
                     {% set tempResa = false %}
+                    
                     {% set creneaux = ["08:00 - 08:30", "08:30 - 09:00",
                                         "09:00 - 09:30", "09:30 - 10:00",
                                         "10:00 - 10:30", "10:30 - 11:00",
@@ -40,7 +48,7 @@
                                         "17:00 - 17:30", "17:30 - 18:00",
                                         "18:00 - 18:30", "18:30 - 19:00",] %}
 
-
+                    {# Bouclons sur les créneaux pour l'affichage #}
                     {% for creneau in creneaux %}
 
                         {% set resa     = false %}
@@ -70,26 +78,48 @@
                             {% if (c09 and c07 and c10 and c04) or (c01 and c07 and c10 and c08)
                                 or (c01 and c07 and c10 and c04) or (c09 and c07 and c10 and c08) %}
 
-                                {% set resa     = reservation %}
-                                {% set break    = true %}
+                                {% set resa             = reservation %}
+                                {% set break            = true %}
 
                             {% endif %}
 
                         {% endfor %}
-
+                        
+                        
+                        
                         {# S'il y à une reservation dans ce 'créneau' #}
                         {% if resa %}
-
+                            
+                            {# Si première résa de la journée ou bien réservation différente de la précédente #}
                             {% if tempResa != resa %}
-                                {% set compteur = compteur + 1 %}
-                                {% set tempResa = resa %}
+                                
+                                <tr class="{% if comptResa is odd %}table-primary{% else %}table-success{% endif %}">
+                                    <td>{{ creneau }}</td>
+
+                                    <td {% if resa.nbCreneaux > 1 %}rowspan="{{ resa.nbCreneaux }}"{% endif %}>
+                                        <b>{{ resa.user.username }}</b>{% if resa.comment %} | {{ resa.comment }}{% endif %}
+                                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == resa.user.id %}
+                                            <a href="{{ path('app_reservation_edit', {'id': resa.id}) }}"
+                                                class="showOnHover badge badge-warning float-right">
+                                                <i class="far fa-edit"></i> Editer
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                    
+                                    {% set comptResa    = comptResa + 1 %}
+                                    {% set tempResa     = resa %}
+
+                                </tr>
+                            {# Sinon, même résa #}
+                            {% else %}
+                                <tr class="{% if comptResa is not odd %}table-primary{% else %}table-success{% endif %}">
+                                    <td>{{ creneau }}</td>
+                                </tr>
                             {% endif %}
-
-                            <tr class="{% if compteur is odd %}table-info{% else %}table-secondary{% endif %}">
-                                <td>{{ creneau }}</td>
-                                <td>{{ resa.user.username }}</td>
-                            </tr>
-
+                            
+                            
+                            
+                            
                         {# Sinon, ce 'créneau' est "réservable" #}
                         {% else %}
                             <tr>
@@ -97,21 +127,39 @@
                                 <td>
                                     <a href="{{ path('app_reservation_new_prefilled', {'roomSlug': room.slug, 'date': date|date('Y-m-d'), 'timeBegin': creneauBegin, 'timeEnd': creneauEnd }) }}"
                                         class="showOnHover badge badge-primary float-right">
-                                        Réserver
+                                        <i class="far fa-plus-square"></i> Réserver
                                     </a>
                                 </td>
                             </tr>
                         {% endif %}
+                        
 
                     {% endfor %}
                         
                 </tbody>
             </table>
         </div>
+                        
+                        
+        {{ include("include/_prev_day_next_day.html.twig") }}
+        
     </div>
     
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    
+    {#<script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            setInterval(function() {
+                $('#span_date').html(
+                    moment().format('DD/MM/YYYY - HH:mm:ss')
+                );
+            }, 100);
+
+        });
+    </script>#}
+    
 {% endblock %}

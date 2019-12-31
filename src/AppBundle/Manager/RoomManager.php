@@ -8,6 +8,15 @@ use AppBundle\Entity\Room;
 class RoomManager extends AbstractDoctrineManager
 {
     /**
+     * @return Room[]
+     */
+    public function getAll()
+    {
+        return $this->entityManager->getRepository(Room::class)->findAll();
+    }
+    
+    
+    /**
      * @return Room
      */
     public function getRoomById($id)
@@ -21,6 +30,15 @@ class RoomManager extends AbstractDoctrineManager
     public function getRoomBySlug($slug)
     {
         return $this->entityManager->getRepository(Room::class)->findOneBySlug($slug);
+    }
+    
+    
+    /**
+     * @return Room[]
+     */
+    public function getRandomRoom()
+    {
+        return $this->entityManager->getRepository(Room::class)->getRandomRoom();
     }
     
     

@@ -19,6 +19,14 @@ class LoadRoomData extends AbstractFixture implements OrderedFixtureInterface
                 'name'          => 'BoxTel du 5ème',
                 'description'   => 'BoxTel du 5ème étage, Lille 2, aile Est.',
             ),
+            array(
+                'name'          => 'Salle Opéra du 4ème',
+                'description'   => 'Salle Opéra du 4ème étage, Lille 2, aile Est.',
+            ),
+            array(
+                'name'          => 'Petite salle du 4ème',
+                'description'   => 'Petite salle du 4ème étage, Lille 2, aile Est.',
+            ),
         );
 
         foreach ($rooms as $i => $roo) {

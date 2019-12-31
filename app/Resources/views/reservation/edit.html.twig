@@ -1,7 +1,7 @@
-{% extends 'layout.html.twig' %}
+{%  extends "::layout.html.twig" %}
 
 {% block title %}
-    {{ parent() }} - Nouvelle réservation
+    {{ parent() }} - Edition de reservation
 {% endblock %}
 
 {% block stylesheets %}
@@ -11,11 +11,11 @@
 
 
 
-
 {% block content %}
 
+
     <div class="container">
-        <h2 class="text-center">Nouvelle réservation</h2>
+        <h2 class="text-center">Edition de réservation</h2>
         <br>
         <div class="row align-items-center">
             <div class="col">
@@ -37,7 +37,13 @@
                     <button type="submit" class="btn btn-primary">Valider</button>
                 </div>
                 {{ form_end(form) }}
-
+                
+                
+                <a href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
+                    class="showOnHover badge badge-danger float-right">
+                    <i class="far fa-calendar-times"></i> Supprimer
+                </a>
+                                    
             </div>
             <div class="col">
 
@@ -45,15 +51,16 @@
         </div>
 
     </div>
-    
+
+
 {% endblock %}
 
 
 {% block javascripts %}
+
     {{ parent() }}
     <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
-    
     
     <script type="text/javascript">
         $(function () {
@@ -91,19 +98,7 @@
             timeEndPicker.datetimepicker('date', timeEnd);
         });
     </script>
-    
-    
-    
-    <script type="text/javascript">
-        {#$(document).ready(function () {
-            var date        = $('#appbundle_reservation_date').attr('value');
-            var timeBegin   = $('#appbundle_reservation_timeBegin').attr('value');
-            var timeEnd     = $('#appbundle_reservation_timeEnd').attr('value');
-            $('#appbundle_reservation_date').val(date);
-            $('#appbundle_reservation_timeBegin').val(timeBegin);
-            $('#appbundle_reservation_timeEnd').val(timeEnd);
-        });#}
-    </script>
-    
-    
+
 {% endblock %}
+
+

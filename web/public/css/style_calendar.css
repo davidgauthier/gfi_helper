@@ -18,10 +18,7 @@
     }
 }
 
-#div_calendar > break_after_day:nth-child(7n+0) {
-    /*display: inline-block!important;*/
-    width: 100%;
-}
+
 
 /*Medium devices (tablets, 768px and up)*/
 @media (max-width: 767px) {

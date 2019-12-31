@@ -10,103 +10,54 @@
 
 {% block content %}
     <div class="container">
-        
-        <h2>Welcome in gfi_helper <small>(réservation de salles de réunion ^^)</small></h2>
-        
+    	<div style="background-color: #EFEFEF;border-radius: 12px / 65px;box-shadow: 0 0 10px black;font-family: Tw Cen MT">
+        <h2 style="text-align:center;">
+        	<high style="color:blue;font-weight:bold;">OU</high>til de <high style="color:blue;font-weight:bold;">R</high>éservations de <high style="color:blue;font-weight:bold;">S</high>alles
+        </h2>
         {{ include("include/_current_time.html.twig") }}
-        
+        </div><br>
         <div class="row">
-            
             <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
+                <div class="card mb-4 box-shadow" style="height: 230px;border-radius: 12px / 65px;box-shadow: 0 0 10px red;">
+                    <div class="card-body" style="background-color: #007bff;color: white">
                         <h4>Planning</h4>
                         <p class="card-text">Pour avoir une vue d'ensemble des réservations par mois et jours, rendez-vous dans le menu 'Planning'. Vous pourrez alors réserver si vous êtes loggué.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button type="button" class="btn btn-sm btn-outline-primary">Voir le planning</button>
-                            <small class="text-muted">9 mins</small>
+                        <div class="d-flex justify-content-between align-items-center" style="align:right">
+                            <a class="btn btn-light" href="{{ path('front_planning') }}" role="button">
+                                <i class="far fa-calendar-alt"></i> Voir le planning
+                            </a>
+                            <!--<small class="text-muted">9 mins</small>-->
                         </div>
                     </div>
                 </div>
             </div>
-            
             <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
+                <div class="card mb-4 box-shadow" style="height: 230px;border-radius: 12px / 65px;box-shadow: 0 0 10px blue;">
+                    <div class="card-body" style="background-color: #007bff;color: white">
                         <h4>Réserver</h4>
                         <p class="card-text">Pour réserver, rendez-vous dans le menu 'Réserver' et complétez le formulaire...</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button type="button" class="btn btn-sm btn-outline-primary">Réserver</button>
-                            <small class="text-muted">9 mins</small>
+                        <div class="d-flex justify-content-between align-items-center" style="align:right">
+                            <a class="btn btn-light" href="{{ path('app_reservation_new_blank') }}" role="button">
+                                <i class="far fa-calendar-plus"></i> Reserver une salle
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            
             <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
+                <div class="card mb-4 box-shadow" style="height: 230px;border-radius: 12px / 65px;box-shadow: 0 0 10px green;">
+                    <div class="card-body" style="background-color: #007bff;color: white">
                         <h4>Mes réservations</h4>
                         <p class="card-text">Vous avez la possibilité de lister vos futures réservations, et de les modifier ou supprimer. Rendez-vous dans le menu 'Mes réservations' en étant loggué.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button type="button" class="btn btn-sm btn-outline-primary">Mes réservations</button>
-                            <small class="text-muted">9 mins</small>
+                        <div class="d-flex justify-content-between align-items-center" style="align:right">
+                            <a class="btn btn-light" href="{{ path('front_myreservations') }}" role="button">
+                                <i class="fas fa-clipboard-list"></i> Voir mes réservations
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            
-            <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4>XXXXXXXXXXXXX</h4>
-                        <p class="card-text">blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla ..</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-muted">9 mins</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4>XXXXXXXXXXXXX</h4>
-                        <p class="card-text">blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla ..</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-muted">9 mins</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4>XXXXXXXXXXXXX</h4>
-                        <p class="card-text">blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla ..</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                            <small class="text-muted">9 mins</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        
+            </div>     
+        </div> 
     </div>
 {% endblock %}
 
@@ -114,7 +65,6 @@
     {{ parent() }}
     <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
-    
     <script>
         $(document).ready(function() {
             setInterval(function() {

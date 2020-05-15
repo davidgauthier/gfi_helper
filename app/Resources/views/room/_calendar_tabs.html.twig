@@ -6,6 +6,12 @@
                                 app.request.get('_route') == 'front_planning_room_month') and room.id == r.id %}
                                 active
                             {% endif %}"  href="{{ path('front_planning_room_month', {'roomSlug': r.slug, 'month': month|date('Y-m-d')})}}">
+            {% if (app.request.get('_route') == 'front_planning' or
+                app.request.get('_route') == 'front_planning_room_month') and room.id == r.id %}
+                <i class="fas fa-door-open"></i>
+            {% else %}
+                <i class="fas fa-door-closed"></i>
+            {% endif %}
             <b>{{ r.name }}</b>
         </a>
     </li>

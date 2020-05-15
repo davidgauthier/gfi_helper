@@ -4,6 +4,11 @@
         <a class="nav-link {% if app.request.get('_route') == 'front_reservations_room_date' and room.id == r.id %}
                                 active
                             {% endif %}"  href="{{ path('front_reservations_room_date', {'roomSlug': r.slug, 'date': date|date('Y-m-d')})}}">
+            {% if app.request.get('_route') == 'front_reservations_room_date' and room.id == r.id %}
+                <i class="fas fa-door-open"></i>
+            {% else %}
+                <i class="fas fa-door-closed"></i>
+            {% endif %}
             <b>{{ r.name }}</b>
         </a>
     </li>

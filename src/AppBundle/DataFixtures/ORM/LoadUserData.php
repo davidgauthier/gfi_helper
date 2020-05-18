@@ -35,6 +35,31 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
                 'roles'     => array('ROLE_ADMIN'),
             ),
             array(
+                'username'  => 'fabien',
+                'email'     => 'fabien@gfi.fr',
+                'password'  => 'fab',
+                'roles'     => array(),
+            ),
+            array(
+                'username'  => 'vincent',
+                'email'     => 'vincent@gfi.fr',
+                'password'  => 'vin',
+                'roles'     => array(),
+            ),
+            array(
+                'username'  => 'armand',
+                'email'     => 'armand@gfi.fr',
+                'password'  => 'arm',
+                'roles'     => array(),
+            ),
+            array(
+                'username'  => 'antoine',
+                'email'     => 'antoine@gfi.fr',
+                'password'  => 'ant',
+                'roles'     => array(),
+            ),
+
+            array(
                 'username'  => 'user',
                 'email'     => 'user@gfi.fr',
                 'password'  => 'user',
@@ -44,6 +69,19 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
                 'username'  => 'toto',
                 'email'     => 'toto@gfi.fr',
                 'password'  => 'toto',
+                'roles'     => array(),
+            ),
+
+            array(
+                'username'  => 'rudy',
+                'email'     => 'rudy@gfi.fr',
+                'password'  => 'rud',
+                'roles'     => array(),
+            ),
+            array(
+                'username'  => 'daniele',
+                'email'     => 'daniele@gfi.fr',
+                'password'  => 'dan',
                 'roles'     => array(),
             ),
 

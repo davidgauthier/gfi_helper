@@ -7,7 +7,15 @@ imports:
 services:
     
     app.datetimes_manager:
-            class: AppBundle\Manager\DateTimesManager
-            arguments:
-#                - "@=service('doctrine').getManager()"
-            public: true
+        class: AppBundle\Manager\DateTimesManager
+        arguments:
+#            - "@=service('doctrine').getManager()"
+        public: true
+
+    app.openweathermap:
+        class: AppBundle\Openweathermap\Openweathermap
+        arguments:
+            - '@csa_guzzle.client.openweathermap'
+            - %openweathermap_api_key%
+            - %openweathermap_api_city%
+            - '@jms_serializer'

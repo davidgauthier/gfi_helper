@@ -114,4 +114,9 @@ sonata_admin:
     title: 'helper Admin'
     title_logo: public/images/ico_gfi_carre_petit.png
 
-
+# CsaGuzzle configuration
+csa_guzzle:
+    clients:
+        openweathermap:
+            config:
+                base_uri: http://api.openweathermap.org

@@ -18,7 +18,8 @@
         {{ include("room/_calendar_tabs.html.twig") }}
         
         {{ include("include/_current_time.html.twig") }}
-        
+
+
         {{ include("include/_prev_month_next_month.html.twig") }}
         
         {{ include("include/_calendar.html.twig") }}
@@ -33,8 +34,16 @@
     {{ parent() }}
     <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
-    
+
     <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover({html:true})
+        });
+    </script>
+
+    <script>
+
+
         $(document).ready(function() {
             setInterval(function() {
                 $('#span_date').html(

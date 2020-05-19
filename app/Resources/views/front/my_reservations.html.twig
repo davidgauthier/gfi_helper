@@ -25,6 +25,7 @@
                             <th rowspan="2"><i class="far fa-calendar-alt"></i> Date</th>
                             <th colspan="2"><i class="far fa-clock"></i> Heure</th>
                             <th rowspan="2"><i class="far fa-comment-dots"></i> Commentaire</th>
+                            <th rowspan="2"><i class="far fa-save"></i> Modifié le</th>
                             <th rowspan="2" {#style="width: 10%"#}><i class="far fa-edit"></i> Editer</th>
                         </tr>
                         <tr>
@@ -41,12 +42,13 @@
                                 <td>{{ reservation.timeBegin|date('H:i') }}</td>
                                 <td>{{ reservation.timeEnd|date('H:i') }}</td>
                                 <td>
-                                    {% if reservation.comment|length < 8 %}
+                                    {% if reservation.comment|length < 12 %}
                                         {{ reservation.comment }}
                                     {% else %}
-                                        {{ reservation.comment|slice(0, 7) ~ '..' }}
+                                        {{ reservation.comment|slice(0, 11) ~ '..' }}
                                     {% endif %}
                                 </td>
+                                <td>{{ reservation.updatedAt|date('d/m/Y H:i:s') }}</td>
                                 <td>
                                     <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}"
                                         class="showOnHover badge badge-warning">

@@ -63,6 +63,15 @@ class ReservationType extends AbstractType
                 ],
             ])
             ->add('comment')
+            ->add('updatedAt', DateTimeType::class, [
+                'disabled' => true,
+                'widget' => 'single_text',
+                'input' => 'datetime',
+                'format' => 'dd/mm/yyyy HH:mm:ss',
+                'attr' => [
+                    'readonly' => true,
+                ],
+            ])
         ;
     }
     

@@ -11,13 +11,15 @@
 {% block content %}
     <div class="container">
     	<div style="background-color: #EFEFEF;border-radius: 12px / 65px;box-shadow: 0 0 10px black;font-family: Tw Cen MT">
-        <h2 style="text-align:center;">
-        	<high style="color:blue;font-weight:bold;">OU</high>til de <high style="color:blue;font-weight:bold;">R</high>éservations de <high style="color:blue;font-weight:bold;">S</high>alles
-        </h2>
-        {{ include("include/_current_time.html.twig") }}
-        </div><br>
+            <h2 style="text-align:center;">
+                <high style="color:blue;font-weight:bold;">OU</high>til de <high style="color:blue;font-weight:bold;">R</high>éservations de <high style="color:blue;font-weight:bold;">S</high>alles
+            </h2>
+            <h3 style="text-align:center;">{{ 'à ' ~ ville }}</h3>
+            {{ include("include/_current_time.html.twig") }}
+        </div>
+        <br>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12 col-lg-6">
                 <div class="card mb-4 box-shadow" style="height: 230px;border-radius: 12px / 65px;box-shadow: 0 0 10px red;">
                     <div class="card-body" style="background-color: #007bff;color: white">
                         <h4>Planning</h4>
@@ -31,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12 col-lg-6">
                 <div class="card mb-4 box-shadow" style="height: 230px;border-radius: 12px / 65px;box-shadow: 0 0 10px blue;">
                     <div class="card-body" style="background-color: #007bff;color: white">
                         <h4>Réserver</h4>
@@ -44,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12 col-lg-6">
                 <div class="card mb-4 box-shadow" style="height: 230px;border-radius: 12px / 65px;box-shadow: 0 0 10px green;">
                     <div class="card-body" style="background-color: #007bff;color: white">
                         <h4>Mes réservations</h4>
@@ -56,7 +58,20 @@
                         </div>
                     </div>
                 </div>
-            </div>     
+            </div>
+            <div class="col-md-12 col-lg-6">
+                <div class="card mb-4 box-shadow" style="height: 230px;border-radius: 12px / 65px;box-shadow: 0 0 10px yellow;">
+                    <div class="card-body" style="background-color: #007bff;color: white">
+                        <h4>Consulter Météo actuelle</h4>
+                        <p class="card-text">Vous avez la possibilité de consulter plusieurs information sur la météo actuelle pour votre ville : <strong>{{ ville }}</strong>.</p>
+                        <div class="d-flex justify-content-between align-items-center" style="align:right">
+                            <a class="btn btn-light" href="{{ path('front_weather') }}" role="button">
+                                <i class="fas fa-cloud-sun"></i> Météo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div> 
     </div>
 {% endblock %}

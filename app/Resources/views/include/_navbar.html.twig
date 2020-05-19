@@ -41,6 +41,14 @@
                     </a>
                 </li>
            {% endif %}
+            <li class="nav-item {% if app.request.get('_route') == 'front_weather' %}active{% endif %}">
+                <a class="nav-link" href="{{ path('front_weather') }}">
+                    <i class="fas fa-cloud-sun"></i> Météo
+                    {% if app.request.get('_route') == 'front_weather' %}
+                        <span class="sr-only">(current)</span>
+                    {% endif %}
+                </a>
+            </li>
         </ul>
         
         {#<form class="form-inline my-2 my-lg-0">

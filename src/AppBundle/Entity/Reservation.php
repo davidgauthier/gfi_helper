@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Gedmo\Mapping\Annotation as Gedmo;
+
 use AppBundle\Validator\Constraints as CustomAssert;
 
 /**
@@ -84,6 +86,14 @@ class Reservation
      * nbCreneaux
      */
     private $nbCreneaux;
+
+    /**
+     * updatedAt
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
     
     
     /**
@@ -241,9 +251,7 @@ class Reservation
     }
     
     
-    
-    
-    
+
     /**
      * Set nb creneaux.
      *
@@ -264,6 +272,18 @@ class Reservation
     {
         return $this->nbCreneaux;
     }
+
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
     
     /**
      * Get nombre de "créneaux" (ici, 30minutes le créneau).

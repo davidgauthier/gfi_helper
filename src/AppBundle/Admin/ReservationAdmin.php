@@ -36,6 +36,7 @@ class ReservationAdmin extends AbstractAdmin
 //                    'with_seconds'  => false,
             ))
             ->add('comment')
+            ->add('updatedAt')
         ;
     }
 
@@ -49,6 +50,7 @@ class ReservationAdmin extends AbstractAdmin
             ->add('timeBegin')
             ->add('timeEnd')
             ->add('comment')
+            ->add('updatedAt')
         ;
     }
 
@@ -68,6 +70,7 @@ class ReservationAdmin extends AbstractAdmin
                 'format' => 'H:i',
             ])
             ->add('comment')
+            ->add('updatedAt')
         ;
     }
 }

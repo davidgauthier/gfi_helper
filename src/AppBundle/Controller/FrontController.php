@@ -19,9 +19,26 @@ class FrontController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $today = new \Datetime();
+        $nxtMonday = new \Datetime();
+        $nxtTuesday = new \Datetime();
+        $nxtWednesday = new \Datetime();
+        $nxtThursday = new \Datetime();
+        $nxtFriday = new \Datetime();
+        $nxtMonday->modify('next Monday');
+        $nxtTuesday->modify('next Tuesday');
+        $nxtWednesday->modify('next Wednesday');
+        $nxtThursday->modify('next Thursday');
+        $nxtFriday->modify('next Friday');
+
+//        var_dump($today);
+//        var_dump("toto");
+//        var_dump($nxtMonday, $nxtTuesday, $nxtWednesday, $nxtThursday, $nxtFriday);die;
+
+        $ville = $this->container->getParameter('openweathermap_api_city');
         
         return $this->render(':front:index.html.twig', [
-            
+            'ville' => $ville,
         ]);
         
     }
@@ -33,8 +50,22 @@ class FrontController extends Controller
      */
     public function planningAction(Request $request)
     {
+        // Pour test la fixture .... [A SUPPR]
+//        $nxtFridayPlusSeven         = new \Datetime();
+//        $azerty1                    = new \Datetime();
+//        $nxtFridayPlusFourteen      = new \Datetime();
+//        $nxtFridayPlusSeven->modify('next Friday')->modify('+7 days');
+//        $azerty1->modify('next Friday')->modify('+10 days');
+//        $nxtFridayPlusFourteen->modify('next Friday')->modify('+14 days');
+//        // a
+//        var_dump($nxtFridayPlusSeven, $azerty1, $nxtFridayPlusFourteen);die;
+
         $dateTimesManager   = $this->get('app.datetimes_manager');
         $roomManager        = $this->get('app.room_manager');
+
+        $openweathermapService      = $this->get('app.openweathermap');
+        $fiveDaysForecastWeather    = $openweathermapService->getFiveDaysForecastWeather();
+
         
         $month      = new \Datetime();
         $month->modify('first day of this month');
@@ -52,18 +83,21 @@ class FrontController extends Controller
         
         $interval   = \DateInterval::createFromDateString('1 day');
         $period     = new \DatePeriod($firstDayWeekBeforeMonth, $interval, $lastDayWeekAfterMonth->modify('+1 day')); // ->modify('+1 day') : Pour inclure le dernier jour de l'interval
-        
+
         // Nous allons créer et remplir notre tableau des jours à afficher
         $days = [];
         foreach ($period as $dt){
             $reservationsDuJour = [];
             foreach ($reservations as $reservation){
                 // Si la date de la réservation en cours égale le jour bouclé
-                if($reservation->getDate() == $dt){
-                    $reservationsDuJour[] = $reservation;
+
+                if($reservation->getDate()->format('Y-m-d') == $dt->format('Y-m-d')){
+                    //$reservationsDuJour[] = $reservation;
+                    array_push($reservationsDuJour, $reservation);
                 }
             }
             $days[] = new Day($dt, $reservationsDuJour);
+            unset($reservationsDuJour);
         }
         
         $allRooms       = $roomManager->getAll();
@@ -71,10 +105,16 @@ class FrontController extends Controller
         return $this->render(':front:calendar_room_month.html.twig', [
             'room'      => $room[0],
             'days'      => $days,
+            'reservations' => $reservations,
             'month'     => $month,
             'prevMonth' => $prevMonth,
             'nextMonth' => $nextMonth,
             'allRooms'  => $allRooms,
+            'fiveDaysForecastWeather0' => array_slice($fiveDaysForecastWeather, 0, 8),
+            'fiveDaysForecastWeather1' => array_slice($fiveDaysForecastWeather, 8, 8),
+            'fiveDaysForecastWeather2' => array_slice($fiveDaysForecastWeather, 16, 8),
+            'fiveDaysForecastWeather3' => array_slice($fiveDaysForecastWeather, 24, 8),
+            'fiveDaysForecastWeather4' => array_slice($fiveDaysForecastWeather, 32, 8),
         ]);
     }
     
@@ -86,7 +126,11 @@ class FrontController extends Controller
     {
         $dateTimesManager   = $this->get('app.datetimes_manager');
         $roomManager        = $this->get('app.room_manager');
-        
+
+        $openweathermapService      = $this->get('app.openweathermap');
+        $fiveDaysForecastWeather    = $openweathermapService->getFiveDaysForecastWeather();
+
+
         // A voir si on arrive a faire passer seulement année-mois (ex: "2018-05") dans l'url..
         $month      = new \Datetime($month);
         
@@ -104,14 +148,14 @@ class FrontController extends Controller
         //var_dump($firstDayWeekBeforeMonth, $lastDayWeekAfterMonth);die;
         $interval = \DateInterval::createFromDateString('1 day');
         $period = new \DatePeriod($firstDayWeekBeforeMonth, $interval, $lastDayWeekAfterMonth->modify('+1 day')); // ->modify('+1 day') : Pour inclure le dernier jour de l'interval
-        
+
         // Nous allons créer et remplir notre tableau des jours à afficher
         $days = [];
         foreach ($period as $dt){
             $reservationsDuJour = [];
             foreach ($reservations as $reservation){
                 // Si la date de la réservation en cours égale le jour bouclé
-                if($reservation->getDate() == $dt){
+                if($reservation->getDate()->format('Y-m-d') == $dt->format('Y-m-d')){
                     $reservationsDuJour[] = $reservation;
                 }
             }
@@ -123,10 +167,16 @@ class FrontController extends Controller
         return $this->render(':front:calendar_room_month.html.twig', [
             'room'      => $room,
             'days'      => $days,
+            'reservations' => $reservations,
             'month'     => $month,
             'prevMonth' => $prevMonth,
             'nextMonth' => $nextMonth,
             'allRooms'  => $allRooms,
+            'fiveDaysForecastWeather0' => array_slice($fiveDaysForecastWeather, 0, 8),
+            'fiveDaysForecastWeather1' => array_slice($fiveDaysForecastWeather, 8, 8),
+            'fiveDaysForecastWeather2' => array_slice($fiveDaysForecastWeather, 16, 8),
+            'fiveDaysForecastWeather3' => array_slice($fiveDaysForecastWeather, 24, 8),
+            'fiveDaysForecastWeather4' => array_slice($fiveDaysForecastWeather, 32, 8),
         ]);
     }
     
@@ -165,6 +215,25 @@ class FrontController extends Controller
             'allRooms'      => $allRooms,
         ]);
     }
+
+
+    /**
+     * @Route("/weather", name="front_weather")
+     *
+     */
+    public function weatherAction(Request $request)
+    {
+        $openweathermapService      = $this->get('app.openweathermap');
+        $currentWeather             = $openweathermapService->getCurrentWeather();
+
+        $ville = $this->container->getParameter('openweathermap_api_city');
+
+        return $this->render(':front:weather.html.twig', [
+            'currentWeather'    => $currentWeather,
+            'ville'             => $ville,
+        ]);
+    }
+
     
     
 }

@@ -223,14 +223,19 @@ class FrontController extends Controller
      */
     public function weatherAction(Request $request)
     {
-        $openweathermapService      = $this->get('app.openweathermap');
-        $currentWeather             = $openweathermapService->getCurrentWeather();
+        $city = null;
+        if($request->isMethod('post')){
+            $city = $request->request->get('inputCity', 'Paris');
+        }
+
+        $openweathermapService  = $this->get('app.openweathermap');
+        $currentWeather         = $openweathermapService->getCurrentWeather($city);
 
         $ville = $this->container->getParameter('openweathermap_api_city');
 
         return $this->render(':front:weather.html.twig', [
             'currentWeather'    => $currentWeather,
-            'ville'             => $ville,
+            'ville'             => (is_null($city)) ? $ville : $city,
         ]);
     }
 

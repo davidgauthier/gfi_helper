@@ -15,119 +15,136 @@
     	<div class="jumbotron">
 
             <h1><i class="fas fa-cloud-sun"></i> Météo</h1>
-            <p><i class="fab fa-angellist"></i> Nous vous proposons la <strong>météo actuelle</strong> ainsi que des <strong>
-                    prévisions sur 5 jours</strong> <small>(intégrées au Planning)</small> grâce à l'API <a target="_blank" href="https://openweathermap.org/">
-                    <strong>OpenWeather</strong></a></p>
+            <p>
+                <i class="fab fa-angellist"></i> Nous vous proposons la <strong>météo actuelle</strong> ainsi que des <strong>
+                    prévisions sur 5 jours</strong> <small>(intégrées au Planning)</small> grâce à l'<a target="_blank" href="https://openweathermap.org/api">API OpenWeather</a>
+            </p>
 
             <h3><i class="fas fa-info-circle"></i> Informations récupérées (current weather)</h3>
-            <p><i class="fas fa-cogs"></i> Les paramètres utilisés : q={{ ville }}, state=FR, units=metric, lang=fr, appid=••••••••••••••••••••••••••••••••</p>
 
-            <div class="row">
+            <form class="form-inline" action="{{ path('front_weather') }}" method="post">
+                GET api.openweathermap.org/data/2.5/weather?q=
+                <div class="form-group">
+                    <label class="sr-only" for="inputCity">Ville</label>
+                    <input type="text" class="form-control form-control-sm" id="inputCity" name="inputCity" autocomplete="off"
+                           placeholder="Ville" value="{{ ville }}" required style="background: transparent;" size="9">
+                </div>&units=metric&lang=fr&appid=•••••••
+                <button style="margin-left:5px;" type="submit" class="btn btn-primary btn-sm"><i class="fas fa-cogs"></i> Envoyer</button>
+            </form>
 
-                <div class="col-md-6 col-lg-3">
-                    <table class="table table-striped table-sm table-borderless">
-                        <tr>
-                            <th>Lever du soleil</th>
-                            <td>{{ currentWeather.sys.sunrise|date('Y-m-d H:i:s') }}</td>
-                        </tr>
-                        <tr>
-                            <th>Coucher du soleil</th>
-                            <td>{{ currentWeather.sys.sunset|date('Y-m-d H:i:s') }}</td>
-                        </tr>
-                    </table>
+            <h4><i class="far fa-list-alt"></i> Résultat</h4>
+
+            {% if currentWeather.cod is defined and 200 != currentWeather.cod %}
+                <div class="alert alert-danger" role="alert">
+                    {{ currentWeather.cod }} : {{ currentWeather.message }}
                 </div>
+            {% else %}
+                <div class="row">
 
-                <div class="col-md-6 col-lg-3">
-                    <table class="table table-striped table-sm table-borderless">
-                        <tr>
-                            <th>Ville (Code pays)</th>
-                            <td>{{ currentWeather.name ~ ' (' ~ currentWeather.sys.country ~ ')'}}</td>
-                        </tr>
-                        <tr>
-                            <th>Latitude</th>
-                            <td>{{ currentWeather.coord.lat }}</td>
-                        </tr>
-                        <tr>
-                            <th>Longitude</th>
-                            <td>{{ currentWeather.coord.lon }}</td>
-                        </tr>
-                    </table>
+                    <div class="col-md-6 col-lg-3">
+                        <table class="table table-striped table-sm table-borderless">
+                            <tr>
+                                <th>Lever du soleil</th>
+                                <td>{{ currentWeather.sys.sunrise|date('Y-m-d H:i:s') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Coucher du soleil</th>
+                                <td>{{ currentWeather.sys.sunset|date('Y-m-d H:i:s') }}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <table class="table table-striped table-sm table-borderless">
+                            <tr>
+                                <th>Ville (Code pays)</th>
+                                <td>{{ currentWeather.name ~ ' (' ~ currentWeather.sys.country ~ ')'}}</td>
+                            </tr>
+                            <tr>
+                                <th>Latitude</th>
+                                <td>{{ currentWeather.coord.lat }}</td>
+                            </tr>
+                            <tr>
+                                <th>Longitude</th>
+                                <td>{{ currentWeather.coord.lon }}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <table class="table table-striped table-sm table-borderless">
+                            <tr>
+                                <th>Température</th>
+                                <td>{{ currentWeather.main.temp }}°C</td>
+                            </tr>
+                            <tr>
+                                <th>Température ressentie</th>
+                                <td>{{ currentWeather.main.feels_like }}°C</td>
+                            </tr>
+                            <tr>
+                                <th>Température minimum</th>
+                                <td>{{ currentWeather.main.temp_min }}°C</td>
+                            </tr>
+                            <tr>
+                                <th>Température maximum</th>
+                                <td>{{ currentWeather.main.temp_max }}°C</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <table class="table table-striped table-sm table-borderless">
+                            <tr>
+                                <th>Pression</th>
+                                <td>{{ currentWeather.main.pressure }} hpa</td>
+                            </tr>
+                            <tr>
+                                <th>Humidité</th>
+                                <td>{{ currentWeather.main.humidity }} %</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <table class="table table-striped table-sm table-borderless">
+                            <tr>
+                                <th>Météo (main)</th>
+                                <td>{{ currentWeather.weather.0.main }}</td>
+                            </tr>
+                            <tr>
+                                <th>Météo (description)</th>
+                                <td>{{ currentWeather.weather.0.description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Icon</th>
+                                <td>
+                                    <a target="_blank" href="https://openweathermap.org/weather-conditions">
+                                        <img src="{{ 'http://openweathermap.org/img/wn/' ~ currentWeather.weather.0.icon ~ '.png' }}">
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <table class="table table-striped table-sm table-borderless">
+                            <tr>
+                                <th>Vent</th>
+                                <td>{{ currentWeather.wind.speed ~ 'm/s (' ~ (currentWeather.wind.speed * 3.6) ~ 'km/h)' }}</td>
+                            </tr>
+    {#                        <tr>#}
+    {#                            <th>Direction Vent</th>#}
+    {#                            <td>{{ currentWeather.wind.deg }}°</td>#}
+    {#                        </tr>#}
+                            <tr>
+                                <th>Nuages</th>
+                                <td>{{ currentWeather.clouds.all }} %</td>
+                            </tr>
+                        </table>
+                    </div>
+
                 </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <table class="table table-striped table-sm table-borderless">
-                        <tr>
-                            <th>Température</th>
-                            <td>{{ currentWeather.main.temp }}°C</td>
-                        </tr>
-                        <tr>
-                            <th>Température ressentie</th>
-                            <td>{{ currentWeather.main.feels_like }}°C</td>
-                        </tr>
-                        <tr>
-                            <th>Température minimum</th>
-                            <td>{{ currentWeather.main.temp_min }}°C</td>
-                        </tr>
-                        <tr>
-                            <th>Température maximum</th>
-                            <td>{{ currentWeather.main.temp_max }}°C</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <table class="table table-striped table-sm table-borderless">
-                        <tr>
-                            <th>Pression</th>
-                            <td>{{ currentWeather.main.pressure }} hpa</td>
-                        </tr>
-                        <tr>
-                            <th>Humidité</th>
-                            <td>{{ currentWeather.main.humidity }} %</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <table class="table table-striped table-sm table-borderless">
-                        <tr>
-                            <th>Météo (main)</th>
-                            <td>{{ currentWeather.weather.0.main }}</td>
-                        </tr>
-                        <tr>
-                            <th>Météo (description)</th>
-                            <td>{{ currentWeather.weather.0.description }}</td>
-                        </tr>
-                        <tr>
-                            <th>Icon</th>
-                            <td>
-                                <a target="_blank" href="https://openweathermap.org/weather-conditions">
-                                    <img src="{{ 'http://openweathermap.org/img/wn/' ~ currentWeather.weather.0.icon ~ '.png' }}">
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <table class="table table-striped table-sm table-borderless">
-                        <tr>
-                            <th>Vent</th>
-                            <td>{{ currentWeather.wind.speed ~ 'm/s (' ~ (currentWeather.wind.speed * 3.6) ~ 'km/h)' }}</td>
-                        </tr>
-{#                        <tr>#}
-{#                            <th>Direction Vent</th>#}
-{#                            <td>{{ currentWeather.wind.deg }}°</td>#}
-{#                        </tr>#}
-                        <tr>
-                            <th>Nuages</th>
-                            <td>{{ currentWeather.clouds.all }} %</td>
-                        </tr>
-                    </table>
-                </div>
-
-            </div>
-
+            {% endif %}
 
 
         </div>

@@ -257,6 +257,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('first', $first)
             ->andWhere('re.date <= :last')
             ->setParameter('last', $last)
+            ->orderBy('re.date, re.timeBegin')
             ->getQuery()
             ->getResult();
     }

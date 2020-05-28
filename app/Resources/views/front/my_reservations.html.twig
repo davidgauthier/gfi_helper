@@ -12,14 +12,13 @@
 {% block content %}  
     <div class="container">
         
-        <h2> Mes réservations</h2>
+        <h2><i class="fas fa-clipboard-list"></i> Mes réservations</h2>
         
         {% if myReservations is not empty %}
             <div class="table-responsive">
                 <table class="table table-sm table-bordered table-light table-hover">
                     <thead>
                         <tr>
-                            <th rowspan="2"><i class="far fa-user"></i> Nom ou Trigramme</th>
                             <th rowspan="2"><i class="fas fa-door-closed"></i> Salle</th>
                             <th rowspan="2"><i class="far fa-calendar-alt"></i> Date</th>
                             <th colspan="2"><i class="far fa-clock"></i> Heure</th>
@@ -35,16 +34,17 @@
                     <tbody>
                         {% for reservation in myReservations %}
                             <tr>
-                                <td>{{ reservation.user.username }}</td>
                                 <td>{{ reservation.room.name }}</td>
                                 <td>{{ reservation.date|date('l d/m/Y') }}</td>
                                 <td>{{ reservation.timeBegin|date('H:i') }}</td>
                                 <td>{{ reservation.timeEnd|date('H:i') }}</td>
                                 <td>
-                                    {% if reservation.comment|length < 12 %}
-                                        {{ reservation.comment }}
+                                    {% if reservation.comment|length < 20 %}
+                                        <span>{{ reservation.comment }}</span>
                                     {% else %}
-                                        {{ reservation.comment|slice(0, 11) ~ '..' }}
+                                        <span data-toggle="tooltip" data-placement="bottom" title="<i class='far fa-comment-dots'></i> {{ reservation.comment }}">
+                                            <u>{{ reservation.comment|slice(0, 19) ~ '..' }}</u>
+                                        </span>
                                     {% endif %}
                                 </td>
                                 <td>{{ reservation.updatedAt|date('d/m/Y H:i:s') }}</td>
@@ -76,4 +76,9 @@
             
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({'html': true})
+        });
+    </script>
 {% endblock %}

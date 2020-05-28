@@ -13,21 +13,23 @@
     <div class="container">
         {{ include("room/_calendar_tabs.html.twig") }}
 
-        {{ include("include/_current_time.html.twig") }}
+{#        {{ include("include/_current_time.html.twig") }}#}
 
         {{ include("include/_prev_month_next_month.html.twig") }}
 
 
         
-        <h2>
+        <h3>
             <b>{{room.name}}</b> : Les réservations du mois : <b>{{ month|date('F') }}</b>
-            <span class="badge {% if theReservations|length >= 60 %} badge-danger
-                            {% elseif theReservations|length >= 40 %} badge-warning
-                            {% elseif theReservations|length >= 20 %} badge-primary
-                            {% else %} badge-light {% endif %}">
-                {{ theReservations|length }} réservation(s)
-            </span>
-        </h2>
+            <small>
+                <span class="badge {% if theReservations|length >= 60 %} badge-danger
+                                {% elseif theReservations|length >= 40 %} badge-warning
+                                {% elseif theReservations|length >= 20 %} badge-primary
+                                {% else %} badge-light {% endif %}">
+                    {{ theReservations|length }} réservation(s)
+                </span>
+            </small>
+        </h3>
         
         {% if theReservations is not empty %}
             <div class="table-responsive">
@@ -49,15 +51,23 @@
                     <tbody>
                         {% for reservation in theReservations %}
                             <tr>
-                                <td>{{ reservation.user.username }}</td>
+                                <td>
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == reservation.user.id %}
+                                        <b>{{ reservation.user.username }}</b>
+                                    {% else %}
+                                        {{ reservation.user.username }}
+                                    {% endif %}
+                                </td>
                                 <td>{{ reservation.date|date('l d/m/Y') }}</td>
                                 <td>{{ reservation.timeBegin|date('H:i') }}</td>
                                 <td>{{ reservation.timeEnd|date('H:i') }}</td>
                                 <td>
-                                    {% if reservation.comment|length < 12 %}
-                                        {{ reservation.comment }}
+                                    {% if reservation.comment|length < 20 %}
+                                        <span>{{ reservation.comment }}</span>
                                     {% else %}
-                                        {{ reservation.comment|slice(0, 11) ~ '..' }}
+                                        <span data-toggle="tooltip" data-placement="bottom" title="<i class='far fa-comment-dots'></i> {{ reservation.comment }}">
+                                            <u>{{ reservation.comment|slice(0, 19) ~ '..' }}</u>
+                                        </span>
                                     {% endif %}
                                 </td>
                                 <td>{{ reservation.updatedAt|date('d/m/Y H:i:s') }}</td>
@@ -104,6 +114,11 @@
                 );
             }, 100);
 
+        });
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({'html': true})
         });
     </script>
 {% endblock %}

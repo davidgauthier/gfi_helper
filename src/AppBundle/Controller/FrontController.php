@@ -106,8 +106,8 @@ class FrontController extends Controller
 
 
         // A voir si on arrive a faire passer seulement année-mois (ex: "2018-05") dans l'url..
+
         $month      = new \Datetime($month);
-        
         $prevMonth  = $dateTimesManager->getPrevMonth($month);
         $nextMonth  = $dateTimesManager->getNextMonth($month);
         
@@ -153,6 +153,37 @@ class FrontController extends Controller
             'fiveDaysForecastWeather4' => array_slice($fiveDaysForecastWeather, 32, 8),
         ]);
     }
+
+
+    /**
+     * @Route("/list-reservations/{roomSlug}/{month}", name="front_listreservations")
+     *
+     */
+    public function listReservationsAction(Request $request, $roomSlug, $month)
+    {
+        $dateTimesManager   = $this->get('app.datetimes_manager');
+        $roomManager        = $this->get('app.room_manager');
+
+        $room = $roomManager->getRoomBySlug($roomSlug);
+
+        $month      = new \Datetime($month);
+        $prevMonth  = $dateTimesManager->getPrevMonth($month);
+        $nextMonth  = $dateTimesManager->getNextMonth($month);
+
+        $theReservations = $this->get('app.reservation_manager')->getFutureReservationsByRoomAndMonth($room, $month);
+
+        $allRooms       = $roomManager->getAll();
+
+        return $this->render(':front:list_reservations_room_month.html.twig', [
+            'room'              => $room,
+            'allRooms'          => $allRooms,
+            'theReservations'   => $theReservations,
+            'month'             => $month,
+            'prevMonth'         => $prevMonth,
+            'nextMonth'         => $nextMonth,
+        ]);
+    }
+
     
     
     /**

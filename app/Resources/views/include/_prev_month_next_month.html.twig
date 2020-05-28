@@ -1,31 +1,54 @@
 {# mois demandé == mois de la date actuelle #}
-{% set c1 = (month|date('Y-m') == "now"|date('Y-m')) %}
+{% set monthIsNow                       = (month|date('Y-m') == "now"|date('Y-m')) %}
+{% set route_front_planning_room_month  = app.request.get('_route') == 'front_planning' or app.request.get('_route') == 'front_planning_room_month' %}
+{% set route_front_listreservations     = app.request.get('_route') == 'front_listreservations' %}
 
 <span>
 
     <div class="d-flex justify-content-between">
         <div class="p-1">
-            <a class="btn btn-outline-primary btn-sm {% if c1 %} disabled {% endif %}"
-            {% if c1 %} aria-disabled="true" {% endif %}
-            {% if c1 %}href="#"{% else %}href="{{ path('front_planning_room_month', {'roomSlug': room.slug, 'month': prevMonth|date('Y-m-d')})}}"{% endif %}>
-                <i class="fas fa-caret-square-left"></i> {{ prevMonth|date('F') }}
-            </a>
+            {% if route_front_planning_room_month %}
+                <a class="btn btn-outline-primary btn-sm {% if monthIsNow %} disabled {% endif %}"
+                {% if monthIsNow %} aria-disabled="true" {% endif %}
+                {% if monthIsNow %}href="#"{% else %}href="{{ path('front_planning_room_month', {'roomSlug': room.slug, 'month': prevMonth|date('Y-m-d')}) }}"{% endif %}>
+                    <i class="fas fa-caret-square-left"></i> {{ prevMonth|date('F') }}
+                </a>
+            {% elseif route_front_listreservations %}
+                <a class="btn btn-outline-primary btn-sm {% if monthIsNow %} disabled {% endif %}"
+                {% if monthIsNow %} aria-disabled="true" {% endif %}
+                        {% if monthIsNow %}href="#"{% else %}href="{{ path('front_listreservations', {'roomSlug': room.slug, 'month': prevMonth|date('Y-m')}) }}"{% endif %}>
+                    <i class="fas fa-caret-square-left"></i> {{ prevMonth|date('F') }}
+                </a>
+            {% endif %}
         </div>
         <div class="p-1">
-            <h3 class="d-inline-block"><strong>{{ month|date('F') }}</strong></h3>
-            <span class="badge
-                        {% if reservations|length >= 60 %} badge-danger
-                        {% elseif reservations|length >= 40 %} badge-warning
-                        {% elseif reservations|length >= 20 %} badge-primary
-                        {% else %} badge-light {% endif %}">
-                {{ reservations|length }} réservation(s)
-            </span>
+            <h3 class="d-inline-block"><b>{{ month|date('F') }}</b></h3>
+            {% if route_front_planning_room_month %}
+                <a href="{{ path('front_listreservations', {'roomSlug': room.slug, 'month': month|date('Y-m')}) }}" class="badge
+                            {% if reservations|length >= 60 %} badge-danger
+                            {% elseif reservations|length >= 40 %} badge-warning
+                            {% elseif reservations|length >= 20 %} badge-primary
+                            {% else %} badge-light {% endif %}">
+                    {{ reservations|length }} réservation(s)
+                </a>
+            {% elseif route_front_listreservations %}
+                <a href="{{ path('front_planning_room_month', {'roomSlug': room.slug, 'month': month|date('Y-m-d')}) }}" class="small">
+                    <i class="far fa-calendar-alt"></i> Planning
+                </a>
+            {% endif %}
         </div>
         <div class="p-1">
-            <a class="btn btn-outline-primary btn-sm float-right"
-               href="{{ path('front_planning_room_month', {'roomSlug': room.slug, 'month': nextMonth|date('Y-m-d')})}}">
-                {{ nextMonth|date('F') }} <i class="fas fa-caret-square-right"></i>
-            </a>
+            {% if route_front_planning_room_month %}
+                <a class="btn btn-outline-primary btn-sm float-right"
+                   href="{{ path('front_planning_room_month', {'roomSlug': room.slug, 'month': nextMonth|date('Y-m-d')})}}">
+                    {{ nextMonth|date('F') }} <i class="fas fa-caret-square-right"></i>
+                </a>
+            {% elseif route_front_listreservations %}
+                <a class="btn btn-outline-primary btn-sm float-right"
+                   href="{{ path('front_listreservations', {'roomSlug': room.slug, 'month': nextMonth|date('Y-m')})}}">
+                    {{ nextMonth|date('F') }} <i class="fas fa-caret-square-right"></i>
+                </a>
+            {% endif %}
         </div>
     </div>
     

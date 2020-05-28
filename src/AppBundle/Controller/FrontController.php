@@ -19,22 +19,6 @@ class FrontController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $today = new \Datetime();
-        $nxtMonday = new \Datetime();
-        $nxtTuesday = new \Datetime();
-        $nxtWednesday = new \Datetime();
-        $nxtThursday = new \Datetime();
-        $nxtFriday = new \Datetime();
-        $nxtMonday->modify('next Monday');
-        $nxtTuesday->modify('next Tuesday');
-        $nxtWednesday->modify('next Wednesday');
-        $nxtThursday->modify('next Thursday');
-        $nxtFriday->modify('next Friday');
-
-//        var_dump($today);
-//        var_dump("toto");
-//        var_dump($nxtMonday, $nxtTuesday, $nxtWednesday, $nxtThursday, $nxtFriday);die;
-
         $ville = $this->container->getParameter('openweathermap_api_city');
         
         return $this->render(':front:index.html.twig', [
@@ -50,16 +34,6 @@ class FrontController extends Controller
      */
     public function planningAction(Request $request)
     {
-        // Pour test la fixture .... [A SUPPR]
-//        $nxtFridayPlusSeven         = new \Datetime();
-//        $azerty1                    = new \Datetime();
-//        $nxtFridayPlusFourteen      = new \Datetime();
-//        $nxtFridayPlusSeven->modify('next Friday')->modify('+7 days');
-//        $azerty1->modify('next Friday')->modify('+10 days');
-//        $nxtFridayPlusFourteen->modify('next Friday')->modify('+14 days');
-//        // a
-//        var_dump($nxtFridayPlusSeven, $azerty1, $nxtFridayPlusFourteen);die;
-
         $dateTimesManager   = $this->get('app.datetimes_manager');
         $roomManager        = $this->get('app.room_manager');
 

@@ -16,7 +16,7 @@
             <span class="badge
                         {% if reservations|length >= 60 %} badge-danger
                         {% elseif reservations|length >= 40 %} badge-warning
-                        {% elseif reservations|length >= 20 %} badge-info
+                        {% elseif reservations|length >= 20 %} badge-primary
                         {% else %} badge-light {% endif %}">
                 {{ reservations|length }} réservation(s)
             </span>

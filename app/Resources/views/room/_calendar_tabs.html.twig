@@ -1,19 +1,35 @@
+{% set route_front_planning_room_month  = app.request.get('_route') == 'front_planning' or app.request.get('_route') == 'front_planning_room_month' %}
+{% set route_front_listreservations     = app.request.get('_route') == 'front_listreservations' %}
 
-<ul class="nav nav-tabs" role="tablist">
-    {% for r in allRooms %}
-    <li class="nav-item">
-        <a class="nav-link {% if (app.request.get('_route') == 'front_planning' or
-                                app.request.get('_route') == 'front_planning_room_month') and room.id == r.id %}
-                                active
-                            {% endif %}"  href="{{ path('front_planning_room_month', {'roomSlug': r.slug, 'month': month|date('Y-m-d')})}}">
-            {% if (app.request.get('_route') == 'front_planning' or
-                app.request.get('_route') == 'front_planning_room_month') and room.id == r.id %}
-                <i class="fas fa-door-open"></i>
-            {% else %}
-                <i class="fas fa-door-closed"></i>
-            {% endif %}
-            <b>{{ r.name }}</b>
-        </a>
-    </li>
-    {% endfor %}
-</ul>
+{% if route_front_planning_room_month %}
+    <ul class="nav nav-tabs" role="tablist">
+        {% for r in allRooms %}
+        <li class="nav-item">
+            <a class="nav-link {% if room.id == r.id %}active{% endif %}" href="{{ path('front_planning_room_month', {'roomSlug': r.slug, 'month': month|date('Y-m-d')})}}">
+                {% if room.id == r.id %}
+                    <i class="fas fa-door-open"></i>
+                {% else %}
+                    <i class="fas fa-door-closed"></i>
+                {% endif %}
+                <b>{{ r.name }}</b>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+{% elseif route_front_listreservations %}
+    <ul class="nav nav-tabs" role="tablist">
+        {% for r in allRooms %}
+            <li class="nav-item">
+                <a class="nav-link {% if room.id == r.id %}active{% endif %}" href="{{ path('front_listreservations', {'roomSlug': r.slug, 'month': month|date('Y-m')}) }}">
+                    {% if room.id == r.id %}
+                        <i class="fas fa-door-open"></i>
+                    {% else %}
+                        <i class="fas fa-door-closed"></i>
+                    {% endif %}
+                    <b>{{ r.name }}</b>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

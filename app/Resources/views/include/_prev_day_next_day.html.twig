@@ -6,35 +6,56 @@
 {% set c3 = (date|date('Y-m-d') == "now"|date('Y-m-d')) %}
 
 <span>
+    <div class="d-flex justify-content-between">
+        <div class="p-1">
     
-    {% if c1 %}
-        <a class="btn btn-outline-primary btn-sm {% if c3 %} disabled {% endif %}"
-           {% if c3 %} aria-disabled="true" {% endif %}
-           {% if c3 %}href="#"{% else %}href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("-3 day")|date('Y-m-d')})}}"{% endif %}>
-            <i class="fas fa-caret-square-left"></i>
-            {{ date|date_modify("-3 day")|date('D d/m/Y') }}
-        </a>
-    {% else %}
-        <a class="btn btn-outline-primary btn-sm {% if c3 %} disabled {% endif %}"
-           {% if c3 %} aria-disabled="true" {% endif %}
-           {% if c3 %}href="#"{% else %}href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("-1 day")|date('Y-m-d')})}}"{% endif %}>
-            <i class="fas fa-caret-square-left"></i>
-            {{ date|date_modify("-1 day")|date('D d/m/Y') }}
-        </a>
-    {% endif %}
+            {% if c1 %}
+                <a class="btn btn-outline-primary btn-sm {% if c3 %} disabled {% endif %}"
+                   {% if c3 %} aria-disabled="true" {% endif %}
+                   {% if c3 %}href="#"{% else %}href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("-3 day")|date('Y-m-d')})}}"{% endif %}>
+                    <i class="fas fa-caret-square-left"></i>
+                    {{ date|date_modify("-3 day")|date('D d/m/Y') }}
+                </a>
+            {% else %}
+                <a class="btn btn-outline-primary btn-sm {% if c3 %} disabled {% endif %}"
+                   {% if c3 %} aria-disabled="true" {% endif %}
+                   {% if c3 %}href="#"{% else %}href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("-1 day")|date('Y-m-d')})}}"{% endif %}>
+                    <i class="fas fa-caret-square-left"></i>
+                    {{ date|date_modify("-1 day")|date('D d/m/Y') }}
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="p-1">
+            <h4 class="d-inline-block">
+                <b>{{ date|date('l d/m/Y') }}</b>
+                <small>
+                    <span class="badge {% if reservations|length >= 8 %} badge-danger
+                                    {% elseif reservations|length >= 4 %} badge-warning
+                                    {% elseif reservations|length >= 1 %} badge-primary
+                                    {% else %} badge-light {% endif %}">
+                        {{ reservations|length }} réservation(s)
+                    </span>
+                </small>
+            </h4>
+        </div>
+
+        <div class="p-1">
     
-    {% if c2 %}
-        <a class="btn btn-outline-primary btn-sm float-right"
-            href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("+3 day")|date('Y-m-d')})}}">
-             {{ date|date_modify("+3 day")|date('D d/m/Y') }}
-             <i class="fas fa-caret-square-right"></i>
-         </a>
-    {% else %}
-        <a class="btn btn-outline-primary btn-sm float-right"
-            href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("+1 day")|date('Y-m-d')})}}">
-             {{ date|date_modify("+1 day")|date('D d/m/Y') }}
-             <i class="fas fa-caret-square-right"></i>
-         </a>
-    {% endif %}
-    
+            {% if c2 %}
+                <a class="btn btn-outline-primary btn-sm float-right"
+                    href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("+3 day")|date('Y-m-d')})}}">
+                     {{ date|date_modify("+3 day")|date('D d/m/Y') }}
+                     <i class="fas fa-caret-square-right"></i>
+                 </a>
+            {% else %}
+                <a class="btn btn-outline-primary btn-sm float-right"
+                    href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': date|date_modify("+1 day")|date('Y-m-d')})}}">
+                     {{ date|date_modify("+1 day")|date('D d/m/Y') }}
+                     <i class="fas fa-caret-square-right"></i>
+                 </a>
+            {% endif %}
+
+        </div>
+    </div>
 </span>

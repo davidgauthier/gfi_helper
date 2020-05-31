@@ -55,6 +55,20 @@
         
 {#        <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>#}
         <script src="https://kit.fontawesome.com/39f5d7e155.js" crossorigin="anonymous"></script>
+
+
+        <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                setInterval(function() {
+                    $('#span_date').html(
+                        moment().format('HH:mm:ss - DD/MM/YY')
+                    );
+                }, 100);
+
+            });
+        </script>
     {% endblock %}
     
     

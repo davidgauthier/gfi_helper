@@ -15,7 +15,6 @@
                 <high style="color:blue;font-weight:bold;">OU</high>til de <high style="color:blue;font-weight:bold;">R</high>éservations de <high style="color:blue;font-weight:bold;">S</high>alles
             </h2>
             <h3 style="text-align:center;">{{ 'à ' ~ ville }}</h3>
-            {{ include("include/_current_time.html.twig") }}
         </div>
         <br>
         <div class="row">
@@ -78,16 +77,4 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            setInterval(function() {
-                $('#span_date').html(
-                    moment().format('DD/MM/YYYY - HH:mm:ss')
-                );
-            }, 100);
-
-        });
-    </script>
 {% endblock %}

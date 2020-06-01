@@ -89,7 +89,7 @@
                             {# Si première résa de la journée ou bien réservation différente de la précédente #}
                             {% if tempResa != resa %}
                                 
-                                <tr class="{% if comptResa is odd %}table-primary{% else %}table-success{% endif %}">
+                                <tr class="{% if comptResa is odd %}table-secondary{% else %}table-primary{% endif %}">
                                     <td>{{ creneau }}</td>
 
                                     <td {% if resa.nbCreneaux > 1 %}rowspan="{{ resa.nbCreneaux }}"{% endif %}>
@@ -111,7 +111,7 @@
                                 </tr>
                             {# Sinon, même résa #}
                             {% else %}
-                                <tr class="{% if comptResa is not odd %}table-primary{% else %}table-success{% endif %}">
+                                <tr class="{% if comptResa is not odd %}table-secondary{% else %}table-primary{% endif %}">
                                     <td>{{ creneau }}</td>
                                 </tr>
                             {% endif %}

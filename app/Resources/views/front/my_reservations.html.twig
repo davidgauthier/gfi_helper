@@ -34,8 +34,18 @@
                     <tbody>
                         {% for reservation in myReservations %}
                             <tr>
-                                <td>{{ reservation.room.name }}</td>
-                                <td>{{ reservation.date|date('l d/m/Y') }}</td>
+                                <td>
+                                    <a class="text-muted"
+                                       href="{{ path('front_reservations_room_date', {'roomSlug': reservation.room.slug, 'date': reservation.date|date('Y-m-d')})}}">
+                                        {{ reservation.room.name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="text-muted"
+                                       href="{{ path('front_reservations_room_date', {'roomSlug': reservation.room.slug, 'date': reservation.date|date('Y-m-d')})}}">
+                                        {{ reservation.date|date('l d/m/Y') }}
+                                    </a>
+                                </td>
                                 <td>{{ reservation.timeBegin|date('H:i') }}</td>
                                 <td>{{ reservation.timeEnd|date('H:i') }}</td>
                                 <td>

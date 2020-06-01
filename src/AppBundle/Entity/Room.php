@@ -3,8 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use AppBundle\Utils\Day;
 
@@ -14,6 +14,8 @@ use AppBundle\Utils\Day;
  *
  * @ORM\Table(name="room")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RoomRepository")
+ *
+ * @UniqueEntity("name")
  */
 class Room
 {

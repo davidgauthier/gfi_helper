@@ -48,15 +48,14 @@
                     </thead>
                     <tbody>
                         {% for reservation in theReservations %}
-                            <tr>
+                            <tr {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == reservation.user.id %}class="table-info"{% endif %}>
+                                <td>{{ reservation.user.username }}</td>
                                 <td>
-                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == reservation.user.id %}
-                                        <b>{{ reservation.user.username }}</b>
-                                    {% else %}
-                                        {{ reservation.user.username }}
-                                    {% endif %}
+                                    <a class="text-muted"
+                                       href="{{ path('front_reservations_room_date', {'roomSlug': reservation.room.slug, 'date': reservation.date|date('Y-m-d')})}}">
+                                        {{ reservation.date|date('l d/m/Y') }}
+                                    </a>
                                 </td>
-                                <td>{{ reservation.date|date('l d/m/Y') }}</td>
                                 <td>{{ reservation.timeBegin|date('H:i') }}</td>
                                 <td>{{ reservation.timeEnd|date('H:i') }}</td>
                                 <td>

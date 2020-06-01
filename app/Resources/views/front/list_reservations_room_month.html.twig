@@ -13,8 +13,6 @@
     <div class="container">
         {{ include("room/_calendar_tabs.html.twig") }}
 
-{#        {{ include("include/_current_time.html.twig") }}#}
-
         {{ include("include/_prev_month_next_month.html.twig") }}
 
 
@@ -94,7 +92,7 @@
                 
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <p>
-                <a class="btn btn-primary btn-lg" href="{{ path('app_reservation_new_blank') }}" role="button">
+                <a class="btn btn-primary btn-lg" href="{{ path('app_reservation_new_prefilled', {'roomSlug': room.slug, 'date': month|date('Y-m-d'), 'timeBegin': 'now'|date('H:i'), 'timeEnd': 'now'|date('H:i') }) }}" role="button">
                     <i class="far fa-calendar-plus"></i> Reserver
                 </a>
             </p>
@@ -105,17 +103,6 @@
             
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            setInterval(function() {
-                $('#span_date').html(
-                    moment().format('DD/MM/YYYY - HH:mm:ss')
-                );
-            }, 100);
-
-        });
-    </script>
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip({'html': true})

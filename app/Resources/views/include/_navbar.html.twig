@@ -31,16 +31,6 @@
                     {% endif %}
                 </a>
             </li>
-           {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <li class="nav-item {% if app.request.get('_route') == 'front_myreservations' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('front_myreservations') }}">
-                    	<i class="fas fa-clipboard-list"></i> Mes réservations
-                    	{% if app.request.get('_route') == 'front_myreservations' %}
-                            <span class="sr-only">(current)</span>
-                        {% endif %}
-                    </a>
-                </li>
-           {% endif %}
             <li class="nav-item {% if app.request.get('_route') == 'front_weather' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('front_weather') }}">
                     <i class="fas fa-cloud-sun"></i> Météo
@@ -55,9 +45,13 @@
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>#}
+
+        <span class="navbar-text text-center">
+            <small><i class="far fa-clock"></i> <span id="span_date"></span> - S{{ "now"|date('W') }}</small>
+        </span>
         
         {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <a class="btn btn-outline-light btn-sm" href="{{ path('fos_user_security_login') }}" role="button"><i class="fas fa-sign-in-alt"></i> Se connecter</a>
+            <a class="btn btn-outline-light btn-sm ml-auto" href="{{ path('fos_user_security_login') }}" role="button"><i class="fas fa-sign-in-alt"></i> Se connecter</a>
         {% else %}
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
@@ -73,7 +67,10 @@
                             </a>
                             <div class="dropdown-divider"></div>
                         {% endif %}
-                        
+                        <a class="dropdown-item {% if app.request.get('_route') == 'front_myreservations' %}active{% endif %}" href="{{ path('front_myreservations') }}">
+                            <i class="fas fa-clipboard-list"></i> Mes réservations
+                        </a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
                     </div>
                 </li>

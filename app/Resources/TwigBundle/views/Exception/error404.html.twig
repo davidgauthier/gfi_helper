@@ -10,9 +10,11 @@
 
 {% block content %}
     <div class="container">
-        <h1>{{ status_code }} {{ status_text }}</h1>
-        <h2>Il n'y à rien içi ...</h2>
-        <p><a href="{{ path('front_homepage') }}">Retour au planning</a></p>
+        <div class="jumbotron">
+            <img class="float-right" src="{{ asset('public/images/ours.gif') }}">
+            <h2>{{ status_code }} - {{ status_text }}</h2>
+            <h3>Il n'y à rien içi ...</h3>
+        </div>
     </div>
 {% endblock %}
 

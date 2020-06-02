@@ -1,172 +1,68 @@
 {# Les lignes d'en dessous à retravailler pour bien caler l'img en haut à droite (en mode float(??..)) de la cellule #}
 <span class="pull-right">
-    {# Si jour même #}
-    {% if day.date|date('Y-m-d') == "now"|date('Y-m-d') %}
-        {% set toDisplay = "<table style='font-size: 0.9em;'>" %}
-        {% set toDisplayBis = '<tr>' %}
-        {% set toDisplayTer = '<tr>' %}
-        {% set toDisplayQua = '<tr>' %}
-        {% for elem in fiveDaysForecastWeather0 %}
-            {% if loop.index is odd or loop.index == 2 %}
-                {% set heure = "<td style='text-align:center;'><i class='far fa-clock'></i> " ~ elem.dt_txt|date('H:i') ~
-                    "<br><i class='fas fa-calendar-day'></i> " ~ elem.dt_txt|date('d/m') ~ "</td>" %}
-                {% set icon = "<td style='text-align:center;'><img src='" ~ elem.icon_url ~ "'
-                                data-toggle='popover' data-placement='top' data-trigger='click'
-                                data-content='" ~ elem.description ~ "'></td>" %}
-                {% set temperature = "<td style='text-align:center;'><i class='fas fa-thermometer-half'></i> " ~ elem.temperature|round ~ "°C</td>" %}
 
-                {% set toDisplayBis = toDisplayBis ~ heure %}
-                {% set toDisplayTer = toDisplayTer ~ icon %}
-                {% set toDisplayQua = toDisplayQua ~ temperature %}
+    {# On set des booleans qui vont nous aider #}
+    {% set dayPlus0 = day.date|date('Y-m-d') == "now"|date('Y-m-d') %}
+    {% set dayPlus1 = day.date|date('Y-m-d') == date('+1day')|date('Y-m-d') %}
+    {% set dayPlus2 = day.date|date('Y-m-d') == date('+2days')|date('Y-m-d') %}
+    {% set dayPlus3 = day.date|date('Y-m-d') == date('+3days')|date('Y-m-d') %}
+    {% set dayPlus4 = day.date|date('Y-m-d') == date('+4days')|date('Y-m-d') %}
+
+    {# Boucle "dynamique" sur les variables des jours suivants  (fiveDaysForecastWeather0, fiveDaysForecastWeather1, ...2, ...3 et ...4) #}
+    {% for i in 0..4 %}
+
+        {# encore une boolean condition variariable #}
+        {% set tooLongDescr = attribute(_context, 'fiveDaysForecastWeather' ~ i).0.description|length > 11 %}
+
+        {% if attribute(_context, 'dayPlus' ~ i) %}
+            {% if dayPlus0 %}{# Si today #}
+                {% set toDisplay = "<table class='weather-in-popover' style='font-size: 0.9em;'>" %}
+            {% else %}
+                {% set toDisplay = "<table class='weather-in-popover'>" %}
             {% endif %}
-        {% endfor %}
-        {% set toDisplayBis = toDisplayBis ~ '</tr>' %}
-        {% set toDisplayTer = toDisplayTer ~ '</tr>' %}
-        {% set toDisplayQua = toDisplayQua ~ '</tr>' %}
+            {% set toDisplayBis = '<tr>' %}
+            {% set toDisplayTer = '<tr>' %}
+            {% set toDisplayQua = '<tr>' %}
 
-        {% set toDisplay = toDisplay ~ toDisplayBis ~ toDisplayTer ~ toDisplayQua %}
+            {% for elem in attribute(_context, 'fiveDaysForecastWeather' ~ i) %}
+                {% if loop.index is odd or (dayPlus0 and loop.index == 2) %}
+                    {% set heure = "<td><i class='far fa-clock'></i> " ~ elem.dt_txt|date('H:i') ~
+                        "<i class='fas fa-calendar-day'></i> " ~ elem.dt_txt|date('d/m') ~ "</td>" %}
+{#                    {% set icon = "<td><img src='" ~ elem.icon_url ~ "'#}
+{#                                                    data-toggle='popover' data-placement='top' data-trigger='hover'#}
+{#                                                    data-content='" ~ elem.description ~ "'></td>" %}#}
+                    {% set icon = "<td><img src='" ~ elem.icon_url ~ "'></td>" %}
+                    {% set temperature = "<td><i class='fas fa-thermometer-half'></i> " ~ elem.temperature|round ~ "°C</td>" %}
 
+                    {% set toDisplayBis = toDisplayBis ~ heure %}
+                    {% set toDisplayTer = toDisplayTer ~ icon %}
+                    {% set toDisplayQua = toDisplayQua ~ temperature %}
+                {% endif %}
+            {% endfor %}
 
-        <img src="{{ fiveDaysForecastWeather0.0.icon_url }}"
-             data-toggle="popover" data-placement="top" data-trigger="hover"
-             title="{{ fiveDaysForecastWeather0.0.description|capitalize ~ ' <span class="pull-right small"><i class="fas fa-wind"></i> ' ~
-                fiveDaysForecastWeather0.0.wind ~ 'm/s <i class="fas fa-cloud"></i> ' ~
-                fiveDaysForecastWeather0.0.clouds ~ '% <i class="fas fa-thermometer-half"></i> ' ~
-                fiveDaysForecastWeather0.0.temperature|round ~ '°C</span>' }}" data-content="{{ toDisplay|raw  }}">
-    {% endif %}
+            {% set toDisplayBis = toDisplayBis ~ '</tr>' %}
+            {% set toDisplayTer = toDisplayTer ~ '</tr>' %}
+            {% set toDisplayQua = toDisplayQua ~ '</tr>' %}
+            {% set toDisplay    = toDisplay ~ toDisplayBis ~ toDisplayTer ~ toDisplayQua ~ '</table>' %}
 
-
-    {% if day.date|date('Y-m-d') == date('+1day')|date('Y-m-d') %}
-        {% set toDisplay = '<table>' %}
-        {% set toDisplayBis = '<tr>' %}
-        {% set toDisplayTer = '<tr>' %}
-        {% set toDisplayQua = '<tr>' %}
-        {% for elem in fiveDaysForecastWeather1 %}
-            {% if loop.index is odd %}
-                {% set heure = "<td><i class='far fa-clock'></i> " ~ elem.dt_txt|date('H:i') ~
-                    "<i class='fas fa-calendar-day'></i> " ~ elem.dt_txt|date('d/m') ~ "</td>" %}
-                {% set icon = "<td><img src='" ~ elem.icon_url ~ "'
-                                                    data-toggle='popover' data-placement='top' data-trigger='click'
-                                                    data-content='" ~ elem.description ~ "'></td>" %}
-                {% set temperature = "<td><i class='fas fa-thermometer-half'></i> " ~ elem.temperature|round ~ "°C</td>" %}
-
-                {% set toDisplayBis = toDisplayBis ~ heure %}
-                {% set toDisplayTer = toDisplayTer ~ icon %}
-                {% set toDisplayQua = toDisplayQua ~ temperature %}
+            {% set titleToDisplay = attribute(_context, 'fiveDaysForecastWeather' ~ i).0.description|capitalize %}
+            {% if tooLongDescr %}{# Description trop longue donc retour à la ligne (donc on utilise un '<p> avec le <br>') #}
+                {% set titleToDisplay = '<p>' ~ titleToDisplay ~ '<br>' %}
             {% endif %}
-        {% endfor %}
-        {% set toDisplayBis = toDisplayBis ~ '</tr>' %}
-        {% set toDisplayTer = toDisplayTer ~ '</tr>' %}
-        {% set toDisplayQua = toDisplayQua ~ '</tr>' %}
-
-        {% set toDisplay = toDisplay ~ toDisplayBis ~ toDisplayTer ~ toDisplayQua %}
-
-
-        <img src="{{ fiveDaysForecastWeather1.0.icon_url }}"
-             data-toggle="popover" data-placement="top" data-trigger="hover"
-             title="{{ fiveDaysForecastWeather1.0.description|capitalize ~ ' <span class="pull-right small"><i class="fas fa-wind"></i> ' ~
-             fiveDaysForecastWeather1.0.wind ~ 'm/s <i class="fas fa-cloud"></i> ' ~
-             fiveDaysForecastWeather1.0.clouds ~ '% <i class="fas fa-thermometer-half"></i> ' ~
-             fiveDaysForecastWeather1.0.temperature|round ~ '°C</span>' }}" data-content="{{ toDisplay|raw  }}">
-    {% endif %}
-    {% if day.date|date('Y-m-d') == date('+2days')|date('Y-m-d') %}
-        {% set toDisplay = '<table>' %}
-        {% set toDisplayBis = '<tr>' %}
-        {% set toDisplayTer = '<tr>' %}
-        {% set toDisplayQua = '<tr>' %}
-        {% for elem in fiveDaysForecastWeather2 %}
-            {% if loop.index is odd %}
-                {% set heure = "<td><i class='far fa-clock'></i> " ~ elem.dt_txt|date('H:i') ~
-                    "<i class='fas fa-calendar-day'></i> " ~ elem.dt_txt|date('d/m') ~ "</td>" %}
-                {% set icon = "<td><img src='" ~ elem.icon_url ~ "'
-                                                    data-toggle='popover' data-placement='top' data-trigger='click'
-                                                    data-content='" ~ elem.description ~ "'></td>" %}
-                {% set temperature = "<td><i class='fas fa-thermometer-half'></i> " ~ elem.temperature|round ~ "°C</td>" %}
-
-                {% set toDisplayBis = toDisplayBis ~ heure %}
-                {% set toDisplayTer = toDisplayTer ~ icon %}
-                {% set toDisplayQua = toDisplayQua ~ temperature %}
+            {% set titleToDisplay = titleToDisplay ~ "<span class='pull-right small'><i class='fas fa-wind'></i> " ~
+                attribute(_context, 'fiveDaysForecastWeather' ~ i).0.wind ~ "m/s <i class='fas fa-cloud'></i> " ~
+                attribute(_context, 'fiveDaysForecastWeather' ~ i).0.clouds ~ "% <i class='fas fa-thermometer-half'></i> " ~
+                attribute(_context, 'fiveDaysForecastWeather' ~ i).0.temperature|round ~ "°C</span>" %}
+            {% if tooLongDescr %}
+                {% set titleToDisplay = titleToDisplay ~ '</p>' %}
             {% endif %}
-        {% endfor %}
-        {% set toDisplayBis = toDisplayBis ~ '</tr>' %}
-        {% set toDisplayTer = toDisplayTer ~ '</tr>' %}
-        {% set toDisplayQua = toDisplayQua ~ '</tr>' %}
 
-        {% set toDisplay = toDisplay ~ toDisplayBis ~ toDisplayTer ~ toDisplayQua %}
-
-
-        <img src="{{ fiveDaysForecastWeather2.0.icon_url }}"
-             data-toggle="popover" data-placement="top" data-trigger="hover"
-             title="{{ fiveDaysForecastWeather2.0.description|capitalize ~ ' <span class="pull-right small"><i class="fas fa-wind"></i> ' ~
-             fiveDaysForecastWeather2.0.wind ~ 'm/s <i class="fas fa-cloud"></i> ' ~
-             fiveDaysForecastWeather2.0.clouds ~ '% <i class="fas fa-thermometer-half"></i> ' ~
-             fiveDaysForecastWeather2.0.temperature|round ~ '°C</span>' }}" data-content="{{ toDisplay|raw  }}">
-    {% endif %}
-    {% if day.date|date('Y-m-d') == date('+3days')|date('Y-m-d') %}
-        {% set toDisplay = '<table>' %}
-        {% set toDisplayBis = '<tr>' %}
-        {% set toDisplayTer = '<tr>' %}
-        {% set toDisplayQua = '<tr>' %}
-        {% for elem in fiveDaysForecastWeather3 %}
-            {% if loop.index is odd %}
-                {% set heure = "<td><i class='far fa-clock'></i> " ~ elem.dt_txt|date('H:i') ~
-                    "<i class='fas fa-calendar-day'></i> " ~ elem.dt_txt|date('d/m') ~ "</td>" %}
-                {% set icon = "<td><img src='" ~ elem.icon_url ~ "'
-                                                    data-toggle='popover' data-placement='top' data-trigger='click'
-                                                    data-content='" ~ elem.description ~ "'></td>" %}
-                {% set temperature = "<td><i class='fas fa-thermometer-half'></i> " ~ elem.temperature|round ~ "°C</td>" %}
-
-                {% set toDisplayBis = toDisplayBis ~ heure %}
-                {% set toDisplayTer = toDisplayTer ~ icon %}
-                {% set toDisplayQua = toDisplayQua ~ temperature %}
-            {% endif %}
-        {% endfor %}
-        {% set toDisplayBis = toDisplayBis ~ '</tr>' %}
-        {% set toDisplayTer = toDisplayTer ~ '</tr>' %}
-        {% set toDisplayQua = toDisplayQua ~ '</tr>' %}
-
-        {% set toDisplay = toDisplay ~ toDisplayBis ~ toDisplayTer ~ toDisplayQua %}
+            <img src="{{ attribute(_context, 'fiveDaysForecastWeather' ~ i).0.icon_url }}"
+                 data-toggle="popover" data-placement="top" data-trigger="hover"
+                 title="{{ titleToDisplay }}" data-content="{{ toDisplay }}">
+        {% endif %}
 
 
-        <img src="{{ fiveDaysForecastWeather3.0.icon_url }}"
-             data-toggle="popover" data-placement="top" data-trigger="hover"
-             title="{{ fiveDaysForecastWeather3.0.description|capitalize ~ ' <span class="pull-right small"><i class="fas fa-wind"></i> ' ~
-             fiveDaysForecastWeather3.0.wind ~ 'm/s <i class="fas fa-cloud"></i> ' ~
-             fiveDaysForecastWeather3.0.clouds ~ '% <i class="fas fa-thermometer-half"></i> ' ~
-             fiveDaysForecastWeather3.0.temperature|round ~ '°C</span>' }}" data-content="{{ toDisplay|raw  }}">
-    {% endif %}
-    {% if day.date|date('Y-m-d') == date('+4days')|date('Y-m-d') %}
-        {% set toDisplay = '<table>' %}
-        {% set toDisplayBis = '<tr>' %}
-        {% set toDisplayTer = '<tr>' %}
-        {% set toDisplayQua = '<tr>' %}
-        {% for elem in fiveDaysForecastWeather4 %}
-            {% if loop.index is odd %}
-                {% set heure = "<td><i class='far fa-clock'></i> " ~ elem.dt_txt|date('H:i') ~
-                    "<i class='fas fa-calendar-day'></i> " ~ elem.dt_txt|date('d/m') ~ "</td>" %}
-                {% set icon = "<td><img src='" ~ elem.icon_url ~ "'
-                                                    data-toggle='popover' data-placement='top' data-trigger='click'
-                                                    data-content='" ~ elem.description ~ "'></td>" %}
-                {% set temperature = "<td><i class='fas fa-thermometer-half'></i> " ~ elem.temperature|round ~ "°C</td>" %}
-
-                {% set toDisplayBis = toDisplayBis ~ heure %}
-                {% set toDisplayTer = toDisplayTer ~ icon %}
-                {% set toDisplayQua = toDisplayQua ~ temperature %}
-            {% endif %}
-        {% endfor %}
-        {% set toDisplayBis = toDisplayBis ~ '</tr>' %}
-        {% set toDisplayTer = toDisplayTer ~ '</tr>' %}
-        {% set toDisplayQua = toDisplayQua ~ '</tr>' %}
-
-        {% set toDisplay = toDisplay ~ toDisplayBis ~ toDisplayTer ~ toDisplayQua %}
-
-
-        <img src="{{ fiveDaysForecastWeather4.0.icon_url }}"
-             data-toggle="popover" data-placement="top" data-trigger="hover"
-             title="{{ fiveDaysForecastWeather4.0.description|capitalize ~ ' <span class="pull-right small"><i class="fas fa-wind"></i> ' ~
-             fiveDaysForecastWeather4.0.wind ~ 'm/s <i class="fas fa-cloud"></i> ' ~
-             fiveDaysForecastWeather4.0.clouds ~ '% <i class="fas fa-thermometer-half"></i> ' ~
-             fiveDaysForecastWeather4.0.temperature|round ~ '°C</span>' }}" data-content="{{ toDisplay|raw  }}">
-    {% endif %}
+    {% endfor %}
 
 </span>

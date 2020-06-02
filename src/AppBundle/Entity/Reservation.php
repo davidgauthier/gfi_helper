@@ -34,6 +34,7 @@ class Reservation
      * 
      * @Assert\NotBlank()
      * @Assert\DateTime()
+     * @Assert\GreaterThan("yesterday")
      *
      * @ORM\Column(name="date", type="datetime")
      */
@@ -54,6 +55,7 @@ class Reservation
      *
      * @Assert\NotBlank()
      * @Assert\Time()
+     * @Assert\GreaterThan(propertyPath="timeBegin")
      *
      * @ORM\Column(name="time_end", type="time")
      */

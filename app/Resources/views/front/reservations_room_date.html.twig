@@ -11,15 +11,11 @@
 
 {% block content %}
     <div class="container">
-    	
-{#        {{ include("include/_current_time.html.twig") }}#}
-        
+
         {{ include("room/_tabs.html.twig") }}
         
         {{ include("include/_prev_day_next_day.html.twig") }}
-        
-        
-        <h2><b>{{room.name}}</b> : Réservations du {{ date|date('D d/m/Y') }}</h2>
+
         
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-hover table-light">
@@ -93,7 +89,7 @@
                             {# Si première résa de la journée ou bien réservation différente de la précédente #}
                             {% if tempResa != resa %}
                                 
-                                <tr class="{% if comptResa is odd %}table-primary{% else %}table-success{% endif %}">
+                                <tr class="{% if comptResa is odd %}table-secondary{% else %}table-primary{% endif %}">
                                     <td>{{ creneau }}</td>
 
                                     <td {% if resa.nbCreneaux > 1 %}rowspan="{{ resa.nbCreneaux }}"{% endif %}>
@@ -115,7 +111,7 @@
                                 </tr>
                             {# Sinon, même résa #}
                             {% else %}
-                                <tr class="{% if comptResa is not odd %}table-primary{% else %}table-success{% endif %}">
+                                <tr class="{% if comptResa is not odd %}table-secondary{% else %}table-primary{% endif %}">
                                     <td>{{ creneau }}</td>
                                 </tr>
                             {% endif %}
@@ -150,23 +146,9 @@
 
 {% block javascripts %}
     {{ parent() }}
-
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip({'html': true})
         });
     </script>
-
-    {#<script src="{{ asset('public/moment.js/moment-with-locales.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            setInterval(function() {
-                $('#span_date').html(
-                    moment().format('DD/MM/YYYY - HH:mm:ss')
-                );
-            }, 100);
-
-        });
-    </script>#}
-    
 {% endblock %}

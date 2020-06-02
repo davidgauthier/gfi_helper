@@ -26,6 +26,32 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
         $nxtWednesdayPlusFourteen   = new \Datetime();
         $nxtThursdayPlusFourteen    = new \Datetime();
         $nxtFridayPlusFourteen      = new \Datetime();
+        $nxtMondayPlusTwentyOne     = new \Datetime();
+        $nxtTuesdayPlusTwentyOne    = new \Datetime();
+        $nxtWednesdayPlusTwentyOne  = new \Datetime();
+        $nxtThursdayPlusTwentyOne   = new \Datetime();
+        $nxtFridayPlusTwentyOne     = new \Datetime();
+        $today                      = new \DateTime($today->format('Y-m-d 00:00:00'));
+        $nxtMonday                  = new \DateTime($nxtMonday->format('Y-m-d 00:00:00'));
+        $nxtTuesday                 = new \DateTime($nxtTuesday->format('Y-m-d 00:00:00'));
+        $nxtWednesday               = new \DateTime($nxtWednesday->format('Y-m-d 00:00:00'));
+        $nxtThursday                = new \DateTime($nxtThursday->format('Y-m-d 00:00:00'));
+        $nxtFriday                  = new \DateTime($nxtFriday->format('Y-m-d 00:00:00'));
+        $nxtMondayPlusSeven         = new \DateTime($nxtMondayPlusSeven->format('Y-m-d 00:00:00'));
+        $nxtTuesdayPlusSeven        = new \DateTime($nxtTuesdayPlusSeven->format('Y-m-d 00:00:00'));
+        $nxtWednesdayPlusSeven      = new \DateTime($nxtWednesdayPlusSeven->format('Y-m-d 00:00:00'));
+        $nxtThursdayPlusSeven       = new \DateTime($nxtThursdayPlusSeven->format('Y-m-d 00:00:00'));
+        $nxtFridayPlusSeven         = new \DateTime($nxtFridayPlusSeven->format('Y-m-d 00:00:00'));
+        $nxtMondayPlusFourteen      = new \DateTime($nxtMondayPlusFourteen->format('Y-m-d 00:00:00'));
+        $nxtTuesdayPlusFourteen     = new \DateTime($nxtTuesdayPlusFourteen->format('Y-m-d 00:00:00'));
+        $nxtWednesdayPlusFourteen   = new \DateTime($nxtWednesdayPlusFourteen->format('Y-m-d 00:00:00'));
+        $nxtThursdayPlusFourteen    = new \DateTime($nxtThursdayPlusFourteen->format('Y-m-d 00:00:00'));
+        $nxtFridayPlusFourteen      = new \DateTime($nxtFridayPlusFourteen->format('Y-m-d 00:00:00'));
+        $nxtMondayPlusTwentyOne     = new \DateTime($nxtMondayPlusTwentyOne->format('Y-m-d 00:00:00'));
+        $nxtTuesdayPlusTwentyOne    = new \DateTime($nxtTuesdayPlusTwentyOne->format('Y-m-d 00:00:00'));
+        $nxtWednesdayPlusTwentyOne  = new \DateTime($nxtWednesdayPlusTwentyOne->format('Y-m-d 00:00:00'));
+        $nxtThursdayPlusTwentyOne   = new \DateTime($nxtThursdayPlusTwentyOne->format('Y-m-d 00:00:00'));
+        $nxtFridayPlusTwentyOne     = new \DateTime($nxtFridayPlusTwentyOne->format('Y-m-d 00:00:00'));
         $nxtMonday->modify('next Monday');
         $nxtTuesday->modify('next Tuesday');
         $nxtWednesday->modify('next Wednesday');
@@ -41,6 +67,11 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
         $nxtWednesdayPlusFourteen->modify('next Wednesday')->modify('+14 days');
         $nxtThursdayPlusFourteen->modify('next Thursday')->modify('+14 days');
         $nxtFridayPlusFourteen->modify('next Friday')->modify('+14 days');
+        $nxtMondayPlusTwentyOne->modify('next Monday')->modify('+21 days');
+        $nxtTuesdayPlusTwentyOne->modify('next Tuesday')->modify('+21 days');
+        $nxtWednesdayPlusTwentyOne->modify('next Wednesday')->modify('+21 days');
+        $nxtThursdayPlusTwentyOne->modify('next Thursday')->modify('+21 days');
+        $nxtFridayPlusTwentyOne->modify('next Friday')->modify('+21 days');
 
         $reservations = array(
             // ========== Reservations pour aujourd'hui ==================================================
@@ -349,6 +380,14 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
             ],
             // ========== Mercredi ======================================================================
             // ==================== Salle 0 (Salle du 5ème) ==============================================
+            [
+                'user'      => $this->getReference('user-1'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtWednesday,
+                'timeBegin' => new \DateTime('08:00:00'),
+                'timeEnd'   => new \DateTime('08:30:00'),
+                'comment'   => null,
+            ],
             [
                 'user'      => $this->getReference('user-3'),
                 'room'      => $this->getReference('room-0'),
@@ -1232,8 +1271,40 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
                 'user'      => $this->getReference('user-9'),
                 'room'      => $this->getReference('room-0'),
                 'date'      => $nxtThursdayPlusFourteen,
+                'timeBegin' => new \DateTime('08:30:00'),
+                'timeEnd'   => new \DateTime('09:30:00'),
+                'comment'   => "Entretien candidat : Lionel, 24ans, JAVA",
+            ],
+            [
+                'user'      => $this->getReference('user-9'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtThursdayPlusFourteen,
                 'timeBegin' => new \DateTime('09:30:00'),
-                'timeEnd'   => new \DateTime('11:00:00'),
+                'timeEnd'   => new \DateTime('10:30:00'),
+                'comment'   => "Entretien candidat : Aude, 26ans, PHP",
+            ],
+            [
+                'user'      => $this->getReference('user-9'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtThursdayPlusFourteen,
+                'timeBegin' => new \DateTime('10:30:00'),
+                'timeEnd'   => new \DateTime('11:30:00'),
+                'comment'   => "Entretien candidat : Ludovic, 27ans, JAVA",
+            ],
+            [
+                'user'      => $this->getReference('user-9'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtThursdayPlusFourteen,
+                'timeBegin' => new \DateTime('11:30:00'),
+                'timeEnd'   => new \DateTime('12:30:00'),
+                'comment'   => "Entretien candidat : Marc, 32ans, JAVA",
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtThursdayPlusFourteen,
+                'timeBegin' => new \DateTime('13:30:00'),
+                'timeEnd'   => new \DateTime('14:00:00'),
                 'comment'   => null,
             ],
             [
@@ -1341,6 +1412,374 @@ class LoadReservationData extends AbstractFixture implements OrderedFixtureInter
                 'timeEnd'   => new \DateTime('10:30:00'),
                 'comment'   => "Petit déj avec plateau 4eme !!",
             ],
+
+
+
+
+            // ========== Réservation pour les 5 prochains jours ouvrés  + 3 semaines ====================
+            // ========== Lundi ==========================================================================
+            // ==================== Salle 0 (Salle du 5ème) ==============================================
+            [
+                'user'      => $this->getReference('user-0'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtMondayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:30:00'),
+                'timeEnd'   => new \DateTime('11:00:00'),
+                'comment'   => 'Réunion équipe PHP',
+            ],
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtMondayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:00:00'),
+                'timeEnd'   => new \DateTime('15:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtMondayPlusTwentyOne,
+                'timeBegin' => new \DateTime('16:00:00'),
+                'timeEnd'   => new \DateTime('17:00:00'),
+                'comment'   => null,
+            ],
+            // ==================== Salle 1 (BoxTel du 5ème) =============================================
+            [
+                'user'      => $this->getReference('user-8'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtMondayPlusTwentyOne,
+                'timeBegin' => new \DateTime('08:30:00'),
+                'timeEnd'   => new \DateTime('09:00:00'),
+                'comment'   => null,
+            ],
+            // ==================== Salle 2 (Salle Opéra du 4ème) ========================================
+            [
+                'user'      => $this->getReference('user-9'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtMondayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:00:00'),
+                'timeEnd'   => new \DateTime('10:30:00'),
+                'comment'   => 'Point équipe Drakkar',
+            ],
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtMondayPlusTwentyOne,
+                'timeBegin' => new \DateTime('12:00:00'),
+                'timeEnd'   => new \DateTime('14:00:00'),
+                'comment'   => 'Midi jeux 4eme',
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtMondayPlusTwentyOne,
+                'timeBegin' => new \DateTime('15:00:00'),
+                'timeEnd'   => new \DateTime('15:30:00'),
+                'comment'   => null,
+            ],
+            // ==================== Salle 3 (Petite salle du 4ème) =======================================
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-3'),
+                'date'      => $nxtMondayPlusTwentyOne,
+                'timeBegin' => new \DateTime('10:00:00'),
+                'timeEnd'   => new \DateTime('11:00:00'),
+                'comment'   => null,
+            ],
+            // ========== Mardi ==========================================================================
+            // ==================== Salle 0 (Salle du 5ème) ==============================================
+            [
+                'user'      => $this->getReference('user-3'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('11:00:00'),
+                'timeEnd'   => new \DateTime('11:30:00'),
+                'comment'   => 'SVMI Rudy',
+            ],
+            [
+                'user'      => $this->getReference('user-3'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:00:00'),
+                'timeEnd'   => new \DateTime('16:30:00'),
+                'comment'   => 'Visite JPD Unisimlock',
+            ],
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('17:00:00'),
+                'timeEnd'   => new \DateTime('18:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('18:00:00'),
+                'timeEnd'   => new \DateTime('19:00:00'),
+                'comment'   => null,
+            ],
+            // ==================== Salle 1 (BoxTel du 5ème) =============================================
+            [
+                'user'      => $this->getReference('user-4'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:00:00'),
+                'timeEnd'   => new \DateTime('09:30:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-5'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:30:00'),
+                'timeEnd'   => new \DateTime('10:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-2'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('12:00:00'),
+                'timeEnd'   => new \DateTime('12:30:00'),
+                'comment'   => 'Appel téléphonique perso',
+            ],
+            // ==================== Salle 2 (Salle Opéra du 4ème) ========================================
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('11:00:00'),
+                'timeEnd'   => new \DateTime('12:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:30:00'),
+                'timeEnd'   => new \DateTime('18:30:00'),
+                'comment'   => 'Grosse réunion...',
+            ],
+            // ==================== Salle 3 (Petite salle du 4ème) =======================================
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-3'),
+                'date'      => $nxtTuesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('13:00:00'),
+                'timeEnd'   => new \DateTime('13:30:00'),
+                'comment'   => "dej + appel tel",
+            ],
+            // ========== Mercredi =======================================================================
+            // ==================== Salle 0 (Salle du 5ème) ==============================================
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:30:00'),
+                'timeEnd'   => new \DateTime('12:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:00:00'),
+                'timeEnd'   => new \DateTime('15:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('16:00:00'),
+                'timeEnd'   => new \DateTime('17:00:00'),
+                'comment'   => 'réu visio',
+            ],
+            // ==================== Salle 1 (BoxTel du 5ème) =============================================
+            [
+                'user'      => $this->getReference('user-4'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('08:30:00'),
+                'timeEnd'   => new \DateTime('09:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-5'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:00:00'),
+                'timeEnd'   => new \DateTime('09:30:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-8'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:30:00'),
+                'timeEnd'   => new \DateTime('10:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-0'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:00:00'),
+                'timeEnd'   => new \DateTime('15:00:00'),
+                'comment'   => 'Apl tel urgent (prêt banque pour maison)',
+            ],
+            // ==================== Salle 2 (Salle Opéra du 4ème) ========================================
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:30:00'),
+                'timeEnd'   => new \DateTime('10:30:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-9'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:00:00'),
+                'timeEnd'   => new \DateTime('15:30:00'),
+                'comment'   => "Réu new applis Java",
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('17:30:00'),
+                'timeEnd'   => new \DateTime('18:00:00'),
+                'comment'   => null,
+            ],
+            // ==================== Salle 3 (Petite salle du 4ème) =======================================
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-3'),
+                'date'      => $nxtWednesdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('12:30:00'),
+                'timeEnd'   => new \DateTime('13:00:00'),
+                'comment'   => "dej",
+            ],
+            // ========== Jeudi ==========================================================================
+            // ==================== Salle 0 (Salle du 5ème) ==============================================
+            [
+                'user'      => $this->getReference('user-9'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtThursdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:30:00'),
+                'timeEnd'   => new \DateTime('11:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtThursdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:00:00'),
+                'timeEnd'   => new \DateTime('15:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtThursdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('15:00:00'),
+                'timeEnd'   => new \DateTime('15:30:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-3'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtThursdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('16:00:00'),
+                'timeEnd'   => new \DateTime('18:30:00'),
+                'comment'   => 'COPIL applis JLD',
+            ],
+            // ==================== Salle 1 (BoxTel du 5ème) =============================================
+            [
+                'user'      => $this->getReference('user-8'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtThursdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('08:30:00'),
+                'timeEnd'   => new \DateTime('09:00:00'),
+                'comment'   => null,
+            ],
+            // ==================== Salle 2 (Salle Opéra du 4ème) ========================================
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-3'),
+                'date'      => $nxtThursdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('11:00:00'),
+                'timeEnd'   => new \DateTime('12:00:00'),
+                'comment'   => null,
+            ],
+            [
+                'user'      => $this->getReference('user-7'),
+                'room'      => $this->getReference('room-3'),
+                'date'      => $nxtThursdayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:30:00'),
+                'timeEnd'   => new \DateTime('15:30:00'),
+                'comment'   => null,
+            ],
+            // ==================== Salle 3 (Petite salle du 4ème) =======================================
+
+            // ========== Vendredi =======================================================================
+            // ==================== Salle 0 (Salle du 5ème) ==============================================
+            [
+                'user'      => $this->getReference('user-8'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtFridayPlusTwentyOne,
+                'timeBegin' => new \DateTime('12:00:00'),
+                'timeEnd'   => new \DateTime('14:00:00'),
+                'comment'   => 'Midi jeu Wii ? Qui est chaud ?',
+            ],
+            [
+                'user'      => $this->getReference('user-9'),
+                'room'      => $this->getReference('room-0'),
+                'date'      => $nxtFridayPlusTwentyOne,
+                'timeBegin' => new \DateTime('14:00:00'),
+                'timeEnd'   => new \DateTime('16:30:00'),
+                'comment'   => 'Reunion',
+            ],
+            // ==================== Salle 1 (BoxTel du 5ème) =============================================
+            [
+                'user'      => $this->getReference('user-6'),
+                'room'      => $this->getReference('room-1'),
+                'date'      => $nxtFridayPlusTwentyOne,
+                'timeBegin' => new \DateTime('10:00:00'),
+                'timeEnd'   => new \DateTime('10:30:00'),
+                'comment'   => 'Appel perso',
+            ],
+            // ==================== Salle 2 (Salle Opéra du 4ème) ========================================
+            [
+                'user'      => $this->getReference('user-3'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtFridayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:30:00'),
+                'timeEnd'   => new \DateTime('10:30:00'),
+                'comment'   => "Petit déj avec plateau 4eme !!",
+            ],
+            [
+                'user'      => $this->getReference('user-9'),
+                'room'      => $this->getReference('room-2'),
+                'date'      => $nxtFridayPlusTwentyOne,
+                'timeBegin' => new \DateTime('17:00:00'),
+                'timeEnd'   => new \DateTime('18:00:00'),
+                'comment'   => null,
+            ],
+            // ==================== Salle 3 (Petite salle du 4ème) =======================================
+            [
+                'user'      => $this->getReference('user-3'),
+                'room'      => $this->getReference('room-3'),
+                'date'      => $nxtFridayPlusTwentyOne,
+                'timeBegin' => new \DateTime('09:30:00'),
+                'timeEnd'   => new \DateTime('10:30:00'),
+                'comment'   => "Petit déj avec plateau 4eme !!",
+            ],
+
 
         );
 

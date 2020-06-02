@@ -1,0 +1,110 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Les réservations
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('public/css/style_table_links_hover.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}  
+    <div class="container">
+        {{ include("room/_calendar_tabs.html.twig") }}
+
+        {{ include("include/_prev_month_next_month.html.twig") }}
+
+
+        
+        <h3>
+            <b>{{room.name}}</b> : Les réservations du mois : <b>{{ month|date('F') }}</b>
+            <small>
+                <span class="badge {% if theReservations|length >= 60 %} badge-danger
+                                {% elseif theReservations|length >= 40 %} badge-warning
+                                {% elseif theReservations|length >= 20 %} badge-primary
+                                {% else %} badge-light {% endif %}">
+                    {{ theReservations|length }} réservation(s)
+                </span>
+            </small>
+        </h3>
+        
+        {% if theReservations is not empty %}
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered table-light table-hover">
+                    <thead>
+                        <tr>
+                            <th rowspan="2"><i class="far fa-user"></i> Nom ou Trigramme</th>
+                            <th rowspan="2"><i class="far fa-calendar-alt"></i> Date</th>
+                            <th colspan="2"><i class="far fa-clock"></i> Heure</th>
+                            <th rowspan="2"><i class="far fa-comment-dots"></i> Commentaire</th>
+                            <th rowspan="2"><i class="far fa-save"></i> Modifié le</th>
+                            <th rowspan="2" {#style="width: 10%"#}><i class="far fa-edit"></i> Editer</th>
+                        </tr>
+                        <tr>
+                            <th>De</th>
+                            <th>Jusqu'à </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reservation in theReservations %}
+                            <tr {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == reservation.user.id %}class="table-info"{% endif %}>
+                                <td>{{ reservation.user.username }}</td>
+                                <td>
+                                    <a class="text-muted"
+                                       href="{{ path('front_reservations_room_date', {'roomSlug': reservation.room.slug, 'date': reservation.date|date('Y-m-d')})}}">
+                                        {{ reservation.date|date('l d/m/Y') }}
+                                    </a>
+                                </td>
+                                <td>{{ reservation.timeBegin|date('H:i') }}</td>
+                                <td>{{ reservation.timeEnd|date('H:i') }}</td>
+                                <td>
+                                    {% if reservation.comment|length < 20 %}
+                                        <span>{{ reservation.comment }}</span>
+                                    {% else %}
+                                        <span data-toggle="tooltip" data-placement="bottom" title="<i class='far fa-comment-dots'></i> {{ reservation.comment }}">
+                                            <u>{{ reservation.comment|slice(0, 19) ~ '..' }}</u>
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ reservation.updatedAt|date('d/m/Y H:i:s') }}</td>
+                                <td>
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == reservation.user.id %}
+                                        <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}"
+                                           class="showOnHover badge badge-warning float-right">
+                                            <i class="far fa-edit"></i> Editer
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    <tbody>
+                </table>
+            </div>
+
+
+            {{ include("include/_prev_month_next_month.html.twig") }}
+
+        {% else %}
+            <p>Pas de réservation.</p>
+        {% endif %}
+                
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <p>
+                <a class="btn btn-primary btn-lg" href="{{ path('app_reservation_new_prefilled', {'roomSlug': room.slug, 'date': month|date('Y-m-d'), 'timeBegin': 'now'|date('H:i'), 'timeEnd': 'now'|date('H:i') }) }}" role="button">
+                    <i class="far fa-calendar-plus"></i> Reserver
+                </a>
+            </p>
+        {% endif %}
+        
+    </div>
+{% endblock %}
+            
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({'html': true})
+        });
+    </script>
+{% endblock %}

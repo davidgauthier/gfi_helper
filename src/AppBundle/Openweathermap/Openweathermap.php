@@ -27,30 +27,37 @@ class Openweathermap
         $this->serializer           = $serializer;
     }
 
-    public function getCurrentWeather(){
-        $uri = '/data/2.5/weather?q=' . $this->city . '&state=FR&units=metric&lang=fr&appid='.$this->apiKey;
+    public function getCurrentWeather($city = null){
+        if(null === $city){
+            $uri = '/data/2.5/weather?q=' . $this->city . '&units=metric&lang=fr&appid='.$this->apiKey;
+        } else {
+            $uri = '/data/2.5/weather?q=' . $city . '&units=metric&lang=fr&appid='.$this->apiKey;
+        }
 
-        $response = $this->openweathermapClient->get($uri);
-
-        $data = $this->serializer->deserialize(
-            $response->getBody()->getContents(),
-            'array',
-            'json'
-        );
+        try{
+            $response = $this->openweathermapClient->get($uri);
+            $data = $this->serializer->deserialize(
+                $response->getBody()->getContents(),'array','json'
+            );
+        }
+        catch(\Exception $e){
+            preg_match('~\{[^\}]*\}~', $e->getMessage(), $matches);
+            $data = [
+                'cod' => $e->getCode(),
+                'message' => $matches[0],
+            ];
+        }
 
         return $data;
     }
 
 
     public function getFiveDaysForecastWeather(){
-        $uri = '/data/2.5/forecast?q=' . $this->city . '&state=FR&units=metric&lang=fr&appid='.$this->apiKey;
+        $uri = '/data/2.5/forecast?q=' . $this->city . '&units=metric&lang=fr&appid='.$this->apiKey;
 
         $response = $this->openweathermapClient->get($uri);
-
         $data = $this->serializer->deserialize(
-            $response->getBody()->getContents(),
-            'array',
-            'json'
+            $response->getBody()->getContents(),'array','json'
         );
 
         $resultat = [

@@ -105,9 +105,17 @@ class FrontController extends Controller
         $fiveDaysForecastWeather    = $openweathermapService->getFiveDaysForecastWeather();
 
 
-        // A voir si on arrive a faire passer seulement année-mois (ex: "2018-05") dans l'url..
-
         $month      = new \Datetime($month);
+
+        // Si le mois est antérieur au mois actuel, erreur
+        if($month < $dateTimesManager->getFirstDayOfCurrentMonth()){
+            $this->addFlash('error', 'Vous avez été redirigé (Impossible de consulter le planning d\'un mois antérieur au mois actuel)');
+            return $this->redirectToRoute('front_planning_room_month', array(
+                'roomSlug'  => $roomSlug,
+                'month'     => $dateTimesManager->getFirstDayOfCurrentMonth()->format('Y-m')
+            ));
+        }
+
         $prevMonth  = $dateTimesManager->getPrevMonth($month);
         $nextMonth  = $dateTimesManager->getNextMonth($month);
         
@@ -210,7 +218,17 @@ class FrontController extends Controller
         
         $room           = $roomManager->getRoomBySlug($roomSlug);
         $reservations   = $this->get('app.reservation_manager')->getReservationsByRoomAndDay($room, $date);
-        
+
+        $now = new \DateTime();
+        // Si la date est antérieure à aujourd'hui, erreur
+        if($date < new \DateTime($now->format('Y-m-d 00:00:00'))){
+            $this->addFlash('error', 'Vous avez été redirigé (Impossible de consulter le planning d\'un jour antérieur à aujourd\'hui)');
+            return $this->redirectToRoute('front_reservations_room_date', array(
+                'roomSlug'  => $roomSlug,
+                'date'      => $now->format('Y-m-d')
+            ));
+        }
+
         $allRooms       = $roomManager->getAll();
         
         return $this->render(':front:reservations_room_date.html.twig', [

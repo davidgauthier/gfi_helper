@@ -3,7 +3,7 @@
     <li class="nav-item">
         <a class="nav-link {% if app.request.get('_route') == 'front_reservations_room_date' and room.id == r.id %}
                                 active
-                            {% endif %}"  href="{{ path('front_reservations_room_date', {'roomSlug': r.slug, 'date': date|date('Y-m-d')})}}">
+                            {% endif %}"  href="{{ path('front_reservations_room_date', {'roomSlug': r.slug, 'date': date|date('Y-m')})}}">
             {% if app.request.get('_route') == 'front_reservations_room_date' and room.id == r.id %}
                 <i class="fas fa-door-open"></i>
             {% else %}

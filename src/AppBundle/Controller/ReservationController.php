@@ -37,14 +37,15 @@ class ReservationController extends Controller
             $entityManager->persist($reservation);
             $entityManager->flush();
             
-            $this->addFlash('success', 'Votre Réservation a été créée !');
-//            return $this->redirectToRoute('front_homepage');
+            $this->addFlash('success', 'La réservation ('.$reservation->getDate()->format('Y-m-d').
+                ', '.$reservation->getTimeBegin()->format('H:i').'-'.$reservation->getTimeEnd()->format('H:i').
+                ', '.$reservation->getRoom()->getName().') a bien été créée !');
             return $this->redirectToRoute('front_reservations_room_date', array(
-                                                            'roomSlug'  => $reservation->getRoom()->getSlug(),
-                                                            'date'      => $reservation->getDate()->format('Y-m-d')
-                ));
+                'roomSlug'  => $reservation->getRoom()->getSlug(),
+                'date'      => $reservation->getDate()->format('Y-m-d')
+            ));
         }
-        
+
         return $this->render(':reservation:new_blank.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -58,6 +59,8 @@ class ReservationController extends Controller
      */
     public function newPrefilledAction(Request $request, $roomSlug, \DateTime $date, \DateTime $timeBegin, \DateTime $timeEnd)
     {
+        $refererPage = $request->getSession()->get('referer_page');
+
         $room = $this->get('app.room_manager')->getRoomBySlug($roomSlug);
         $reservation = new Reservation();
         $reservation->setRoom($room);
@@ -79,14 +82,23 @@ class ReservationController extends Controller
             
             $entityManager->persist($reservation);
             $entityManager->flush();
-            
-            $this->addFlash('success', 'Votre Réservation a été créée !');
-//            return $this->redirectToRoute('front_homepage');
+
+            $this->addFlash('success', 'La réservation ('.$reservation->getDate()->format('Y-m-d').
+                ', '.$reservation->getTimeBegin()->format('H:i').'-'.$reservation->getTimeEnd()->format('H:i').
+                ', '.$reservation->getRoom()->getName().') a bien été créée !');
+            // Si referer page, on redirige
+            if (isset($refererPage) && !empty($refererPage)) {
+                return $this->redirect($refererPage);
+            }
+            // Sinon : redirection normale
             return $this->redirectToRoute('front_reservations_room_date', array(
-                                                            'roomSlug'  => $reservation->getRoom()->getSlug(),
-                                                            'date'      => $reservation->getDate()->format('Y-m-d')
-                ));
+                'roomSlug'  => $reservation->getRoom()->getSlug(),
+                'date'      => $reservation->getDate()->format('Y-m-d')
+            ));
         }
+
+        // Mettons en session la page d'ou l'on vient (avant d'arriver sur la page/le formulaire de création)
+        $request->getSession()->set('referer_page', $request->headers->get('referer'));
         
         return $this->render(':reservation:new_prefilled.html.twig', [
             'form' => $form->createView(),
@@ -102,6 +114,7 @@ class ReservationController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $refererPage = $request->getSession()->get('referer_page');
 
         $reservation = $this->get('app.reservation_manager')->getReservationById($id);
 
@@ -125,12 +138,22 @@ class ReservationController extends Controller
 
             $this->container->get('app.reservation_manager')->save($reservation);
 
-            $this->addFlash('success', 'La réservation a bien été modifiée.');
+            $this->addFlash('success', 'La réservation ('.$reservation->getDate()->format('Y-m-d').
+                ', '.$reservation->getTimeBegin()->format('H:i').'-'.$reservation->getTimeEnd()->format('H:i').
+                ', '.$reservation->getRoom()->getName().') a bien été modifiée !');
+            // Si referer page, on redirige
+            if (isset($refererPage) && !empty($refererPage)) {
+                return $this->redirect($refererPage);
+            }
+            // Sinon : redirection normale
             return $this->redirectToRoute('front_reservations_room_date', array(
-                                                    'roomSlug'  => $reservation->getRoom()->getSlug(),
-                                                    'date'      => $reservation->getDate()->format('Y-m-d')
+                'roomSlug'  => $reservation->getRoom()->getSlug(),
+                'date'      => $reservation->getDate()->format('Y-m-d')
             ));
         }
+
+        // Mettons en session la page d'ou l'on vient (avant d'arriver sur la page d'édition)
+        $request->getSession()->set('referer_page', $request->headers->get('referer'));
 
         return $this->render(':reservation:edit.html.twig', [
             'form'          => $form->createView(),
@@ -149,6 +172,8 @@ class ReservationController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $refererPage = $request->getSession()->get('referer_page');
+
         $entityManager = $this->getDoctrine()->getManager();
         
         $reservation = $entityManager->getRepository(Reservation::class)->find($id);
@@ -168,12 +193,23 @@ class ReservationController extends Controller
         $form = $this->get('form.factory')->create();
     
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $reservationCopy = $reservation;
             $entityManager->remove($reservation);
             $entityManager->flush();
 
-            $this->addFlash('success', 'La réservation a bien été supprimée.');
+            $this->addFlash('success', 'La réservation ('.$reservationCopy->getDate()->format('Y-m-d').
+                ', '.$reservationCopy->getTimeBegin()->format('H:i').'-'.$reservationCopy->getTimeEnd()->format('H:i').
+                ', '.$reservationCopy->getRoom()->getName().') a bien été supprimée !');
+            // Si referer page, on redirige
+            if (isset($refererPage) && !empty($refererPage)) {
+                return $this->redirect($refererPage);
+            }
+            // Sinon : redirection normale
             return $this->redirectToRoute('front_myreservations');
         }
+
+        // Ici, il ne faut pas mettre à jour la variable de session car nous passons par
+        // la page d'édition pour accéder à celle de suppression.
 
         return $this->render(':reservation:delete.html.twig', array(
             'reservation'   => $reservation,

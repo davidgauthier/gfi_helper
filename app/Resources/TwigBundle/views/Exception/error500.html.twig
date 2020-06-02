@@ -10,13 +10,16 @@
 
 {% block content %}
     <div class="container">
-        <h1>{{ status_code }} {{ status_text }}</h1>
-        <h2>Oula ! C'est grave.. <a href="mailto:logan.leroy@gfi.fr">Contacter l'adminitstrateur par mail</a></h2>
-        <p>
-            Il est important que vous nous donniez les circonstances dans lesquelles vous
-            étiez vis-à-vis de l'application pour que nous puissions déceler l'origine du dysfonctionnement.
-            D'avance, merci.
-        </p>
+        <div class="jumbotron">
+            <img class="float-right" src="{{ asset('public/images/ours.gif') }}">
+            <h2>{{ status_code }} - {{ status_text }}</h2>
+            <h3>Oula ! C'est grave.. <a href="mailto:logan.leroy@gfi.fr">Contacter l'adminitstrateur par mail</a></h3>
+            <p>
+                Il est important que vous nous donniez les circonstances dans lesquelles vous
+                utilisiez l'application pour que nous puissions déceler l'origine du dysfonctionnement.
+                D'avance, merci.
+            </p>
+        </div>
     </div>
 {% endblock %}
 

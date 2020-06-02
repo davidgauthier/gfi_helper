@@ -71,7 +71,7 @@
                                 <td>
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.id == reservation.user.id %}
                                         <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}"
-                                           class="showOnHover badge badge-warning float-right">
+                                           class="text-muted">
                                             <i class="far fa-edit"></i> Editer
                                         </a>
                                     {% endif %}

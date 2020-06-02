@@ -38,6 +38,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('r.date <= :last')
             ->setParameter('last', $last)
             ->orderBy('r.date', 'ASC')
+            ->addOrderBy('r.timeBegin', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -57,10 +58,12 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('r.user', 'u')
             ->where('u.id = :id_user')
             ->setParameter('id_user', $user->getId())
-            ->orderBy('r.date', 'DESC')
+            ->orderBy('r.date', 'ASC')
+            ->addOrderBy('r.timeBegin', 'ASC')
             ->getQuery()
             ->getResult();
     }
+
     /**
      * Retourne les futures réservations d'un user
      *
@@ -81,10 +84,10 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('r.date >= :day')
             ->setParameter('day', $day)
             ->orderBy('r.date', 'ASC')
+            ->addOrderBy('r.timeBegin', 'ASC')
             ->getQuery()
             ->getResult();
     }
-    
     
     
     /**
@@ -107,6 +110,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('re.date >= :day')
             ->setParameter('day', $day)
             ->orderBy('re.date', 'ASC')
+            ->addOrderBy('re.timeBegin', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -166,6 +170,8 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('first', $first)
             ->andWhere('re.date <= :last')
             ->setParameter('last', $last)
+            ->orderBy('re.date', 'ASC')
+            ->addOrderBy('re.timeBegin', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -195,6 +201,8 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('first', $first)
             ->andWhere('re.date <= :last')
             ->setParameter('last', $last)
+            ->orderBy('re.date', 'ASC')
+            ->addOrderBy('re.timeBegin', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -257,17 +265,15 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('first', $first)
             ->andWhere('re.date <= :last')
             ->setParameter('last', $last)
-            ->orderBy('re.date, re.timeBegin')
+            ->orderBy('re.date', 'ASC')
+            ->addOrderBy('re.timeBegin', 'ASC')
             ->getQuery()
             ->getResult();
     }
     
     
     
-    
-    
-    
-    
+
     
     /**
      * Retourne le nombre de réservations selon une période de temps
@@ -303,6 +309,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
     /**
      * Retourne les réservations selon une période de temps
      *

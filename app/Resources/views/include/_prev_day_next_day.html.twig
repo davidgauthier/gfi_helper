@@ -28,7 +28,9 @@
 
         <div class="p-1">
             <h4 class="d-inline-block">
-                <b>{{ date|date('l d/m/Y') }}</b>
+                <a class="text-muted" href="{{ path('front_planning_room_month', {'roomSlug': room.slug, 'month': date|date('Y-m')}) }}">
+                    <b>{{ date|date('l d/m/Y') }}</b>
+                </a>
                 <small>
                     <span class="badge {% if reservations|length >= 8 %} badge-danger
                                     {% elseif reservations|length >= 4 %} badge-warning

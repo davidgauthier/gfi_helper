@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use AppBundle\Entity\Reservation;
 use AppBundle\Entity\Room;
@@ -97,8 +98,13 @@ class ReservationController extends Controller
             ));
         }
 
-        // Mettons en session la page d'ou l'on vient (avant d'arriver sur la page/le formulaire de création)
-        $request->getSession()->set('referer_page', $request->headers->get('referer'));
+        // Si l'utilisateur est déjà loggué (autrement dit : l'utilisateur n'était pas loggué et a accedé au formulaire
+        //de création d'une reservation prérempli, mais seulement après être passé par le formulaire de connexion)
+        $routeLogin = $this->generateUrl('fos_user_security_login', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        if($request->headers->get('referer') !== $routeLogin){
+            // Mettons en session la page d'ou l'on vient (avant d'arriver sur la page/le formulaire de création)
+            $request->getSession()->set('referer_page', $request->headers->get('referer'));
+        }
         
         return $this->render(':reservation:new_prefilled.html.twig', [
             'form' => $form->createView(),
@@ -152,8 +158,15 @@ class ReservationController extends Controller
             ));
         }
 
-        // Mettons en session la page d'ou l'on vient (avant d'arriver sur la page d'édition)
-        $request->getSession()->set('referer_page', $request->headers->get('referer'));
+        // On peut penser que nous n'avons pas besoin de la condition, mais un utilisateur "POURAIT" accéder à un formulaire
+        //d'édition directement via l'url.. (.. se logger.. éditer.. et être redirigé vers le form de co..)
+        // Si l'utilisateur est déjà loggué (autrement dit : l'utilisateur n'était pas loggué et a accedé au formulaire
+        //de création d'une reservation prérempli, mais seulement après être passé par le formulaire de connexion)
+        $routeLogin = $this->generateUrl('fos_user_security_login', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        if($request->headers->get('referer') !== $routeLogin) {
+            // Mettons en session la page d'ou l'on vient (avant d'arriver sur la page d'édition)
+            $request->getSession()->set('referer_page', $request->headers->get('referer'));
+        }
 
         return $this->render(':reservation:edit.html.twig', [
             'form'          => $form->createView(),

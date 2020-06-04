@@ -40,9 +40,7 @@ class FrontController extends Controller
         $openweathermapService      = $this->get('app.openweathermap');
         $fiveDaysForecastWeather    = $openweathermapService->getFiveDaysForecastWeather();
 
-        
         $month      = new \Datetime();
-        $month->modify('first day of this month');
         $prevMonth  = $dateTimesManager->getPrevMonth($month);
         $nextMonth  = $dateTimesManager->getNextMonth($month);
         
@@ -57,7 +55,6 @@ class FrontController extends Controller
         
         $interval   = \DateInterval::createFromDateString('1 day');
         $period     = new \DatePeriod($firstDayWeekBeforeMonth, $interval, $lastDayWeekAfterMonth->modify('+1 day')); // ->modify('+1 day') : Pour inclure le dernier jour de l'interval
-
         // Nous allons créer et remplir notre tableau des jours à afficher
         $days = [];
         foreach ($period as $dt){
@@ -77,13 +74,13 @@ class FrontController extends Controller
         $allRooms       = $roomManager->getAll();
         
         return $this->render(':front:calendar_room_month.html.twig', [
-            'room'      => $room[0],
-            'days'      => $days,
-            'reservations' => $reservations,
-            'month'     => $month,
-            'prevMonth' => $prevMonth,
-            'nextMonth' => $nextMonth,
-            'allRooms'  => $allRooms,
+            'room'          => $room[0],
+            'days'          => $days,
+            'reservations'  => $reservations,
+            'month'         => $month,
+            'prevMonth'     => $prevMonth,
+            'nextMonth'     => $nextMonth,
+            'allRooms'      => $allRooms,
             'fiveDaysForecastWeather0' => array_slice($fiveDaysForecastWeather, 0, 8),
             'fiveDaysForecastWeather1' => array_slice($fiveDaysForecastWeather, 8, 8),
             'fiveDaysForecastWeather2' => array_slice($fiveDaysForecastWeather, 16, 8),
@@ -104,8 +101,7 @@ class FrontController extends Controller
         $openweathermapService      = $this->get('app.openweathermap');
         $fiveDaysForecastWeather    = $openweathermapService->getFiveDaysForecastWeather();
 
-
-        $month      = new \Datetime($month);
+        $month = new \Datetime($month);
 
         // Si le mois est antérieur au mois actuel, erreur
         if($month < $dateTimesManager->getFirstDayOfCurrentMonth()){
@@ -127,10 +123,9 @@ class FrontController extends Controller
         // le mois. pour ensuite récupérer les jours entre ces deux dates.
         $firstDayWeekBeforeMonth    = $dateTimesManager->getFirstDayWeekBeforeMonth($month);
         $lastDayWeekAfterMonth      = $dateTimesManager->getLastDayWeekAfterMonth($month);
-        //var_dump($firstDayWeekBeforeMonth, $lastDayWeekAfterMonth);die;
+
         $interval = \DateInterval::createFromDateString('1 day');
         $period = new \DatePeriod($firstDayWeekBeforeMonth, $interval, $lastDayWeekAfterMonth->modify('+1 day')); // ->modify('+1 day') : Pour inclure le dernier jour de l'interval
-
         // Nous allons créer et remplir notre tableau des jours à afficher
         $days = [];
         foreach ($period as $dt){
@@ -144,16 +139,16 @@ class FrontController extends Controller
             $days[] = new Day($dt, $reservationsDuJour);
         }
         
-        $allRooms       = $roomManager->getAll();
+        $allRooms = $roomManager->getAll();
         
         return $this->render(':front:calendar_room_month.html.twig', [
-            'room'      => $room,
-            'days'      => $days,
-            'reservations' => $reservations,
-            'month'     => $month,
-            'prevMonth' => $prevMonth,
-            'nextMonth' => $nextMonth,
-            'allRooms'  => $allRooms,
+            'room'          => $room,
+            'days'          => $days,
+            'reservations'  => $reservations,
+            'month'         => $month,
+            'prevMonth'     => $prevMonth,
+            'nextMonth'     => $nextMonth,
+            'allRooms'      => $allRooms,
             'fiveDaysForecastWeather0' => array_slice($fiveDaysForecastWeather, 0, 8),
             'fiveDaysForecastWeather1' => array_slice($fiveDaysForecastWeather, 8, 8),
             'fiveDaysForecastWeather2' => array_slice($fiveDaysForecastWeather, 16, 8),

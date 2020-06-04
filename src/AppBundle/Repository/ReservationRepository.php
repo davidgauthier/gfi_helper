@@ -250,12 +250,19 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getFutureReservationsByRoomAndMonth($room, $month)
     {
+        $now = new \DateTime();
+
         if(null === $month){
             $month = new \DateTime();
         }
-        $first = $month->modify('first day of this month')->format('Y-m-d');
+
+        if($month->format('Y-m') === $now->format('Y-m')){
+            $first = $month->format('Y-m-d');
+        } else {
+            $first = $month->modify('first day of this month')->format('Y-m-d');
+        }
         $last = $month->modify('last day of this month')->format('Y-m-d');
-        
+
         return $this->createQueryBuilder('re')
             ->select('re')
             ->leftJoin('re.room', 'ro')

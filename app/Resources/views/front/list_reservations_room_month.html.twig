@@ -15,17 +15,16 @@
 
         {{ include("include/_prev_month_next_month.html.twig") }}
 
-
-        
         <h3>
             <b>{{room.name}}</b> : Les réservations du mois : <b>{{ month|date('F') }}</b>
             <small>
-                <span class="badge {% if theReservations|length >= 60 %} badge-danger
-                                {% elseif theReservations|length >= 40 %} badge-warning
-                                {% elseif theReservations|length >= 20 %} badge-primary
-                                {% else %} badge-light {% endif %}">
-                    {{ theReservations|length }} réservation(s)
-                </span>
+                {{ theReservations|length|displayCount({'badge':true, 'monthly':true}) }}
+{#                <span class="badge {% if theReservations|length >= 60 %} badge-danger#}
+{#                                {% elseif theReservations|length >= 40 %} badge-warning#}
+{#                                {% elseif theReservations|length >= 20 %} badge-primary#}
+{#                                {% else %} badge-light {% endif %}">#}
+{#                    {{ theReservations|length }} réservation(s)#}
+{#                </span>#}
             </small>
         </h3>
         

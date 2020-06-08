@@ -2,7 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -27,8 +28,7 @@ class FrontController extends Controller
         
     }
     
-    
-    
+
     /**
      * @Route("/planning", name="front_planning")
      */
@@ -112,8 +112,8 @@ class FrontController extends Controller
             ));
         }
 
-        $prevMonth  = $dateTimesManager->getPrevMonth($month);
-        $nextMonth  = $dateTimesManager->getNextMonth($month);
+        $prevMonth = $dateTimesManager->getPrevMonth($month);
+        $nextMonth = $dateTimesManager->getNextMonth($month);
         
         $room = $roomManager->getRoomBySlug($roomSlug);
         
@@ -175,7 +175,7 @@ class FrontController extends Controller
 
         $theReservations = $this->get('app.reservation_manager')->getFutureReservationsByRoomAndMonth($room, $month);
 
-        $allRooms       = $roomManager->getAll();
+        $allRooms = $roomManager->getAll();
 
         return $this->render(':front:list_reservations_room_month.html.twig', [
             'room'              => $room,
@@ -209,7 +209,8 @@ class FrontController extends Controller
      */
     public function reservationsByRoomAndDateAction(Request $request, $roomSlug, \DateTime $date)
     {
-        $roomManager = $this->get('app.room_manager');
+        $dateTimesManager   = $this->get('app.datetimes_manager');
+        $roomManager        = $this->get('app.room_manager');
         
         $room           = $roomManager->getRoomBySlug($roomSlug);
         $reservations   = $this->get('app.reservation_manager')->getReservationsByRoomAndDay($room, $date);
@@ -220,11 +221,19 @@ class FrontController extends Controller
             $this->addFlash('error', 'Vous avez été redirigé (Impossible de consulter le planning d\'un jour antérieur à aujourd\'hui)');
             return $this->redirectToRoute('front_reservations_room_date', array(
                 'roomSlug'  => $roomSlug,
-                'date'      => $now->format('Y-m-d')
+                'date'      => $dateTimesManager->isDayWeekend($now) ? $dateTimesManager->getNextMonday($now)->format('Y-m-d') : $now->format('Y-m-d')
+            ));
+        }
+        // Si la date est un jour du weekend
+        if($dateTimesManager->isDayWeekend($date)){
+            $this->addFlash('error', 'Vous avez été redirigé (Impossible de consulter le planning d\'un jour du weekend)');
+            return $this->redirectToRoute('front_reservations_room_date', array(
+                'roomSlug'  => $roomSlug,
+                'date'      => $dateTimesManager->getNextMonday($date)->format('Y-m-d')
             ));
         }
 
-        $allRooms       = $roomManager->getAll();
+        $allRooms = $roomManager->getAll();
         
         return $this->render(':front:reservations_room_date.html.twig', [
             'room'          => $room,

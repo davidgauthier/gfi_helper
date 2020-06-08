@@ -86,4 +86,6 @@ Si pull request validée et merge :
 ---
 - [https://tempusdominus.github.io/bootstrap-4/](https://tempusdominus.github.io/bootstrap-4/)
 - [https://momentjs.com/](https://momentjs.com/)
+---
+- [https://gist.github.com/odan/1abe76d373a9cbb15bed](https://gist.github.com/odan/1abe76d373a9cbb15bed)
 

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class TimeSlotIsFree extends Constraint
 {
-    public $message = 'Il y a {{nbReservations}} réservation(s) en conflit avec votre créneau (le {{date}} de {{timeBegin}} à {{timeEnd}} pour la salle {{room}}).';
+    public $message = 'Il y a {{reservations}} en conflit avec votre créneau (le {{date}} de {{timeBegin}} à {{timeEnd}} pour la salle {{room}}).';
     
     public function getTargets()
     {

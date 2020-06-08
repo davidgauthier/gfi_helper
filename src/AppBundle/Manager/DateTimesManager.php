@@ -156,9 +156,29 @@ class DateTimesManager
         
         return $nextMonth;
     }
-    
-    
-    
+
+    /**
+     * @param \DateTime $date
+     *
+     * @return boolean
+     */
+    public function isDayWeekend($date)
+    {
+        if($date->format('w') === '0' || $date->format('w') === '6'){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param \DateTime $date
+     *
+     * @return \DateTime
+     */
+    public function getNextMonday($date)
+    {
+        return $date->modify('next monday');
+    }
     
     
     

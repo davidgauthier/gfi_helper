@@ -16,6 +16,6 @@ services:
         class: AppBundle\Openweathermap\Openweathermap
         arguments:
             - '@csa_guzzle.client.openweathermap'
-            - %openweathermap_api_key%
-            - %openweathermap_api_city%
+            - '%openweathermap_api_key%'
+            - '%openweathermap_api_city%'
             - '@jms_serializer'

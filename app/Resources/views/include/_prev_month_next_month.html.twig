@@ -24,13 +24,14 @@
         <div class="p-1">
             <h3 class="d-inline-block"><b>{{ month|date('F') }}</b></h3>
             {% if route_front_planning_room_month %}
-                <a href="{{ path('front_listreservations', {'roomSlug': room.slug, 'month': month|date('Y-m')}) }}" class="badge
-                            {% if reservations|length >= 60 %} badge-danger
-                            {% elseif reservations|length >= 40 %} badge-warning
-                            {% elseif reservations|length >= 20 %} badge-primary
-                            {% else %} badge-light {% endif %}">
-                    {{ reservations|length }} réservation(s)
-                </a>
+                {{ reservations|length|displayCount( {'src':path('front_listreservations', {'roomSlug': room.slug, 'month': month|date('Y-m')}), 'monthly':true}) }}
+{#                <a href="{{ path('front_listreservations', {'roomSlug': room.slug, 'month': month|date('Y-m')}) }}" class="badge#}
+{#                            {% if reservations|length >= 60 %} badge-danger#}
+{#                            {% elseif reservations|length >= 40 %} badge-warning#}
+{#                            {% elseif reservations|length >= 20 %} badge-primary#}
+{#                            {% else %} badge-light {% endif %}">#}
+{#                    {{ reservations|length }} réservation(s)#}
+{#                </a>#}
             {% elseif route_front_listreservations %}
                 <a href="{{ path('front_planning_room_month', {'roomSlug': room.slug, 'month': month|date('Y-m')}) }}" class="small">
                     <i class="far fa-calendar-alt"></i> Planning

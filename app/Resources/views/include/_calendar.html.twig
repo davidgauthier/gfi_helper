@@ -38,28 +38,30 @@
                 <small class="col d-sm-none text-center text-muted">{{ day.date|date('D') }}</small>
                 <span class="col-1"></span>
                 {% if c1 and c2 and c3 and c4 %}
-                    <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')})}}"
-                       class="badge link_reservations_room_date_icon
-                        {% if nbResas >= 8 %} badge-danger
-                        {% elseif nbResas >= 4 %} badge-warning
-                        {% elseif nbResas >= 1 %} badge-primary
-                        {% else %} badge-light {% endif %}"
-                       title="{{ nbResas }} réservation(s)">
-                        <span class="span_link_icon float-right">{{ nbResas }} <i class="fas fa-clipboard-list"></i></span>
-                    </a>
+                    {{ nbResas|displayCount( {'src':path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')}), 'class': 'link_reservations_room_date_icon'}) }}
+{#                    <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')}) }}"#}
+{#                       class="badge link_reservations_room_date_icon#}
+{#                        {% if nbResas >= 8 %} badge-danger#}
+{#                        {% elseif nbResas >= 4 %} badge-warning#}
+{#                        {% elseif nbResas >= 1 %} badge-primary#}
+{#                        {% else %} badge-light {% endif %}"#}
+{#                       title="{{ nbResas }} réservation(s)">#}
+{#                        <span>{{ nbResas }} <i class="fas fa-clipboard-list"></i></span>#}
+{#                    </a>#}
                 {% endif %}
             </h5>
-            <p class="d-sm-none">{{ nbResas }} réservation(s)</p>
+            <p class="d-sm-none">{{ nbResas|displayCount }}</p>
 
             {% if c1 and c2 and c3 and c4 %}
-                <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')})}}"
-                    class="badge link_reservations_room_date
-                    {% if nbResas >= 8 %} badge-danger
-                    {% elseif nbResas >= 4 %} badge-warning
-                    {% elseif nbResas >= 1 %} badge-primary
-                    {% else %} badge-light {% endif %}"
-                    title="{{ nbResas }} réservation(s)">
-                    <span>{{ nbResas }} réservation(s)</span>
+                {{ nbResas|displayCount( {'src':path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')}), 'class': 'link_reservations_room_date'}) }}
+{#                <a href="{{ path('front_reservations_room_date', {'roomSlug': room.slug, 'date': day.date|date('Y-m-d')}) }}"#}
+{#                    class="badge link_reservations_room_date#}
+{#                    {% if nbResas >= 8 %} badge-danger#}
+{#                    {% elseif nbResas >= 4 %} badge-warning#}
+{#                    {% elseif nbResas >= 1 %} badge-primary#}
+{#                    {% else %} badge-light {% endif %}"#}
+{#                    title="{{ nbResas }} réservation(s)">#}
+{#                    <span>{{ nbResas }} réservation(s)</span>#}
                 </a>
             {% endif %}
         </div>

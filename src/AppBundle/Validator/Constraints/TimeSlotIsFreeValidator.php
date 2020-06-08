@@ -45,11 +45,11 @@ class TimeSlotIsFreeValidator extends ConstraintValidator
                 $reservationsFiltered[] = $r;
             }
         }
-
-        if(count($reservationsFiltered) > 0){
+        $nbReservations = count($reservationsFiltered);
+        if($nbReservations > 0){
 
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{nbReservations}}', count($reservationsFiltered))
+                ->setParameter('{{reservations}}', ($nbReservations>1) ? $nbReservations.' réservations': $nbReservations.' réservation')
                 ->setParameter('{{room}}', $reservation->getRoom()->getName())
                 ->setParameter('{{date}}', $reservation->getDate()->format('d/m/Y'))
                 ->setParameter('{{timeBegin}}', $reservation->getTimeBegin()->format('H:i'))

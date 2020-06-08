@@ -129,7 +129,7 @@
                         <table class="table table-striped table-sm table-borderless">
                             <tr>
                                 <th>Vent</th>
-                                <td>{{ currentWeather.wind.speed ~ 'm/s (' ~ (currentWeather.wind.speed * 3.6) ~ 'km/h)' }}</td>
+                                <td>{{ currentWeather.wind.speed ~ 'm/s (' }}<small>*3.6=</small>{{ (currentWeather.wind.speed * 3.6) ~ 'km/h)' }}</td>
                             </tr>
     {#                        <tr>#}
     {#                            <th>Direction Vent</th>#}

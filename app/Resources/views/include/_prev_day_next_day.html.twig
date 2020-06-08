@@ -32,12 +32,13 @@
                     <b>{{ date|date('l d/m/Y') }}</b>
                 </a>
                 <small>
-                    <span class="badge {% if reservations|length >= 8 %} badge-danger
-                                    {% elseif reservations|length >= 4 %} badge-warning
-                                    {% elseif reservations|length >= 1 %} badge-primary
-                                    {% else %} badge-light {% endif %}">
-                        {{ reservations|length }} réservation(s)
-                    </span>
+                    {{ reservations|length|displayCount({'badge':true}) }}
+{#                    <span class="badge {% if reservations|length >= 8 %} badge-danger#}
+{#                                    {% elseif reservations|length >= 4 %} badge-warning#}
+{#                                    {% elseif reservations|length >= 1 %} badge-primary#}
+{#                                    {% else %} badge-light {% endif %}">#}
+{#                        {{ reservations|length }} réservation(s)#}
+{#                    </span>#}
                 </small>
             </h4>
         </div>

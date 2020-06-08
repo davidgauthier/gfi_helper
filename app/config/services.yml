@@ -39,3 +39,10 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+#    AppBundle\Twig\AppExtension:
+#        tags: ['twig.extension']
+
+    AppBundle\Twig\AppExtension:
+        class: AppBundle\Twig\AppExtension
+        tags:
+            - { name: twig.extension }
